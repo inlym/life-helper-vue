@@ -1,13 +1,95 @@
 <template>
-  <div class="header"></div>
+  <!-- 顶部导航栏 -->
+  <div class="header one-center" :class="{scrolled}">
+    <div class="header-content common-container">
+      <div class="left">
+        <img :src="logoUrl" class="logo" />
+        <div class="title">小鸣助手</div>
+      </div>
+      <div class="space"></div>
+      <div class="menus">
+        <div class="menu-item active">首页</div>
+        <div class="menu-item">天气</div>
+        <div class="menu-item">纪念日</div>
+      </div>
+      <div class="space"></div>
+      <div class="right">
+        <button @click="goToLoginPage">登录</button>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import {useScrollBarDetector} from '@/hooks/scroll-bar'
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
+
+const {scrolled} = useScrollBarDetector()
+
+const logoUrl = ref('https://static.lifehelper.com.cn/static/project/logo.svg')
+
+/** 跳转到登录页 */
+function goToLoginPage() {
+  useRouter().push('/login')
+}
+</script>
 
 <style scoped lang="scss">
 .header {
-  border: 1px solid red;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
   width: 100%;
-  height: 80px;
+  height: var(--ming-header-height);
+  background-color: transparent;
+  transition: all 0.5s linear;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .space {
+      flex: 1;
+    }
+
+    .left {
+      display: flex;
+
+      .logo {
+        width: 26px;
+        margin-right: 16px;
+      }
+
+      .title {
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+
+    .menus {
+      display: flex;
+      font-size: 18px;
+
+      .menu-item {
+        height: var(--ming-header-height);
+        padding: 0 10px;
+        margin: 0 50px;
+        line-height: var(--ming-header-height);
+      }
+
+      .active {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// 滚动条距离顶部 >0px 情况，做了样式强化
+.scrolled {
+  background-color: var(--ming-bg-2);
+  box-shadow: 0 10px 40px -15px rgb(64 90 163 / 20%);
 }
 </style>
