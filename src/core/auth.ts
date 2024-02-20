@@ -34,3 +34,8 @@ export function getIdentityCertificate(): IdentityCertificate | null {
 export function saveIdentityCertificate(cert: IdentityCertificate): void {
   localStorage.setItem(StorageKey.IdentityCertificate, JSON.stringify(cert))
 }
+
+/** 检查是否已登录 */
+export function isLogined(): boolean {
+  return getIdentityCertificate() ? true : false
+}
