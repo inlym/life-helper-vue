@@ -5,9 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@web-analytics/vue':
-    specifier: ^0.2.2
-    version: 0.2.2
+  '@aliyun-sls/web-track-browser':
+    specifier: ^0.3.5
+    version: 0.3.5
   axios:
     specifier: ^1.6.7
     version: 1.6.7
@@ -111,6 +111,30 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /@aliyun-sls/web-base@0.3.5:
+    resolution: {integrity: sha512-ZT4bco6KUBdEN2o+p2zOcpEJSD0cZbXaoDk+n8d6qFMP617LAZxDo6+xYSuUuDTwolM3V7CADU993M1yXMF0mg==}
+    dependencies:
+      '@aliyun-sls/web-types': 0.3.5
+    dev: false
+
+  /@aliyun-sls/web-track-base@0.3.5:
+    resolution: {integrity: sha512-gLCt9xso1+2+gZFGqiXfi9dNnIlqItnQHWl3L6H6Vut/CiCdD6bdewqZ7ZVSx6XKgwkzlygcWL4EUI3G9uD3pQ==}
+    dependencies:
+      '@aliyun-sls/web-types': 0.3.5
+    dev: false
+
+  /@aliyun-sls/web-track-browser@0.3.5:
+    resolution: {integrity: sha512-sB0HApFwcuPjzsLPlm0Uswq7ZsWkY+xMPWcvSt9psujW2x4fLv8xgGVS2GfST8zj5icfGxN/yv8m5CWoYu6Fqg==}
+    dependencies:
+      '@aliyun-sls/web-base': 0.3.5
+      '@aliyun-sls/web-track-base': 0.3.5
+      '@aliyun-sls/web-types': 0.3.5
+    dev: false
+
+  /@aliyun-sls/web-types@0.3.5:
+    resolution: {integrity: sha512-Nt9qR2S0W8WCw0xwDYWytP8KLzUoDo9TEXkHp1E/ucVEZS0IGXdxUTncAesApWGRNebuGCdenUDL8X02n9FTXw==}
+    dev: false
+
   /@babel/code-frame@7.23.5:
     resolution: {integrity: sha512-CgH3s1a96LipHCmSUmYFPwY7MNx8C3avkq7i4Wl3cfa662ldtUe4VM1TPXX70pfmrlWTb6jLqTYrZyT2ZTJBgA==}
     engines: {node: '>=6.9.0'}
@@ -150,10 +174,6 @@ packages:
       '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
-
-  /@bassist/utils@0.11.2:
-    resolution: {integrity: sha512-qybnYCrh/7AYrch4r+sjgrMgUlUIXJ1xmJwnx486nOD9ishFDlel7p6n8uitH6cygNW4n+/AJm5nAKRVSq3yng==}
-    dev: false
 
   /@csstools/css-parser-algorithms@2.5.0(@csstools/css-tokenizer@2.2.3):
     resolution: {integrity: sha512-abypo6m9re3clXA00eu5syw+oaPHbJTPapu9C4pzNsJ4hdZDzushT50Zhu+iIYXgEe1CxnRMn7ngsbV+MLrlpQ==}
@@ -1012,19 +1032,6 @@ packages:
   /@vue/tsconfig@0.5.1:
     resolution: {integrity: sha512-VcZK7MvpjuTPx2w6blwnwZAu5/LgBUtejFOi3pPGQFXQN5Ela03FUtd2Qtg4yWGGissVL0dr6Ro1LfOFh+PCuQ==}
     dev: true
-
-  /@web-analytics/core@0.1.5:
-    resolution: {integrity: sha512-oJCaAe7zj1X365ZvNQrso9yE+kszPQD2plbP5/J0EjgppZCmHSpkvqtY+T2lArGNcHezzPDjwBEkmYge6d+fIQ==}
-    dependencies:
-      '@bassist/utils': 0.11.2
-    dev: false
-
-  /@web-analytics/vue@0.2.2:
-    resolution: {integrity: sha512-becl9OFlEUYD+0x7ats72FVOvMk+kAXHc3tla2makSGOO2UDu69tGMv5WPExuTg9CqSFHd/a5aUGqmFq4sualQ==}
-    dependencies:
-      '@bassist/utils': 0.11.2
-      '@web-analytics/core': 0.1.5
-    dev: false
 
   /abbrev@2.0.0:
     resolution: {integrity: sha512-6/mh1E2u2YgEsCHdY0Yx5oW+61gZU+1vXaoiHHrpKeuRNNgFvS+/jrwHiQhB5apAf5oB7UB7E19ol2R2LKH8hQ==}
