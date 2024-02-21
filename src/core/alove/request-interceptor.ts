@@ -1,25 +1,25 @@
 import {Method} from 'alova'
 import {getIdentityCertificate} from '../auth'
+import {ContentType, HttpHeaders} from '../enums'
 import {getRandomString, hmacSHA256, md5} from '../utils'
 
 // 阿里云[摘要签名认证](https://help.aliyun.com/zh/api-gateway/user-guide/use-digest-authentication-to-call-an-api)
 
-const APPLICATION_JSON = 'application/json'
 const LF = '\n'
 const appKey = import.meta.env.VITE_ALIYUN_APP_KEY
 const appSecret = import.meta.env.VITE_ALIYUN_APP_SECRET
 
 export const requestInterceptor: (method: Method) => void | Promise<void> = (method) => {
   // 处理请求头，添加基础信息
-  method.config.headers['accept'] = APPLICATION_JSON
-  method.config.headers['content-type'] = APPLICATION_JSON
-  method.config.headers['x-ca-key'] = appKey
-  method.config.headers['x-ca-nonce'] = getRandomString()
+  method.config.headers[HttpHeaders.ACCEPT] = ContentType.APPLICATION_JSON
+  method.config.headers[HttpHeaders.CONTENT_TYPE] = ContentType.APPLICATION_JSON
+  method.config.headers[HttpHeaders.X_CA_KEY] = appKey
+  method.config.headers[HttpHeaders.X_CA_NONCE] = getRandomString()
 
   // 附带鉴权信息（若有）
   const cert = getIdentityCertificate()
   if (cert) {
-    method.config.headers[cert.headerName] = cert.token
+    method.config.headers[HttpHeaders.AUTH_TOKEN] = cert.token
   }
 
   // 将 params 部分按字典排序，并转换为字符串格式
@@ -44,13 +44,13 @@ export const requestInterceptor: (method: Method) => void | Promise<void> = (met
   const contentMd5 = method.data ? md5(JSON.stringify(method.data)) : ''
 
   if (contentMd5) {
-    method.config.headers['content-md5'] = contentMd5
+    method.config.headers[HttpHeaders.CONTENT_MD5] = contentMd5
   }
 
   // 构建签名使用的 Headers 字段（key需要按照字典排序）
   // 目前就加1个，后续再添加其他字段
-  const headersStr = 'x-ca-nonce' + ':' + method.config.headers['x-ca-nonce']
-  method.config.headers['x-ca-signature-headers'] = 'x-ca-nonce'
+  const headersStr = HttpHeaders.X_CA_NONCE + ':' + method.config.headers[HttpHeaders.X_CA_NONCE]
+  method.config.headers[HttpHeaders.X_CA_SIGNATURE_HEADERS] = HttpHeaders.X_CA_NONCE
 
   const pathAndParameters =
     paramsPairList.length === 0 ? method.url : method.url + '?' + paramsPairList.join('&')
@@ -58,16 +58,16 @@ export const requestInterceptor: (method: Method) => void | Promise<void> = (met
   const stringToSign =
     httpMethpd +
     LF +
-    APPLICATION_JSON +
+    ContentType.APPLICATION_JSON +
     LF +
     contentMd5 +
     LF +
-    APPLICATION_JSON +
+    ContentType.APPLICATION_JSON +
     LF +
     LF +
     headersStr +
     LF +
     pathAndParameters
 
-  method.config.headers['x-ca-signature'] = hmacSHA256(stringToSign, appSecret)
+  method.config.headers[HttpHeaders.X_CA_SIGNATURE] = hmacSHA256(stringToSign, appSecret)
 }
