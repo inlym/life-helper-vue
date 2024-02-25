@@ -9,30 +9,33 @@
       <div class="space"></div>
       <div class="menus">
         <div class="menu-item active">首页</div>
-        <div class="menu-item">天气</div>
-        <div class="menu-item">纪念日</div>
+        <div class="menu-item" @click="dialog = true">天气</div>
+        <div class="menu-item" @click="dialog = true">AI聊天</div>
       </div>
       <div class="space"></div>
       <div class="right">
-        <button @click="goToLoginPage">登录</button>
+        <v-btn class="login-btn" color="#00bd6a" variant="outlined" append-icon="mdi-login" @click="dialog = true">登录</v-btn>
       </div>
     </div>
   </div>
+
+  <v-dialog v-model="dialog" width="auto">
+    <v-card>
+      <v-card-text> 网站正在迁移 ICP 备案中，预计3月15日重新开放。 </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block @click="dialog = false">我知道了</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
 import {useScrollBarDetector} from '@/hooks/scroll-bar'
 import {ref} from 'vue'
-import {useRouter} from 'vue-router'
 
 const {scrolled} = useScrollBarDetector()
-
 const logoUrl = ref('https://static.lifehelper.com.cn/static/project/logo.svg')
-
-/** 跳转到登录页 */
-function goToLoginPage() {
-  useRouter().push('/login')
-}
+const dialog = ref(false)
 </script>
 
 <style scoped lang="scss">
