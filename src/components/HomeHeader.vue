@@ -14,19 +14,10 @@
       </div>
       <div class="space"></div>
       <div class="right">
-        <v-btn class="login-btn" color="#00bd6a" variant="outlined" append-icon="mdi-login" @click="dialog = true">登录</v-btn>
+        <button class="login-btn" color="#00bd6a" @click="dialog = true">登录</button>
       </div>
     </div>
   </div>
-
-  <v-dialog v-model="dialog" width="auto">
-    <v-card>
-      <v-card-text> 网站正在迁移 ICP 备案中，预计3月15日重新开放。 </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary" block @click="dialog = false">我知道了</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
 </template>
 
 <script setup lang="ts">
