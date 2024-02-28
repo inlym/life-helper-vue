@@ -50,7 +50,7 @@
 
       <a-flex justify="center">
         <a-typography-text type="secondary">
-          © 2018-2024 小鸣网络工作室 - WeUtil.com 保留一切权利 | 备案号：<a-typography-link href="https://beian.miit.gov.cn/" target="_blank">
+          Copyright © 2018-2024 小鸣网络工作室 - WeUtil.com All Rights Reserved | 备案号：<a-typography-link href="https://beian.miit.gov.cn/" target="_blank">
             浙ICP备2024067463号-1
           </a-typography-link>
         </a-typography-text>
