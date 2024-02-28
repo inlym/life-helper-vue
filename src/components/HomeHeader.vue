@@ -5,7 +5,7 @@
       <!-- 顶部导航栏 -->
       <a-flex class="header" justify="space-between" align="center">
         <!-- 左侧的 logo SVG 图标 -->
-        <img width="130" src="/logo.svg" />
+        <img width="130" src="/images/logo.svg" />
         <!-- 中间的菜单组 -->
         <a-flex class="menus" justify="flex-start">
           <div class="menu-item">首页</div>

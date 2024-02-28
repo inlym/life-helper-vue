@@ -6,9 +6,9 @@
       <a-flex class="footer-menu" justify="space-between">
         <div class="logo-area">
           <!-- logo SVG 图标 -->
-          <img width="150" src="/logo.svg" />
+          <img width="150" src="/images/logo.svg" />
           <a-flex class="mp-area">
-            <img src="/mp_qrcode.jpg" width="80" height="80" alt="" class="mp" />
+            <img src="/images/mp_qrcode.jpg" width="80" height="80" alt="" class="mp" />
             <a-flex class="content" justify="space-between" vertical>
               <a-typography-text class="title">微信扫码关注小鸣助手</a-typography-text>
               <a-typography-text class="desc" type="secondary">随时随地，获取更多信息</a-typography-text>
@@ -41,8 +41,8 @@
         </a-flex>
         <a-flex class="menu-column" vertical>
           <a-typography-title class="menu-title" :level="5">开源</a-typography-title>
-          <a-typography-text class="menu-name" type="secondary">Github</a-typography-text>
-          <a-typography-text class="menu-name" type="secondary">Gitee</a-typography-text>
+          <a-typography-text class="menu-name" type="secondary">Github <ExportOutlined /></a-typography-text>
+          <a-typography-text class="menu-name" type="secondary">Gitee <ExportOutlined /></a-typography-text>
         </a-flex>
       </a-flex>
 
@@ -59,7 +59,9 @@
   </a-flex>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import {ExportOutlined} from '@ant-design/icons-vue'
+</script>
 
 <style scoped lang="scss">
 .footer-wrapper {

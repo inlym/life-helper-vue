@@ -1,17 +1,16 @@
 <template>
   <HomeHeader></HomeHeader>
-  <div class="one">
-    <div class="content common-container">
-      <div class="left">
-        <div class="title">让<span class="name">小鸣助手</span>，成为你的随身管家</div>
-        <div class="desc">让生活更简单一些</div>
-        <div class="button">免费使用</div>
-      </div>
-      <div class="right one-center">
-        <img class="img" :src="img1Url" />
-      </div>
-    </div>
-  </div>
+  <a-flex class="banner-wrapper" justify="center">
+    <a-flex class="banner" justify="space-between" align="center">
+      <a-flex class="left" vertical>
+        <a-typography-title class="title">小鸣助手，为生活赋能</a-typography-title>
+        <a-typography-text class="desc" type="secondary" strong>一站式生活提效工具平台</a-typography-text>
+        <div class="button">立即免费使用</div>
+      </a-flex>
+      <!-- 右侧的图片 -->
+      <img height="500" src="/images/banner1.svg" />
+    </a-flex>
+  </a-flex>
 
   <!-- 客户端设备信息 -->
   <div class="device">
@@ -56,16 +55,13 @@ import HomeFooter from '@/components/HomeFooter.vue'
 import HomeHeader from '@/components/HomeHeader.vue'
 import {ref} from 'vue'
 
-const img1Url = ref('https://static.lifehelper.com.cn/web/001.png')
-
 /** 用户评价列表 */
 const customers = ref([
   {
     avatarUrl: 'https://res.lifehelper.com.cn/avatar/236acfb5ce294a0ab3c0dd56b3739598',
     name: '会**鱼',
     desc: '3年老用户',
-    content:
-      '我是从「小鸣助手」上线的时候就开始用了，总体来说，还是很好用的，有很多功能蛮实用的，在「小鸣助手」上查天气比其他的 APP 都要更准。'
+    content: '我是从「小鸣助手」上线的时候就开始用了，总体来说，还是很好用的，有很多功能蛮实用的，在「小鸣助手」上查天气比其他的 APP 都要更准。'
   },
   {
     avatarUrl: 'https://res.lifehelper.com.cn/avatar/2cc99f099606400dbf4f6859314369fd',
@@ -78,8 +74,7 @@ const customers = ref([
     avatarUrl: 'https://res.lifehelper.com.cn/avatar/33b01afea08e4b228d2287dfeafa0a1b',
     name: '神**蛙',
     desc: '2年老用户',
-    content:
-      '「小鸣助手」最大的优点就是手机上和电脑上都能用，日常查看就用微信小程序，要打字多的就用网页打开用。'
+    content: '「小鸣助手」最大的优点就是手机上和电脑上都能用，日常查看就用微信小程序，要打字多的就用网页打开用。'
   }
 ])
 
@@ -104,54 +99,38 @@ const devices = ref([
 </script>
 
 <style scoped lang="scss">
-.one {
-  height: 700px;
-  padding-top: var(--ming-header-height);
-  background-color: #fafbfc;
-
-  .content {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 100%;
+.banner-wrapper {
+  background-color: #f6f6f6;
+  height: 600px;
+  .banner {
+    width: var(--lifehelper-main-content-width);
+    padding: 0 200px;
 
     .left {
+      margin-left: 40px;
+      height: 600px;
+      width: 600px;
+      padding-top: 136px;
       .title {
-        font-size: 40px;
-        color: #45586c;
+        font-size: 42px;
       }
-
-      .name {
-        color: var(--ming-green);
-      }
-
       .desc {
-        margin-top: 40px;
-        font-size: 24px;
-        color: #8c95a8;
+        font-size: 22px;
       }
-
       .button {
+        margin-top: 140px;
         width: 200px;
-        height: 50px;
-        margin-top: 100px;
-        font-size: 16px;
-        line-height: 50px;
-        color: var(--ming-white);
+        height: 60px;
+        line-height: 60px;
+        background-color: var(--lifehelper-theme-color);
+        color: #fff;
+        border-radius: 10px;
+        font-size: 20px;
         text-align: center;
-        background-color: var(--ming-green);
-        border-radius: 50px;
-      }
-    }
-
-    .right {
-      .img {
-        width: 700px;
       }
     }
   }
 }
-
 .two {
   height: 360px;
   background-color: var(--ming-purple);
