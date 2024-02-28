@@ -1,32 +1,37 @@
 <template>
-  <!-- 顶部导航栏 -->
-  <div class="header one-center" :class="{scrolled}">
-    <div class="header-content common-container">
-      <div class="left">
-        <img :src="logoUrl" class="logo" />
-        <div class="title">小鸣助手</div>
-      </div>
-      <div class="space"></div>
-      <div class="menus">
-        <div class="menu-item active">首页</div>
-        <div class="menu-item" @click="dialog = true">天气</div>
-        <div class="menu-item" @click="dialog = true">AI聊天</div>
-      </div>
-      <div class="space"></div>
-      <div class="right">
-        <button class="login-btn" color="#00bd6a" @click="dialog = true">登录</button>
+  <a-affix class="affix" @change="affixChange">
+    <!-- 顶部导航栏 -->
+    <div class="header one-center" :class="{scrolled}">
+      <div class="header-content common-container">
+        <div class="left">
+          <img :src="logoUrl" class="logo" />
+          <div class="title">小鸣助手</div>
+        </div>
+        <div class="space"></div>
+        <div class="menus">
+          <div class="menu-item active">首页</div>
+          <div class="menu-item" @click="dialog = true">天气</div>
+          <div class="menu-item" @click="dialog = true">AI聊天</div>
+        </div>
+        <div class="space"></div>
+        <div class="right">
+          <a-button size="middle">登录</a-button>
+        </div>
       </div>
     </div>
-  </div>
+  </a-affix>
 </template>
 
 <script setup lang="ts">
-import {useScrollBarDetector} from '@/hooks/scroll-bar'
 import {ref} from 'vue'
 
-const {scrolled} = useScrollBarDetector()
+const scrolled = ref(false)
 const logoUrl = ref('https://static.lifehelper.com.cn/static/project/logo.svg')
 const dialog = ref(false)
+
+const affixChange = (affixed?: boolean) => {
+  scrolled.value = affixed || false
+}
 </script>
 
 <style scoped lang="scss">
