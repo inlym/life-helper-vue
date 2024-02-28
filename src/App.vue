@@ -9,9 +9,5 @@ import {RouterView} from 'vue-router'
 import {ref} from 'vue'
 
 /** 自定义主题配置 */
-const myTheme = ref({
-  token: {
-    colorPrimary: '#00b669'
-  }
-})
+const myTheme = ref({token: {colorPrimary: '#00b669'}})
 </script>

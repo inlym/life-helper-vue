@@ -1,24 +1,25 @@
 <template>
   <a-affix class="affix" @change="affixChange">
-    <!-- 顶部导航栏 -->
-    <div class="header one-center" :class="{scrolled}">
-      <div class="header-content common-container">
-        <div class="left">
-          <img :src="logoUrl" class="logo" />
-          <div class="title">小鸣助手</div>
-        </div>
-        <div class="space"></div>
-        <div class="menus">
-          <div class="menu-item active">首页</div>
-          <div class="menu-item" @click="dialog = true">天气</div>
-          <div class="menu-item" @click="dialog = true">AI聊天</div>
-        </div>
-        <div class="space"></div>
-        <div class="right">
-          <a-button size="middle">登录</a-button>
-        </div>
-      </div>
-    </div>
+    <!-- 包裹顶部导航栏 -->
+    <a-flex class="header-wrapper" justify="center" align="center">
+      <!-- 顶部导航栏 -->
+      <a-flex class="header" justify="space-between" align="center">
+        <!-- 左侧的 logo SVG 图标 -->
+        <img width="130" src="/logo.svg" />
+        <!-- 中间的菜单组 -->
+        <a-flex class="menus" justify="flex-start">
+          <div class="menu-item">首页</div>
+          <div class="menu-item">清单</div>
+          <div class="menu-item">数据安全</div>
+          <div class="menu-item">关于我们</div>
+        </a-flex>
+        <!-- 右边的操作按钮 -->
+        <a-space>
+          <div class="button-wrapper"><a-button type="primary" size="large" block>升级会员</a-button></div>
+          <div class="button-wrapper"><a-button type="default" size="large" block>登录 / 注册</a-button></div>
+        </a-space>
+      </a-flex>
+    </a-flex>
   </a-affix>
 </template>
 
@@ -26,8 +27,6 @@
 import {ref} from 'vue'
 
 const scrolled = ref(false)
-const logoUrl = ref('https://static.lifehelper.com.cn/static/project/logo.svg')
-const dialog = ref(false)
 
 const affixChange = (affixed?: boolean) => {
   scrolled.value = affixed || false
@@ -35,58 +34,29 @@ const affixChange = (affixed?: boolean) => {
 </script>
 
 <style scoped lang="scss">
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99;
-  width: 100%;
-  height: var(--ming-header-height);
-  background-color: transparent;
-  transition: all 0.5s linear;
+.affix {
+  .header-wrapper {
+    background-color: #fff;
 
-  .header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    .header {
+      padding: 0 20px;
+      height: 60px;
+      width: var(--lifehelper-main-content-width);
 
-    .space {
-      flex: 1;
-    }
-
-    .left {
-      display: flex;
-
-      .logo {
-        width: 26px;
-        margin-right: 16px;
+      .menus {
+        width: 700px;
+        font-size: 16px;
+        .menu-item {
+          text-align: center;
+          margin-left: 70px;
+        }
       }
-
-      .title {
-        font-size: 20px;
-        font-weight: bold;
-      }
-    }
-
-    .menus {
-      display: flex;
-      font-size: 18px;
-
-      .menu-item {
-        height: var(--ming-header-height);
-        padding: 0 10px;
-        margin: 0 50px;
-        line-height: var(--ming-header-height);
-      }
-
-      .active {
-        font-weight: bold;
+      .button-wrapper {
+        width: 130px;
       }
     }
   }
 }
-
-// 滚动条距离顶部 >0px 情况，做了样式强化
 .scrolled {
   background-color: var(--ming-bg-2);
   box-shadow: 0 10px 40px -15px rgb(64 90 163 / 20%);
