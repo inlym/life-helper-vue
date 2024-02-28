@@ -10,7 +10,7 @@
         <a-flex class="menus" justify="flex-start">
           <div class="menu-item">首页</div>
           <div class="menu-item">清单</div>
-          <div class="menu-item">数据安全</div>
+          <div class="menu-item">大模型</div>
           <div class="menu-item">关于我们</div>
         </a-flex>
         <!-- 右边的操作按钮 -->
