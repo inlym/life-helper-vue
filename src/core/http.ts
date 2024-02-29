@@ -9,6 +9,7 @@ export const alovaInstance = createAlova({
   requestAdapter: GlobalFetch(),
   timeout: 10000,
   beforeRequest: requestInterceptor,
+  localCache: null,
   responded: {
     onSuccess: (response) => {
       return response.json()
