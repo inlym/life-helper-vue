@@ -35,10 +35,16 @@
 
 <script setup lang="ts">
 import {saveIdentityCertificate} from '@/core/auth'
+import {StorageKey} from '@/core/storage'
 import {checkLoginResult, getQrCodeInfo} from '@/services/login'
-import {useRequest} from 'alova'
-import {ref} from 'vue'
 import {CheckCircleFilled, InfoCircleFilled} from '@ant-design/icons-vue'
+import {useRequest} from 'alova'
+import {message} from 'ant-design-vue'
+import {ref} from 'vue'
+import {useRouter} from 'vue-router'
+
+// (2024.03.01) 此处有一个奇特的 bug，下面这行语句要写在很前面，否则再使用时无法读取 router 的属性
+const router = useRouter()
 
 /**
  * 扫码登录状态
@@ -69,7 +75,14 @@ const pollingTask = (id: string) => {
         clearInterval(timer)
 
         // TODO: 登录成功后的后续操作
-        // ...
+        const targetPath = localStorage.getItem(StorageKey.TargetPathBeforeLogin)
+        message.success('登录成功！正在跳转中 ...')
+        const path = targetPath ? targetPath : '/dashboard'
+
+        // 延时1秒跳转
+        setTimeout(() => {
+          router.replace(path)
+        }, 1000)
       } else if (res.status === 4) {
         status.value = res.status
         polling.value = false
