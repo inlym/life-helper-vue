@@ -16,3 +16,13 @@ export const alovaInstance = createAlova({
     }
   }
 })
+
+export const ossAlovaInstance = createAlova({
+  statesHook: vueHook,
+  requestAdapter: GlobalFetch(),
+  responded: {
+    onSuccess: (response) => {
+      return response.json()
+    }
+  }
+})
