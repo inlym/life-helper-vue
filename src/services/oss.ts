@@ -11,11 +11,11 @@ export interface OssPostCredential {
 }
 
 /** 获取直传凭证 */
-export const getOssPostCredential = () => alovaInstance.Get<OssPostCredential>('/oss/credential')
+export const getOssPostCredential = (ext: string) => alovaInstance.Get<OssPostCredential>('/oss/credential', {params: {ext}})
 
 /** 将 SVG 文本类型图片直传到 OSS  */
 export const uploadSvgToOss = async (svg: string) => {
-  const credential = await getOssPostCredential()
+  const credential = await getOssPostCredential('svg')
 
   const formData = new FormData()
   formData.append('x-oss-content-type', 'image/svg+xml')
