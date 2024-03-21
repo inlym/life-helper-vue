@@ -1,14 +1,14 @@
 <div align="center">
   <br>
-  <img alt="小鸣助手 Logo" src="https://static.lifehelper.com.cn/static/project/logo.png" style="height:120px;" />
+  <img alt="小鸣AI Logo" src="https://static.lifehelper.com.cn/static/project/logo.png" style="height:120px;" />
   <br>
-  <h1>小鸣助手</h1>
+  <h1>小鸣AI</h1>
   <h5>让生活更简单一些</h5>
 </div>
 
 ## 🤓 项目介绍
 
-「小鸣助手」是一个生活服务类小程序，主要为用户的日常生活提供一些便捷工具，例如天气查询、时间规划、生活记录等。目前该小程序已稳定运行近 5 年，为近 10 万用户提供了生活帮助。
+“小鸣AI”(原名“小鸣助手”)是一个生活服务类小程序，主要为用户的日常生活提供一些便捷工具，例如天气查询、时间规划、生活记录等。目前该小程序已稳定运行近 5 年，为近 10 万用户提供了生活帮助。
 
 读者可直接扫描以下小程序码进行体验：
 
