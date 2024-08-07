@@ -1,0 +1,46 @@
+// 全局变量
+// 所有的变量均以 `--ming-` 前缀作为开头，避免在引入第三方变量时导致冲突
+:root {
+  // 主要内容区宽度
+  --lifehelper-main-content-width: 1400px;
+
+  // 主题色
+  --lifehelper-theme-color: #00b669;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+html,
+body {
+  min-height: 100vh;
+  font-family: -apple-system-font, BlinkMacSystemFont, Roboto, 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', 'Microsoft YaHei',
+    Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.4706;
+  letter-spacing: -0.022em;
+  background-color: #fff;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 单元素垂直水平居中（该类放在父元素上）
+.one-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 通用页面容器（宽度最大的容器）
+.common-container {
+  width: 1280px;
+  margin: 0 auto;
+}
