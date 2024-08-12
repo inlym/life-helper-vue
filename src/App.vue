@@ -1,21 +1,17 @@
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <!-- 在 ConfigProvider 中定制主题 -->
+  <a-config-provider :theme>
+    <RouterView />
+  </a-config-provider>
 </template>
 
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
+import { ref } from 'vue'
+import { RouterView } from 'vue-router'
 
-<style lang="scss" scoped></style>
+const theme = ref({
+  token: {
+    colorPrimary: '#08be71'
+  }
+})
+</script>
