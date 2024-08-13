@@ -1,3 +1,5 @@
+import PrivacyView from '@/views/policy/PrivacyView.vue'
+import TermsView from '@/views/policy/TermsView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
@@ -9,6 +11,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
+
     {
       path: '/about',
       name: 'about',
@@ -16,6 +19,18 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
+    },
+
+    {
+      path: '/policy/terms',
+      name: 'terms',
+      component: TermsView
+    },
+
+    {
+      path: '/policy/privacy',
+      name: 'privacy',
+      component: PrivacyView
     }
   ]
 })
