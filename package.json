@@ -1,6 +1,12 @@
 {
   "name": "life-helper-vue",
   "version": "3.0.0",
+  "description": "小鸣助手网页端，使用 Vue.js 框架开发",
+  "author": {
+    "name": "inlym",
+    "email": "inlym@qq.com",
+    "url": "https://inlym.com"
+  },
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,6 +17,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@vueuse/core": "^10.11.1",
     "ant-design-vue": "^4.2.3",
     "axios": "^1.7.3",
     "dayjs": "^1.11.12",

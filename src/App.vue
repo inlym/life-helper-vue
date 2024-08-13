@@ -11,7 +11,7 @@ import { RouterView } from 'vue-router'
 
 const theme = ref({
   token: {
-    colorPrimary: '#08be71'
+    colorPrimary: '#00b669'
   }
 })
 </script>

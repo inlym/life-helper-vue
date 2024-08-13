@@ -2,10 +2,19 @@
 // 所有的变量均以 `--ming-` 前缀作为开头，避免在引入第三方变量时导致冲突
 :root {
   // 主要内容区宽度
-  --lifehelper-main-content-width: 1400px;
+  --weutil-main-content-width: 1400px;
 
   // 主题色
-  --lifehelper-theme-color: #00b669;
+  --weutil-theme-color: #00b669;
+
+  // 宽度
+  --width-xs: 480px;
+  --width-sm: 576px;
+  --width-md: 768px;
+  --width-lg: 992px;
+  --width-xl: 1200px;
+  --width-xxl: 1600px;
+  --width-xxxl: 2000px;
 }
 
 *,
@@ -30,17 +39,4 @@ body {
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-// 单元素垂直水平居中（该类放在父元素上）
-.one-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-// 通用页面容器（宽度最大的容器）
-.common-container {
-  width: 1280px;
-  margin: 0 auto;
 }
