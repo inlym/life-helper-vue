@@ -16,9 +16,7 @@
     "test:unit": "vitest"
   },
   "dependencies": {
-    "@ant-design/icons-vue": "^7.0.1",
     "@vueuse/core": "^10.11.1",
-    "ant-design-vue": "^4.2.3",
     "axios": "^1.7.3",
     "dayjs": "^1.11.12",
     "pinia": "^2.1.7",
