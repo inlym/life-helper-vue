@@ -2,13 +2,13 @@
   "$schema": "https://json.schemastore.org/prettierrc",
   "arrowParens": "always",
   "bracketSameLine": false,
-  "bracketSpacing": true,
+  "bracketSpacing": false,
   "endOfLine": "lf",
-  "printWidth": 160,
-  "quoteProps": "as-needed",
+  "printWidth": 120,
+  "quoteProps": "consistent",
   "semi": false,
   "singleQuote": true,
   "tabWidth": 2,
-  "trailingComma": "none",
+  "trailingComma": "all",
   "useTabs": false
 }

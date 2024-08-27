@@ -1,6 +1,6 @@
-import { AxiosHeaders, type InternalAxiosRequestConfig } from 'axios'
-import { hmacSHA256ToBase64, md5ToBase64, md5ToHex } from './crypto'
-import { paramsSerializer } from './paramsSerializer'
+import {AxiosHeaders, type InternalAxiosRequestConfig} from 'axios'
+import {hmacSHA256ToBase64, md5ToBase64, md5ToHex} from './crypto'
+import {paramsSerializer} from './paramsSerializer'
 
 /** 空字符串 */
 const EMPTY_STRING = ''
@@ -17,12 +17,12 @@ export function aliyunApigwSignatureInterceptorBuilder(appKey: string, appSecret
     // 初始化请求头
     const oldHeaders = config.headers
     const newHeaders: Record<string, string> = {
-      accept: 'application/json',
+      'accept': 'application/json',
       'content-type': 'application/json',
       'x-ca-nonce': md5ToHex(Date.now().toString() + Math.random() * 10000),
       'x-ca-timestamp': Date.now().toString(),
       'x-ca-key': appKey,
-      'x-ca-signature-method': 'HmacSHA256'
+      'x-ca-signature-method': 'HmacSHA256',
     }
 
     Object.keys(oldHeaders).forEach((key) => {
@@ -39,9 +39,18 @@ export function aliyunApigwSignatureInterceptorBuilder(appKey: string, appSecret
     const contentMd5 = config.data ? md5ToBase64(JSON.stringify(config.data)) : EMPTY_STRING
     const contentType = newHeaders['content-type'] ? newHeaders['content-type'] : EMPTY_STRING
     const date = newHeaders['date'] ? newHeaders['date'] : EMPTY_STRING
-    const pathAndParameters = paramsSerializer(config.params) ? config.url + '?' + paramsSerializer(config.params) : config.url
+    const pathAndParameters = paramsSerializer(config.params)
+      ? config.url + '?' + paramsSerializer(config.params)
+      : config.url
 
-    const exceptionalHeaders = ['x-ca-signature', 'x-ca-signature-headers', 'accept', 'content-md5', 'content-type', 'date']
+    const exceptionalHeaders = [
+      'x-ca-signature',
+      'x-ca-signature-headers',
+      'accept',
+      'content-md5',
+      'content-type',
+      'date',
+    ]
     const signedStringList: string[] = [httpMethod, accept, contentMd5, contentType, date]
     const signedHeaderList: string[] = []
 
