@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { paramsSerializer } from './axios/paramsSerializer'
-import { authInterceptor } from './axios/authInterceptor'
-import { aliyunApigwSignatureInterceptorBuilder } from './axios/aliyunApigwSignatureInterceptorBuilder'
+import {paramsSerializer} from './axios/paramsSerializer'
+import {authInterceptor} from './axios/authInterceptor'
+import {createAliyunApigwSignatureInterceptor} from './axios/aliyunApigwSignatureInterceptor'
 
 const appKey = import.meta.env.VITE_ALIYUN_APP_KEY
 const appSecret = import.meta.env.VITE_ALIYUN_APP_SECRET
@@ -15,11 +15,11 @@ export const instance = axios.create({
     return status >= 200 && status <= 599
   },
 
-  paramsSerializer
+  paramsSerializer,
 })
 
 instance.interceptors.request.use(authInterceptor)
-instance.interceptors.request.use(aliyunApigwSignatureInterceptorBuilder(appKey, appSecret, true))
+instance.interceptors.request.use(createAliyunApigwSignatureInterceptor(appKey, appSecret, false))
 
 // 以 `http` 变量名导出
 export const http = instance

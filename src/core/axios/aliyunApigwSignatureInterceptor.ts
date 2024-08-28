@@ -12,7 +12,7 @@ const LF = '\n'
  * 阿里云 API 网关签名拦截器
  * @see https://help.aliyun.com/document_detail/29475.html
  */
-export function aliyunApigwSignatureInterceptorBuilder(appKey: string, appSecret: string, debug = true) {
+export function createAliyunApigwSignatureInterceptor(appKey: string, appSecret: string, debug = true) {
   return function aliyunApigwSignatureInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     // 初始化请求头
     const oldHeaders = config.headers
@@ -78,6 +78,7 @@ export function aliyunApigwSignatureInterceptorBuilder(appKey: string, appSecret
     }
 
     config.headers = new AxiosHeaders(newHeaders)
+
     return config
   }
 }
