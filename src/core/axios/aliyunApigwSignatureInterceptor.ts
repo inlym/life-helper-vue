@@ -1,6 +1,9 @@
-import {AxiosHeaders, type InternalAxiosRequestConfig} from 'axios'
-import {hmacSHA256ToBase64, md5ToBase64, md5ToHex} from './crypto'
+import {type InternalAxiosRequestConfig} from 'axios'
 import {paramsSerializer} from './paramsSerializer'
+import Base64 from 'crypto-js/enc-base64'
+import Hex from 'crypto-js/enc-hex'
+import hmacSHA256 from 'crypto-js/hmac-sha256'
+import md5 from 'crypto-js/md5'
 
 /** 空字符串 */
 const EMPTY_STRING = ''
@@ -8,42 +11,16 @@ const EMPTY_STRING = ''
 /** 换行符 */
 const LF = '\n'
 
+const DEFAULT_ACCEPT = '*/*'
+
 /**
  * 阿里云 API 网关签名拦截器
  * @see https://help.aliyun.com/document_detail/29475.html
  */
 export function createAliyunApigwSignatureInterceptor(appKey: string, appSecret: string, debug = true) {
   return function aliyunApigwSignatureInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
-    // 初始化请求头
-    const oldHeaders = config.headers
-    const newHeaders: Record<string, string> = {
-      'accept': 'application/json',
-      'content-type': 'application/json',
-      'x-ca-nonce': md5ToHex(Date.now().toString() + Math.random() * 10000),
-      'x-ca-timestamp': Date.now().toString(),
-      'x-ca-key': appKey,
-      'x-ca-signature-method': 'HmacSHA256',
-    }
-
-    Object.keys(oldHeaders).forEach((key) => {
-      const value = oldHeaders[key]
-      if (value) {
-        // 请求头键名改为小写
-        newHeaders[key.toLowerCase()] = value
-      }
-    })
-
-    // 计算各个参与签名的对象值
-    const httpMethod = config.method!.toUpperCase()
-    const accept = newHeaders['accept']
-    const contentMd5 = config.data ? md5ToBase64(JSON.stringify(config.data)) : EMPTY_STRING
-    const contentType = newHeaders['content-type'] ? newHeaders['content-type'] : EMPTY_STRING
-    const date = newHeaders['date'] ? newHeaders['date'] : EMPTY_STRING
-    const pathAndParameters = paramsSerializer(config.params)
-      ? config.url + '?' + paramsSerializer(config.params)
-      : config.url
-
-    const exceptionalHeaders = [
+    /** 不参与 Header 签名计算的请求头字段 */
+    const EXCLUDED_SIGNATURE_HEADERS = [
       'x-ca-signature',
       'x-ca-signature-headers',
       'accept',
@@ -51,33 +28,72 @@ export function createAliyunApigwSignatureInterceptor(appKey: string, appSecret:
       'content-type',
       'date',
     ]
-    const signedStringList: string[] = [httpMethod, accept, contentMd5, contentType, date]
-    const signedHeaderList: string[] = []
 
-    Object.keys(newHeaders)
+    const headers = config.headers
+
+    // 处理 `Accept`: 为空时赋个默认值
+    headers.setAccept(DEFAULT_ACCEPT, false)
+
+    // 处理 `Content-Type` 和 `Content-Md5`
+    if (['post', 'put', 'patch'].includes(config.method!.toLowerCase()) && config.data !== undefined) {
+      if (typeof config.data === 'object') {
+        if (config.data instanceof FormData) {
+          throw new Error('暂不支持 FormData 形式的请求数据')
+        } else {
+          headers.setContentType('application/json')
+        }
+      } else if (typeof config.data === 'string') {
+        if (config.data.includes('=')) {
+          headers.setContentType('application/x-www-form-urlencoded')
+        } else {
+          headers.setContentType('text/plain')
+        }
+      } else {
+        // 保底策略
+        headers.setContentType('text/plain')
+      }
+
+      headers.set('content-md5', md5(JSON.stringify(config.data)).toString(Base64))
+    }
+
+    // 添加认证需要的必要请求头
+    headers.set('x-ca-key', appKey)
+    headers.set('x-ca-nonce', md5(Date.now().toString() + Math.random() * 10000).toString(Hex))
+    headers.set('x-ca-timestamp', Date.now().toString())
+    headers.set('x-ca-signature-method', 'HmacSHA256')
+
+    // 提取签名串
+    const signedStrings: string[] = []
+    const signedHeaders: string[] = []
+
+    signedStrings.push(config.method!.toUpperCase())
+    signedStrings.push(headers.getAccept() ? String(headers.getAccept()) : EMPTY_STRING)
+    signedStrings.push(headers.get('content-md5') ? String(headers.get('content-md5')) : EMPTY_STRING)
+    signedStrings.push(headers.getContentType() ? String(headers.getContentType()) : EMPTY_STRING)
+    signedStrings.push(headers.get('date') ? String(headers.get('date')) : EMPTY_STRING)
+
+    Object.keys(headers)
+      .filter((key) => !EXCLUDED_SIGNATURE_HEADERS.includes(key.toLowerCase()))
       .sort()
       .forEach((key) => {
-        if (!exceptionalHeaders.includes(key)) {
-          signedStringList.push(key + ':' + newHeaders[key])
-          signedHeaderList.push(key)
-        }
+        signedStrings.push(key.toLowerCase() + ':' + headers.get(key))
+        signedHeaders.push(key.toLowerCase())
       })
 
-    signedStringList.push(pathAndParameters!)
+    // 计算路径参数
+    const pathAndParameters = paramsSerializer(config.params)
+      ? config.url + '?' + paramsSerializer(config.params)
+      : config.url
 
-    const signature = hmacSHA256ToBase64(signedStringList.join(LF), appSecret)
+    signedStrings.push(pathAndParameters!)
 
-    // 添加剩下的请求头
-    newHeaders['content-md5'] = contentMd5
-    newHeaders['x-ca-signature-headers'] = signedHeaderList.join(',')
-    newHeaders['x-ca-signature'] = signature
+    headers.set('x-ca-signature-headers', signedHeaders.join(','))
+    headers.set('x-ca-signature', hmacSHA256(signedStrings.join(LF), appSecret).toString(Base64))
 
     // 调试信息
     if (debug) {
-      console.log(signedStringList.join('#'))
+      console.log(signedStrings.join('#'))
     }
-
-    config.headers = new AxiosHeaders(newHeaders)
 
     return config
   }
