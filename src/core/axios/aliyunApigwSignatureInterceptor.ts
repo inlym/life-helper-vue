@@ -75,12 +75,7 @@ export function createAliyunApigwSignatureInterceptor(appKey: string, appSecret:
         signedHeaders.push(key.toLowerCase())
       })
 
-    // 计算路径参数
-    const pathAndParameters = paramsSerializer(config.params)
-      ? config.url + '?' + paramsSerializer(config.params)
-      : config.url
-
-    signedStrings.push(pathAndParameters!)
+    signedStrings.push(concatPathAndParameters(config.url, config.params))
 
     headers.set('x-ca-signature-headers', signedHeaders.join(','))
     headers.set('x-ca-signature', hmacSHA256(signedStrings.join(LF), appSecret).toString(Base64))
@@ -138,4 +133,13 @@ export function stringifyHeaderValue(value: AxiosHeaderValue): string {
   } else {
     return String(value)
   }
+}
+
+/** 连接路径和查询字符串 */
+export function concatPathAndParameters(url?: string, params?: any): string {
+  if (!url) {
+    return paramsSerializer(params)
+  }
+
+  return paramsSerializer(params) ? url + '?' + paramsSerializer(params) : url
 }
