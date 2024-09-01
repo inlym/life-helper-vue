@@ -21,9 +21,6 @@ export function createAliyunApigwSignatureInterceptor(appKey: string, appSecret:
       'date',
     ]
 
-    /** 换行符 */
-    const LF = '\n'
-
     const headers = config.headers
 
     // 处理 `Accept`: 为空时赋个默认值
@@ -71,14 +68,14 @@ export function createAliyunApigwSignatureInterceptor(appKey: string, appSecret:
       .filter((key) => !EXCLUDED_SIGNATURE_HEADERS.includes(key) && !isForbiddenHeader(key))
       .sort()
       .forEach((key) => {
-        signedStrings.push(key.toLowerCase() + ':' + headers.get(key))
-        signedHeaders.push(key.toLowerCase())
+        signedStrings.push(key + ':' + headers.get(key))
+        signedHeaders.push(key)
       })
 
     signedStrings.push(concatPathAndParameters(config.url, config.params))
 
     headers.set('x-ca-signature-headers', signedHeaders.join(','))
-    headers.set('x-ca-signature', hmacSHA256(signedStrings.join(LF), appSecret).toString(Base64))
+    headers.set('x-ca-signature', hmacSHA256(signedStrings.join('\n'), appSecret).toString(Base64))
 
     // 调试信息
     if (debug) {

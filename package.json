@@ -10,7 +10,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --mode prod",
+    "dev": "vite --mode dev",
     "build": "vite build --mode prod",
     "preview": "vite preview",
     "test:unit": "vitest"
