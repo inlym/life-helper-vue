@@ -20,6 +20,9 @@ importers:
       dayjs:
         specifier: ^1.11.12
         version: 1.11.12
+      loglevel:
+        specifier: ^1.9.1
+        version: 1.9.1
       pinia:
         specifier: ^2.1.7
         version: 2.2.1(typescript@5.4.5)(vue@3.4.36(typescript@5.4.5))
@@ -1612,6 +1615,10 @@ packages:
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+
+  loglevel@1.9.1:
+    resolution: {integrity: sha512-hP3I3kCrDIMuRwAwHltphhDM1r8i55H33GgqjXbrisuJhF4kRhW1dNuxsRklp4bXl8DSdLaNLuiL4A/LWRfxvg==}
+    engines: {node: '>= 0.6.0'}
 
   loupe@2.3.7:
     resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}
@@ -4056,6 +4063,8 @@ snapshots:
   lodash.truncate@4.4.2: {}
 
   lodash@4.17.21: {}
+
+  loglevel@1.9.1: {}
 
   loupe@2.3.7:
     dependencies:
