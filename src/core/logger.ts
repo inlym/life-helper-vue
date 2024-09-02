@@ -1,5 +1,6 @@
 import logger from 'loglevel'
 
-logger.setLevel(logger.levels.TRACE)
+// 开启所有日志
+logger.enableAll()
 
 export {logger}
