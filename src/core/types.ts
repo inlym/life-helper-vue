@@ -33,11 +33,14 @@ export class BusinessError extends Error {
   errorCode: number
   /** 错误消息 */
   errorMessage: string
+  /** 是否已被处理 */
+  handled: boolean
 
   constructor(data: CommonResponse) {
     super(data.errorMessage)
 
     this.errorCode = data.errorCode
     this.errorMessage = data.errorMessage
+    this.handled = false
   }
 }
