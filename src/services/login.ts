@@ -13,7 +13,11 @@ export function sendSms(phone: string) {
   return requestForData<CheckTicket>({method: 'post', url: '/sms/login', data: {phone}, requireAuth: false})
 }
 
-/** 通过短信验证码登录 */
+/**
+ * 通过短信验证码登录
+ * @param checkTicket 校验码
+ * @param code 6位数字短信验证码
+ */
 export function loginBySmsCode(checkTicket: string, code: string) {
   return requestForData<IdentityCertificate>({method: 'post', url: '/login/sms', data: {checkTicket, code}})
 }
