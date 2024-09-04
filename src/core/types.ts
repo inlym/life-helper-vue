@@ -39,8 +39,12 @@ export class BusinessError extends Error {
   constructor(data: CommonResponse) {
     super(data.errorMessage)
 
-    this.errorCode = data.errorCode
-    this.errorMessage = data.errorMessage
+    // 对所有属性赋值
+    // 部分业务错误会附加携带一些字段
+    Object.keys(data).forEach((key) => {
+      this[key] = data[key]
+    })
+
     this.handled = false
   }
 }
