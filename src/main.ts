@@ -10,7 +10,12 @@ import 'tailwindcss/tailwind.css'
 
 // VueRequest 全局配置
 setGlobalOptions({
+  /** 手动触发请求 */
   manual: true,
+  /** 延迟的毫秒数 */
+  loadingDelay: 1000,
+  /** 保持 loading 的毫秒数 */
+  loadingKeep: 1000,
 })
 
 const app = createApp(App)
