@@ -3,6 +3,8 @@ import {createAliyunApigwSignatureInterceptor} from './axios/aliyunApigwSignatur
 import {authInterceptor} from './axios/authInterceptor'
 import {paramsSerializer} from './axios/paramsSerializer'
 import {handleBusinessError} from './axios/handleBusinessError'
+import {BusinessError} from '@/core/types'
+import {Modal} from 'ant-design-vue'
 
 const appKey = import.meta.env.VITE_ALIYUN_APP_KEY
 const appSecret = import.meta.env.VITE_ALIYUN_APP_SECRET
@@ -30,4 +32,19 @@ export const http = instance
 export async function requestForData<T = any>(config: AxiosRequestConfig): Promise<T> {
   const response = await instance(config)
   return response.data
+}
+
+/**
+ * 通用错误处理器（在 VueRequest 中使用）
+ *
+ * ### 说明
+ * 为使函数名简单，采用同名方法
+ */
+export function onHttpError(error: Error) {
+  if (error instanceof BusinessError) {
+    // 已经在 axios 拦截器中处理，将错误封装为了 `BusinessError`，因此发生错误一定会进入这一个分支
+    if (!error.handled) {
+      Modal.info({title: '提示', content: error.errorMessage, okText: '我知道了'})
+    }
+  }
 }

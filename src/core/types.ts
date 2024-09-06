@@ -14,12 +14,17 @@ declare module 'axios' {
   }
 }
 
-/** 通用响应数据格式 */
-export interface CommonResponse {
+/** 错误响应数据 */
+export interface ErrorResponse {
   /** 错误码 */
   errorCode: number
   /** 错误消息 */
   errorMessage: string
+}
+
+/** 通用响应数据格式 */
+export interface CommonResponse extends ErrorResponse {
+  [key: string]: any
 }
 
 /** 通用单列表数据响应 */
@@ -34,17 +39,22 @@ export class BusinessError extends Error {
   /** 错误消息 */
   errorMessage: string
   /** 是否已被处理 */
-  handled: boolean
+  handled: boolean;
+
+  [key: string]: any
 
   constructor(data: CommonResponse) {
     super(data.errorMessage)
 
-    // 对所有属性赋值
-    // 部分业务错误会附加携带一些字段
-    Object.keys(data).forEach((key) => {
-      this[key] = data[key]
-    })
-
+    this.errorCode = data.errorCode
+    this.errorMessage = data.errorMessage
     this.handled = false
+
+    Object.keys(data)
+      .sort()
+      .filter((key) => !['errorCode', 'errorMessage', 'handled'].includes(key))
+      .forEach((key) => {
+        this[key] = data[key]
+      })
   }
 }

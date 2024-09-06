@@ -7,39 +7,37 @@
         <!-- 表单1：手机号 -->
         <a-form-item name="phone">
           <!-- 手机号输入框 -->
-          <a-input
-            v-model:value="formState.phone"
-            :maxlength="11"
-            addon-before="+86"
-            placeholder="请输入手机号"
-            size="large"
-          />
+          <a-input v-model:value="formState.phone" :maxlength="11" addon-before="+86" placeholder="请输入手机号" size="large" />
         </a-form-item>
         <!-- 表单2：短信验证码 -->
         <a-form-item name="code">
           <div class="flex items-center justify-between">
             <!-- 验证码输入框 -->
-            <a-input v-model:value="formState.code" :maxlength="6" placeholder="6位短信验证码" size="large" />
-            <!-- 获取验证码按钮 -->
-            <a-button :disabled="btn1Disabled" :loading="loading1" class="ml-4" size="large" @click="onBtn1Click">
-              获取验证码
-            </a-button>
+            <a-input v-model:value="formState.code" :maxlength="6" class="w-auto" placeholder="6位短信验证码" size="large" />
+            <div class="w-50">
+              <!-- 【获取验证码】按钮（正常情况） -->
+              <a-button v-if="!clocking" :disabled="btn1Disabled" :loading="loading1" block class="ml-4" size="large" @click="onBtn1Click">
+                {{ smsCounter > 0 ? '重新获取' : '获取验证码' }}
+              </a-button>
+              <!-- 【获取验证码】按钮（倒计时中） -->
+              <a-button v-else block class="ml-4" disabled size="large">
+                {{ '重新获取(' + restSeconds + ')' }}
+              </a-button>
+            </div>
           </div>
         </a-form-item>
         <!-- 表单3：提交按钮 -->
         <a-form-item>
-          <!-- 登录/注册按钮 -->
-          <a-button :disabled="disabledForRegisterButton" block class="mt-16" size="large" type="primary"
-            >登录/注册
-          </a-button>
+          <!-- 登录/注册按钮 [btn2] -->
+          <a-button :disabled="btn2Disabled" block class="mt-16" size="large" type="primary" @click="onBtn2Click"> 登录/注册 </a-button>
         </a-form-item>
         <!-- 表单4：协议勾选 -->
         <a-form-item>
           <a-checkbox v-model:checked="formState.policyChecked">
             <a-typography-text>我已阅读并同意</a-typography-text>
-            <a-typography-link class="mx-1" href="/policy/terms" target="_blank">用户协议 </a-typography-link>
+            <a-typography-link class="mx-1" href="/policy/terms" target="_blank"> 用户协议 </a-typography-link>
             <a-typography-text>和</a-typography-text>
-            <a-typography-link class="mx-1" href="/policy/privacy" target="_blank">隐私政策 </a-typography-link>
+            <a-typography-link class="mx-1" href="/policy/privacy" target="_blank"> 隐私政策 </a-typography-link>
           </a-checkbox>
         </a-form-item>
       </a-form>
@@ -49,15 +47,7 @@
   <!-- ######################## 非页面文档流元素 ######################## -->
 
   <!-- 提示勾选协议弹窗 -->
-  <a-modal
-    v-model:open="policyDialogOpen"
-    :maskClosable="false"
-    cancelText="不同意"
-    okText="同意"
-    title="用户协议和隐私政策"
-    width="420px"
-    @ok="(policyChecked = true), (policyDialogOpen = false)"
-  >
+  <a-modal v-model:open="dialog1Open" :maskClosable="false" cancelText="不同意" okText="同意" title="用户协议和隐私政策" width="420px" @ok="confirmDialog1">
     <a-typography-text>为更好地保护你的合法权益，请阅读并同意</a-typography-text>
     <a-typography-link class="mx-1" href="/policy/terms" target="_blank">用户协议 </a-typography-link>
     <a-typography-text>和</a-typography-text>
@@ -66,30 +56,47 @@
 </template>
 
 <script lang="ts" setup>
-import {loginBySmsCode, sendSms} from '@/services/login'
+import {loginBySmsCode, sendSms, type SmsRateLimitExceededError} from '@/services/login'
 import {computed, reactive, ref, watch} from 'vue'
 import {useRequest} from 'vue-request'
 import type {FormInstance, Rule} from 'ant-design-vue/es/form'
 import {BusinessError} from '@/core/types'
-import {Modal} from 'ant-design-vue'
+import {useTimestamp} from '@vueuse/core'
+import {onHttpError} from '@/core/http'
+import {type IdentityCertificate, saveIdentityCertificate} from '@/core/auth'
+import {message} from 'ant-design-vue'
+import {useRouter} from 'vue-router'
+import {showSimpleDialog} from '@/core/view'
+
+const router = useRouter()
 
 // ============================= 注册页面请求 =============================
 
 // 发送短信验证码
-const {data: data1, error: error1, loading: loading1, run: run1} = useRequest(sendSms)
+const {data: data1, error: error1, loading: loading1, run: run1} = useRequest(sendSms, {onError: onHttpError})
 // 使用短信验证码登录
-const {data: data2, error: error2, loading: loading2, run: run2} = useRequest(loginBySmsCode)
+const {loading: loading2, run: run2} = useRequest(loginBySmsCode, {onError: onHttpError, onSuccess: afterLogin})
 
 // ============================= 响应数据处理 =============================
 
 /** 校验码 */
 const checkTicket = computed(() => data1.value?.checkTicket)
 
+// 额外处理在“发送验证码”环节出现的非常规错误
 watch(error1, (newValue) => {
   if (newValue instanceof BusinessError) {
-    Modal.warn({title: '提示', content: newValue.errorMessage, okText: '我知道了'})
+    if (newValue.errorCode === 11003) {
+      setClock((newValue as unknown as SmsRateLimitExceededError).remainingSeconds)
+    }
   }
 })
+
+/** 使用 [手机号+短信验证码] 的方式登录成功后 */
+function afterLogin(cert: IdentityCertificate) {
+  saveIdentityCertificate(cert)
+  message.success('登录成功，正在跳转中 ...')
+  router.push({name: 'home'})
+}
 
 // ============================== 表单 ==============================
 
@@ -104,11 +111,8 @@ interface FormState {
 
 /** 表单数据 */
 const formState = reactive<FormState>({
-  /** 手机号 */
   phone: '',
-  /** 验证码 */
   code: '',
-  /** 是否已勾选协议 */
   policyChecked: false,
 })
 
@@ -139,57 +143,91 @@ const formRef = ref<FormInstance>()
 // @@@@@@@@@@@@@@@@ 【获取验证码】按钮 -> [btn1] @@@@@@@@@@@@@@@@
 
 /** 是否禁用 */
-const btn1Disabled = computed(() => !formState.phone || loading1.value)
+const btn1Disabled = computed(() => !formState.phone || loading1.value || clocking.value)
+
+/** 当前时刻的时间戳（一直在变化） */
+const timestamp = useTimestamp()
+/** 是否正在倒计时 */
+const clocking = ref(false)
+/** 开始倒计时时刻的时间戳（一个周期内不变） */
+const startClockingTimestamp = ref(0)
+/** 开始倒计时时刻剩余的秒数（一个周期内不变） */
+const startClockingSeconds = ref(0)
+/** 短信发送次数 */
+const smsCounter = ref(0)
+/** 倒计时剩余秒数 */
+const restSeconds = computed(() => Math.floor((startClockingSeconds.value * 1000 - timestamp.value + startClockingTimestamp.value) / 1000))
+
+/** 设置倒计时时钟 */
+function setClock(seconds: number) {
+  clocking.value = true
+  startClockingTimestamp.value = timestamp.value
+  startClockingSeconds.value = seconds
+
+  const unwatch = watch(restSeconds, (newValue) => {
+    if (newValue <= 0) {
+      clocking.value = false
+      unwatch()
+    }
+  })
+}
 
 /** 处理按钮点击事件 */
-const onBtn1Click = () => {
-  // 检查手机号是否正确
+function onBtn1Click() {
+  // 表单校验手机号
   formRef.value
     ?.validateFields(['phone'])
     .then(() => {
       // 校验成功处理
       run1(formState.phone)
+      smsCounter.value++
+      setClock(60)
     })
     .catch(() => {
       // 校验失败处理
       // Do Nothing
     })
-
-  // run1(formState.phone)
 }
 
 // @@@@@@@@@@@@@@@@ 【提醒勾选协议】弹窗 -> [dialog1]  @@@@@@@@@@@@@@@@
 
+const dialog1Open = ref(false)
+
+function showDialog1() {
+  dialog1Open.value = true
+}
+
+/** 点击“确定”按钮 */
+function confirmDialog1() {
+  dialog1Open.value = false
+  formState.policyChecked = true
+}
+
 // @@@@@@@@@@@@@@@@ 【登录/注册】按钮 -> [btn2]  @@@@@@@@@@@@@@@@
 
 /** 是否禁用 */
-const disabledForRegisterButton = computed(() => !(formState.phone && formState.code))
+const btn2Disabled = computed(() => !(formState.phone && formState.code) || loading2.value)
 
-/** 弹窗展示状态 */
-const dialogOpen4Policy = ref(false)
-
-// ============================== 页面状态 ==============================
-
-/** 勾选协议弹窗展示状态 */
-const policyDialogOpen = ref(false)
-
-// ============================== 计算属性 ==============================
-
-/** 校验码 */
-const checkTicketId = computed(() => data1.value?.checkTicket)
-/** 手机号输入是否正确 */
-const isPhoneRight = computed(() => phone.value.length === 11 && phone.value.startsWith('1'))
-
-// ========== 页面点击事件 ==========
-const handleSendButtonClick = () => {
-  run1(phone.value)
-}
-const handleRegisterButtonClick = () => {
-  if (!policyChecked.value) {
-    policyDialogOpen.value = true
-  }
-
-  run2(checkTicketId.value!, code.value)
+function onBtn2Click() {
+  console.log(checkTicket.value)
+  console.log(formState)
+  // 表单校验手机号、验证码
+  formRef.value
+    ?.validateFields(['phone', 'code'])
+    .then(() => {
+      // 校验成功处理
+      if (!formState.policyChecked) {
+        showDialog1()
+      } else if (!checkTicket.value) {
+        showSimpleDialog('验证码已过期，请重新获取验证码')
+      } else {
+        run2(checkTicket.value, formState.code)
+      }
+    })
+    .catch(() => {
+      // 校验失败处理
+      // Do Nothing
+    })
 }
 </script>
 

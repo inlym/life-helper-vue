@@ -1,11 +1,15 @@
 <template>
-  <a-button type="primary" size="large" href="/login">登录</a-button>
+  <a-button href="/login" size="large" type="primary">登录</a-button>
   <h1 class="bg-blue text-3xl font-bold underline">Hello world!</h1>
-  <div class="bg absolute bottom-0 left-0 bg-red-500">
-    <p>Absolute child</p>
-  </div>
+  <a-button @click="onClick">打开弹窗</a-button>
 </template>
 
-<script setup lang="ts"></script>
+<script lang="ts" setup>
+import {showSimpleDialog} from '@/core/view'
 
-<style scoped lang="scss"></style>
+function onClick() {
+  showSimpleDialog('hello world')
+}
+</script>
+
+<style lang="scss" scoped></style>

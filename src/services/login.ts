@@ -1,5 +1,6 @@
 import type {IdentityCertificate} from '@/core/auth'
 import {requestForData} from '@/core/http'
+import {type ErrorResponse} from '@/core/types'
 
 /**
  * 发送短信验证码
@@ -25,4 +26,9 @@ export function loginBySmsCode(checkTicket: string, code: string) {
 export interface CheckTicket {
   /** 校验码 */
   checkTicket: string
+}
+
+/** 短信发送速率超出限制异常响应数据 */
+export interface SmsRateLimitExceededError extends ErrorResponse {
+  remainingSeconds: number
 }
