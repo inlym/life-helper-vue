@@ -17,6 +17,7 @@ declare module 'vue' {
     ASpace: typeof import('ant-design-vue/es')['Space']
     ATypographyLink: typeof import('ant-design-vue/es')['TypographyLink']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
+    LottieAnimation: typeof import('vue3-lottie')['Vue3Lottie']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

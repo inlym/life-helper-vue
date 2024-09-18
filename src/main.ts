@@ -4,6 +4,7 @@ import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
 import {setGlobalOptions} from 'vue-request'
+import Vue3Lottie from 'vue3-lottie'
 
 import 'ant-design-vue/dist/reset.css'
 import 'tailwindcss/tailwind.css'
@@ -28,5 +29,9 @@ app.use(router)
 
 // 全局完整注册 Ant Design Vue
 app.use(Antd)
+
+// 注册 Vue 3 Lottie 组件
+// [Vue 3 Lottie](https://vue3-lottie.vercel.app/introduction/vue-3)
+app.use(Vue3Lottie, {name: 'LottieAnimation'})
 
 app.mount('#app')
