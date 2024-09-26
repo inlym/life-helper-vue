@@ -49,9 +49,9 @@
   <!-- 提示勾选协议弹窗 -->
   <a-modal v-model:open="dialog1Open" :maskClosable="false" cancelText="不同意" okText="同意" title="用户协议和隐私政策" width="420px" @ok="confirmDialog1">
     <a-typography-text>为更好地保护你的合法权益，请阅读并同意</a-typography-text>
-    <a-typography-link class="mx-1" href="/policy/terms" target="_blank">用户协议 </a-typography-link>
+    <a-typography-link class="mx-1" href="/policy/terms" target="_blank"> 用户协议 </a-typography-link>
     <a-typography-text>和</a-typography-text>
-    <a-typography-link class="mx-1" href="/policy/privacy" target="_blank">隐私政策 </a-typography-link>
+    <a-typography-link class="mx-1" href="/policy/privacy" target="_blank"> 隐私政策 </a-typography-link>
   </a-modal>
 </template>
 
