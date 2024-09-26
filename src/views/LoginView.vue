@@ -1,6 +1,6 @@
 <template>
-  <div class="flex h-screen w-auto items-center justify-center bg-slate-50">
-    <div class="w-104 flex flex-col items-center justify-start rounded-lg bg-white p-10 shadow-lg">
+  <a-flex class="h-screen bg-slate-50" justify="center" align="center">
+    <a-flex class="rounded-lg bg-white p-10 shadow-lg" justify="start" align="center" vertical>
       <h1 class="mb-12 text-2xl font-bold">小鸣助手</h1>
       <!-- 表单区域 -->
       <a-form ref="formRef" :model="formState" :rules>
@@ -11,20 +11,20 @@
         </a-form-item>
         <!-- 表单2：短信验证码 -->
         <a-form-item name="code">
-          <div class="flex items-center justify-between">
+          <a-flex justify="between" align="center">
             <!-- 验证码输入框 -->
             <a-input v-model:value="formState.code" :maxlength="6" class="w-auto" placeholder="6位短信验证码" size="large" />
-            <div class="w-50">
+            <div class="ml-4 w-[130px]">
               <!-- 【获取验证码】按钮（正常情况） -->
-              <a-button v-if="!clocking" :disabled="btn1Disabled" :loading="loading1" block class="ml-4" size="large" @click="onBtn1Click">
+              <a-button v-if="!clocking" :disabled="btn1Disabled" :loading="loading1" block size="large" @click="onBtn1Click">
                 {{ smsCounter > 0 ? '重新获取' : '获取验证码' }}
               </a-button>
               <!-- 【获取验证码】按钮（倒计时中） -->
-              <a-button v-else block class="ml-4" disabled size="large">
+              <a-button v-else block disabled size="large">
                 {{ '重新获取(' + restSeconds + ')' }}
               </a-button>
             </div>
-          </div>
+          </a-flex>
         </a-form-item>
         <!-- 表单3：提交按钮 -->
         <a-form-item>
@@ -41,8 +41,8 @@
           </a-checkbox>
         </a-form-item>
       </a-form>
-    </div>
-  </div>
+    </a-flex>
+  </a-flex>
 
   <!-- ######################## 非页面文档流元素 ######################## -->
 
@@ -56,26 +56,25 @@
 </template>
 
 <script lang="ts" setup>
-import {loginBySmsCode, sendSms, type SmsRateLimitExceededError} from '@/services/login'
-import {computed, reactive, ref, watch} from 'vue'
-import {useRequest} from 'vue-request'
-import type {FormInstance, Rule} from 'ant-design-vue/es/form'
-import {BusinessError} from '@/core/types'
-import {useTimestamp} from '@vueuse/core'
-import {onHttpError} from '@/core/http'
 import {type IdentityCertificate, saveIdentityCertificate} from '@/core/auth'
-import {message} from 'ant-design-vue'
-import {useRouter} from 'vue-router'
+import {useData} from '@/core/http'
+import {BusinessError} from '@/core/types'
 import {showSimpleDialog} from '@/core/view'
+import {loginBySmsCode, sendSms, type SmsRateLimitExceededError} from '@/services/login'
+import {useTimestamp} from '@vueuse/core'
+import {message} from 'ant-design-vue'
+import type {FormInstance, Rule} from 'ant-design-vue/es/form'
+import {computed, reactive, ref, watch} from 'vue'
+import {useRouter} from 'vue-router'
 
 const router = useRouter()
 
 // ============================= 注册页面请求 =============================
 
 // 发送短信验证码
-const {data: data1, error: error1, loading: loading1, run: run1} = useRequest(sendSms, {onError: onHttpError})
+const {data: data1, error: error1, loading: loading1, run: run1} = useData(sendSms)
 // 使用短信验证码登录
-const {loading: loading2, run: run2} = useRequest(loginBySmsCode, {onError: onHttpError, onSuccess: afterLogin})
+const {loading: loading2, run: run2} = useData(loginBySmsCode, {onSuccess: afterLogin})
 
 // ============================= 响应数据处理 =============================
 
