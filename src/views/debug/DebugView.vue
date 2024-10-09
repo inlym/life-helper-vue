@@ -1,14 +1,17 @@
 <template>
-  <div>{{ JSON.stringify(data) }}</div>
-  <div>{{ error }}</div>
-  <div>{{ loading }}</div>
+  <div class="bg-slate-200">{{ userInfoStore.nickName }}</div>
+  <img :src="userInfoStore.avatarUrl" alt="头像" />
+  <button @click="onClick">更新</button>
 </template>
 
 <script setup lang="ts">
-import {useData} from '@/core/http'
-import {getOssPostCredential} from '@/services/oss'
+import {useUserInfoStore} from '@/stores/user-info'
 
-const {data, error, loading} = useData(getOssPostCredential, {defaultParams: ['jpg'], manual: false})
+const userInfoStore = useUserInfoStore()
+
+function onClick() {
+  userInfoStore.update()
+}
 </script>
 
 <style scoped lang="scss"></style>

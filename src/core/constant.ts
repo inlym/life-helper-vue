@@ -5,3 +5,9 @@ export enum StorageKey {
   /** 访问凭据 */
   ACCESS_TOKEN = 'WEUTIL_ACCESS_TOKEN',
 }
+
+/** 静态资源 */
+export enum StaticResource {
+  /** 默认头像（空头像） */
+  DEFAULT_AVATAR = 'https://static.weutil.com/images/default.jpg',
+}
