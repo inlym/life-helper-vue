@@ -1,16 +1,21 @@
 import vue from '@vitejs/plugin-vue'
 import path from 'node:path'
 import {fileURLToPath, URL} from 'node:url'
+import AutoImport from 'unplugin-auto-import/vite'
+import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
 import {defineConfig} from 'vite'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import Components from 'unplugin-vue-components/vite'
-import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
+
+    // https://github.com/antfu/unplugin-auto-import
+    AutoImport(),
+
     // Ant Design Vue 自动按需引入组件
     // https://antdv.com/docs/vue/introduce-cn
     Components({
