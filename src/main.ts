@@ -1,5 +1,6 @@
 import Antd from 'ant-design-vue'
 import {createPinia} from 'pinia'
+import {createPersistedState} from 'pinia-plugin-persistedstate'
 import {createApp} from 'vue'
 import Vue3Lottie from 'vue3-lottie'
 import App from './App.vue'
@@ -11,7 +12,10 @@ import 'tailwindcss/tailwind.css'
 const app = createApp(App)
 
 // 注册 Pinia
-app.use(createPinia())
+const pinia = createPinia()
+// https://prazdevs.github.io/pinia-plugin-persistedstate/
+pinia.use(createPersistedState({key: (id) => `__pinia__${id}__`}))
+app.use(pinia)
 
 // 注册路由
 app.use(router)

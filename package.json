@@ -24,6 +24,7 @@
     "dayjs": "^1.11.12",
     "loglevel": "^1.9.1",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^4.1.1",
     "vue": "^3.4.29",
     "vue-request": "^2.0.4",
     "vue-router": "^4.3.3",

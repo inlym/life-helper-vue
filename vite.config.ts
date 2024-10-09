@@ -14,7 +14,12 @@ export default defineConfig({
     vueDevTools(),
 
     // https://github.com/antfu/unplugin-auto-import
-    AutoImport(),
+    AutoImport({
+      viteOptimizeDeps: true,
+      eslintrc: {
+        enabled: true, // <-- this
+      },
+    }),
 
     // Ant Design Vue 自动按需引入组件
     // https://antdv.com/docs/vue/introduce-cn
