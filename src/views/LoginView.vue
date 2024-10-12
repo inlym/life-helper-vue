@@ -1,5 +1,5 @@
 <template>
-  <a-flex class="h-screen bg-slate-50" justify="center" align="center">
+  <a-flex class="h-screen bg-green-100" justify="center" align="center">
     <a-flex class="rounded-lg bg-white p-10 shadow-lg" justify="start" align="center" vertical>
       <h1 class="mb-12 text-2xl font-bold">小鸣助手</h1>
       <!-- 表单区域 -->
