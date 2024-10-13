@@ -11,8 +11,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode dev",
-    "build": "vite build --mode prod",
-    "preview": "vite preview",
+    "build": "cross-env NODE_ENV=production vite build --mode prod",
+    "bootstrap": "pnpm install",
+    "preview": "pnpm build && vite preview",
     "test:unit": "vitest"
   },
   "dependencies": {
@@ -42,6 +43,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
     "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
     "jsdom": "^24.1.0",
