@@ -8,17 +8,22 @@
 
 <script lang="ts" setup>
 import TheHeader from '@/components/global/TheHeader.vue'
+import {logger} from '@/core/logger'
 import {useCounterStore} from '@/stores/counter'
 import {reactive, ref} from 'vue'
 const counter = useCounterStore()
 console.log(counter.count)
 
-const ttt = ref('hello')
-const boy = reactive({name: 'mark'})
-
 function a() {
   counter.increment()
   console.log(counter.count)
+
+  b()
+}
+
+function b() {
+  logger.debug(__APP_VERSION__)
+  logger.info(__LAST_BUILD_TIME__)
 }
 </script>
 

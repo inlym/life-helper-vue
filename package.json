@@ -10,7 +10,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --mode dev",
+    "dev": "vite --mode dev --host --open",
     "build": "cross-env NODE_ENV=production vite build --mode prod",
     "bootstrap": "pnpm install",
     "preview": "pnpm build && vite preview",
