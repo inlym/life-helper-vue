@@ -1,21 +1,18 @@
 <template>
   <!-- 在 ConfigProvider 中配置主题 -->
-  <a-config-provider :theme>
+  <a-config-provider :theme="themeConfig">
     <!-- App 包裹组件，用于提供消费上下文 -->
-    <a-app>
+    <a-app class="h-full w-full">
       <RouterView />
     </a-app>
   </a-config-provider>
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
+import {storeToRefs} from 'pinia'
 import {RouterView} from 'vue-router'
+import {useAppStore} from './stores/app'
 
-const theme = ref({
-  token: {
-    // 使用“青葱色”作为品牌色
-    colorPrimary: '#0eb83a',
-  },
-})
+const appStore = useAppStore()
+const {themeConfig} = storeToRefs(appStore)
 </script>

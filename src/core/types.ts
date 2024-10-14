@@ -1,19 +1,3 @@
-import 'vue-router'
-
-declare module 'vue-router' {
-  interface RouteMeta {
-    /** 是否需要登录 */
-    requireAuth: boolean
-  }
-}
-
-declare module 'axios' {
-  export interface AxiosRequestConfig {
-    /** 是否需要权限 */
-    requireAuth?: boolean
-  }
-}
-
 /** 错误响应数据 */
 export interface ErrorResponse {
   /** 错误码 */

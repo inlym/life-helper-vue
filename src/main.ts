@@ -4,7 +4,7 @@ import {createPersistedState} from 'pinia-plugin-persistedstate'
 import {createApp} from 'vue'
 import Vue3Lottie from 'vue3-lottie'
 import App from './App.vue'
-import router from './router'
+import {router} from './router'
 
 import 'ant-design-vue/dist/reset.css'
 import 'tailwindcss/tailwind.css'

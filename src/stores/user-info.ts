@@ -36,7 +36,7 @@ export function modifyUserInfo(data: UserInfoDTO) {
 }
 
 export const useUserInfoStore = defineStore(
-  'USER_INFO',
+  'user-info',
 
   () => {
     /** 昵称 */

@@ -5,13 +5,18 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import DebugView from '@/views/debug/DebugView.vue'
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Root',
       component: HomeView,
+      meta: {
+        title: '小鸣助手',
+        requireAuth: false,
+      },
     },
 
     {
@@ -48,5 +53,3 @@ const router = createRouter({
     },
   ],
 })
-
-export default router
