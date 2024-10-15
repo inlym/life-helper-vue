@@ -11,6 +11,10 @@ interface ImportMetaEnv {
   readonly VITE_ALIYUN_APP_KEY: string
   /** 阿里云 API 网关摘要签名认证使用的 AppSecret */
   readonly VITE_ALIYUN_APP_SECRET: string
+  /** 阿里云验证码服务场景 ID */
+  readonly VITE_ALIYUN_CAPTCHA_SCENE_ID: string
+  /** 阿里云验证码服务身份标 */
+  readonly VITE_ALIYUN_CAPTCHA_PREFIX: string
 }
 
 interface ImportMeta {
@@ -25,3 +29,6 @@ declare const __APP_VERSION__: string
 
 /** 最后一次构建时间 */
 declare const __LAST_BUILD_TIME__: string
+
+/** 由外部脚本引入的阿里云验证码初始化函数 */
+declare function initAliyunCaptcha(options: any): void
