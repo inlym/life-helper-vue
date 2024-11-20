@@ -15,6 +15,8 @@ interface ImportMetaEnv {
   readonly VITE_ALIYUN_CAPTCHA_SCENE_ID: string
   /** 阿里云验证码服务身份标 */
   readonly VITE_ALIYUN_CAPTCHA_PREFIX: string
+  /** 阿里云 API 网关 JWT 认证插件配置，JSON 格式的 JWK 密钥对信息 */
+  readonly VITE_ALIYUN_APIGW_JWT_KEYPAIR_JSON: string
 }
 
 interface ImportMeta {

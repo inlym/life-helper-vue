@@ -1,7 +1,9 @@
 import {BusinessError} from '@/core/types'
 import {Modal} from 'ant-design-vue'
 import axios, {type AxiosRequestConfig} from 'axios'
+import type {JWK} from 'jose'
 import {useRequest, type Options, type Service} from 'vue-request'
+import {createAliyunApigwJwtAuthentication} from './axios/aliyunApigwJwtAuthentication'
 import {createAliyunApigwSignatureInterceptor} from './axios/aliyunApigwSignatureInterceptor'
 import {authInterceptor} from './axios/authInterceptor'
 import {handleBusinessError} from './axios/handleBusinessError'
@@ -9,6 +11,7 @@ import {paramsSerializer} from './axios/paramsSerializer'
 
 const appKey = import.meta.env.VITE_ALIYUN_APP_KEY
 const appSecret = import.meta.env.VITE_ALIYUN_APP_SECRET
+const jwk: JWK = JSON.parse(import.meta.env.VITE_ALIYUN_APIGW_JWT_KEYPAIR_JSON)
 
 /** HTTP 请求客户端实例 */
 export const instance = axios.create({
@@ -22,8 +25,9 @@ export const instance = axios.create({
   paramsSerializer,
 })
 
-instance.interceptors.request.use(authInterceptor)
 instance.interceptors.request.use(createAliyunApigwSignatureInterceptor(appKey, appSecret, false))
+instance.interceptors.request.use(createAliyunApigwJwtAuthentication(jwk))
+instance.interceptors.request.use(authInterceptor)
 instance.interceptors.response.use(handleBusinessError)
 
 // 以 `http` 变量名导出
