@@ -11,8 +11,8 @@ const HEADER_NAME = 'x-ca-apigw-jwt'
  *
  * @see https://help.aliyun.com/zh/api-gateway/traditional-api-gateway/user-guide/jwt-authentication
  */
-export function createAliyunApigwJwtAuthentication(jwk: JWK) {
-  return async function aliyunApigwJwtAuthentication(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
+export function createAliyunApigwJwtAuthenticationInterceptor(jwk: JWK) {
+  return async function aliyunApigwJwtAuthenticationInterceptor(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
     const alg = 'RS256'
     const privateKey = await importJWK(jwk, alg)
 

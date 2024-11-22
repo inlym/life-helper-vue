@@ -3,7 +3,7 @@ import {Modal} from 'ant-design-vue'
 import axios, {type AxiosRequestConfig} from 'axios'
 import type {JWK} from 'jose'
 import {useRequest, type Options, type Service} from 'vue-request'
-import {createAliyunApigwJwtAuthentication} from './axios/aliyunApigwJwtAuthentication'
+import {createAliyunApigwJwtAuthenticationInterceptor} from './axios/aliyunApigwJwtAuthenticationInterceptor'
 import {createAliyunApigwSignatureInterceptor} from './axios/aliyunApigwSignatureInterceptor'
 import {authInterceptor} from './axios/authInterceptor'
 import {handleBusinessError} from './axios/handleBusinessError'
@@ -26,7 +26,7 @@ export const instance = axios.create({
 })
 
 instance.interceptors.request.use(createAliyunApigwSignatureInterceptor(appKey, appSecret, false))
-instance.interceptors.request.use(createAliyunApigwJwtAuthentication(jwk))
+instance.interceptors.request.use(createAliyunApigwJwtAuthenticationInterceptor(jwk))
 instance.interceptors.request.use(authInterceptor)
 instance.interceptors.response.use(handleBusinessError)
 
