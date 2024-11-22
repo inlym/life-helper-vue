@@ -25,6 +25,7 @@ export const instance = axios.create({
   paramsSerializer,
 })
 
+// 注意：请求拦截器先添加的后执行
 instance.interceptors.request.use(createAliyunApigwSignatureInterceptor(appKey, appSecret, false))
 instance.interceptors.request.use(createAliyunApigwJwtAuthenticationInterceptor(jwk))
 instance.interceptors.request.use(authInterceptor)
