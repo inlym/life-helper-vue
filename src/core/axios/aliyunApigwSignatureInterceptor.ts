@@ -4,22 +4,17 @@ import Hex from 'crypto-js/enc-hex'
 import hmacSHA256 from 'crypto-js/hmac-sha256'
 import md5 from 'crypto-js/md5'
 import {paramsSerializer} from './paramsSerializer'
+import {nanoid} from 'nanoid'
 
 /**
  * 阿里云 API 网关签名拦截器
+ *
  * @see https://help.aliyun.com/document_detail/29475.html
  */
 export function createAliyunApigwSignatureInterceptor(appKey: string, appSecret: string, debug = true) {
   return function aliyunApigwSignatureInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     /** 不参与 Header 签名计算的请求头字段 */
-    const EXCLUDED_SIGNATURE_HEADERS = [
-      'x-ca-signature',
-      'x-ca-signature-headers',
-      'accept',
-      'content-md5',
-      'content-type',
-      'date',
-    ]
+    const EXCLUDED_SIGNATURE_HEADERS = ['x-ca-signature', 'x-ca-signature-headers', 'accept', 'content-md5', 'content-type', 'date']
 
     const headers = config.headers
 
@@ -27,11 +22,7 @@ export function createAliyunApigwSignatureInterceptor(appKey: string, appSecret:
     headers.setAccept('*/*', false)
 
     // 处理 `Content-Type` 和 `Content-Md5`
-    if (
-      ['post', 'put', 'patch'].includes(config.method!.toLowerCase()) &&
-      config.data !== undefined &&
-      config.data !== null
-    ) {
+    if (['post', 'put', 'patch'].includes(config.method!.toLowerCase()) && config.data !== undefined && config.data !== null) {
       if (typeof config.data === 'object') {
         if (config.data instanceof FormData) {
           throw new Error('暂不支持 FormData 形式的请求数据')
@@ -48,7 +39,7 @@ export function createAliyunApigwSignatureInterceptor(appKey: string, appSecret:
 
     // 添加认证需要的必要请求头
     headers.set('x-ca-key', appKey)
-    headers.set('x-ca-nonce', md5(Date.now().toString() + Math.random() * 10000).toString(Hex))
+    headers.set('x-ca-nonce', nanoid())
     headers.set('x-ca-timestamp', Date.now().toString())
     headers.set('x-ca-signature-method', 'HmacSHA256')
 
@@ -113,11 +104,7 @@ export function isForbiddenHeader(headerName: string): boolean {
     'user-agent',
   ]
 
-  return (
-    FORBIDDEN_HEADERS.includes(headerName.toLowerCase()) ||
-    headerName.toLowerCase().startsWith('proxy-') ||
-    headerName.toLowerCase().startsWith('sec-')
-  )
+  return FORBIDDEN_HEADERS.includes(headerName.toLowerCase()) || headerName.toLowerCase().startsWith('proxy-') || headerName.toLowerCase().startsWith('sec-')
 }
 
 /** 将请求头的字段值转为字符串 */
