@@ -7,7 +7,14 @@ import {nanoid} from 'nanoid'
 const HEADER_NAME = 'x-ca-apigw-jwt'
 
 /**
- * 阿里云 API 网关 JWT 认证插件
+ * 阿里云 API 网关 JWT 认证插件拦截器
+ *
+ * ### 拦截器说明
+ * 生产环境使用了阿里云 API 网关的 JWT 认证插件，主要用途是提升攻击者伪造请求的难度，增加 API 的安全性。
+ *
+ * ### 使用说明
+ * 1. 为每一个请求生成一个 JWT，即生成的 JWT 是一次性的，在网关层开启了针对 `jti` 的防重放检查。
+ * 2. 密钥对 JWK 在 [mkjwk](https://mkjwk.org) 网站生成。
  *
  * @see https://help.aliyun.com/zh/api-gateway/traditional-api-gateway/user-guide/jwt-authentication
  */
