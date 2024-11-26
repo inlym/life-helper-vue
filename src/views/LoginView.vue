@@ -58,7 +58,7 @@
 <script lang="ts" setup>
 import {type IdentityCertificate, saveIdentityCertificate} from '@/core/auth'
 import {useData} from '@/core/http'
-import {BusinessError} from '@/core/types'
+import {BusinessError} from '@/core/model'
 import {showSimpleDialog} from '@/core/view'
 import {loginBySmsCode, sendSms, type SmsRateLimitExceededError} from '@/api/login'
 import {useTimestamp} from '@vueuse/core'

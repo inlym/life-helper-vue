@@ -1,6 +1,6 @@
 import type {IdentityCertificate} from '@/core/auth'
 import {requestForData} from '@/core/http'
-import {type ErrorResponse} from '@/core/types'
+import {type ErrorResponse} from '@/core/model'
 
 export interface CheckTicket {
   /** 校验码 */

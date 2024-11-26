@@ -1,4 +1,4 @@
-import {BusinessError} from '@/core/types'
+import {BusinessError} from '@/core/model'
 import {Modal} from 'ant-design-vue'
 import axios, {type AxiosRequestConfig} from 'axios'
 import type {JWK} from 'jose'

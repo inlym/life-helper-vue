@@ -1,5 +1,5 @@
 import {type AxiosResponse} from 'axios'
-import {BusinessError, type CommonResponse} from '../types'
+import {BusinessError, type CommonResponse} from '../model'
 import {logger} from '../logger'
 
 /** 封装处理业务错误 */

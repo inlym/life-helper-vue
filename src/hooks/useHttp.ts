@@ -1,4 +1,4 @@
-import {BusinessError} from '@/core/types'
+import {BusinessError} from '@/core/model'
 import {Modal} from 'ant-design-vue'
 import {useRequest, type Options, type Service} from 'vue-request'
 
