@@ -1,41 +1,32 @@
 <template>
-  <!-- 占满屏幕宽度的横条 -->
-  <a-flex class="h-16 w-full bg-white" justify="center" align="center">
-    <!-- 中间内容区 -->
-    <a-flex class="container" justify="space-between" align="center">
-      <!-- logo -->
-      <div class="mx-8 h-10 w-40 bg-slate-600"></div>
+  <!-- 导航条定高不定宽，宽度由外层容器决定 -->
+  <div class="flex h-[60px] w-auto items-center justify-between">
+    <!-- 左侧区域 -->
+    <div class="left-area flex h-full items-center">
+      <!-- logo 图片 -->
+      <img class="mr-2 h-10" src="/images/logo.png" alt="logo" />
+      <a-tooltip>
+        <template #title>目前处于公测阶段，将于公测完毕后发布稳定版本</template>
+        <div class="mr-10 mt-2 text-xs font-bold text-red-500">Beta</div>
+      </a-tooltip>
+      <!-- 自适应宽度的间隔区域 -->
+      <div class="flex-1"></div>
       <!-- 菜单组 -->
-      <a-menu mode="horizontal" :items="menus" />
-      <!-- 占满剩余宽度 -->
-      <div class="grow"></div>
-      <a-button type="primary" size="large" ghost>登录</a-button>
-    </a-flex>
-  </a-flex>
+      <div class="flex h-full">
+        <div class="mx-4 h-full cursor-pointer border-indigo-500 px-2 pt-4 align-middle text-base hover:border-b-4 hover:font-bold">首页</div>
+        <div class="mx-4 h-full cursor-pointer border-indigo-500 px-2 pt-4 align-middle text-base hover:border-b-4 hover:font-bold">产品</div>
+        <div class="mx-4 h-full cursor-pointer border-indigo-500 px-2 pt-4 align-middle text-base hover:border-b-4 hover:font-bold">帮助与支持</div>
+        <div class="mx-4 h-full cursor-pointer border-indigo-500 px-2 pt-4 align-middle text-base hover:border-b-4 hover:font-bold">关于</div>
+      </div>
+    </div>
+
+    <!-- 右侧区域 -->
+    <div class="right-area">
+      <a-button type="primary" size="large">登录</a-button>
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts">
-import {type ItemType} from 'ant-design-vue'
-import {ref} from 'vue'
-
-/** 菜单列表 */
-const menus = ref<ItemType[]>([
-  {
-    key: 'index',
-    label: '首页',
-    title: '首页',
-  },
-  {
-    key: 'task',
-    label: '任务',
-    title: '任务',
-  },
-  {
-    key: 'note',
-    label: '笔记',
-    title: '笔记',
-  },
-])
-</script>
+<script setup lang="ts"></script>
 
 <style scoped lang="scss"></style>

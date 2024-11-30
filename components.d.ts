@@ -18,6 +18,7 @@ declare module 'vue' {
     AInput: typeof import('ant-design-vue/es')['Input']
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AModal: typeof import('ant-design-vue/es')['Modal']
+    ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     ATypographyLink: typeof import('ant-design-vue/es')['TypographyLink']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     RouterLink: typeof import('vue-router')['RouterLink']
