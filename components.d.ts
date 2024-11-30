@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AAffix: typeof import('ant-design-vue/es')['Affix']
     AApp: typeof import('ant-design-vue/es')['App']
+    AAvatar: typeof import('ant-design-vue/es')['Avatar']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACheckbox: typeof import('ant-design-vue/es')['Checkbox']
     AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
