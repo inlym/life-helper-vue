@@ -1,10 +1,9 @@
 import {type AxiosHeaderValue, type InternalAxiosRequestConfig} from 'axios'
 import Base64 from 'crypto-js/enc-base64'
-import Hex from 'crypto-js/enc-hex'
 import hmacSHA256 from 'crypto-js/hmac-sha256'
 import md5 from 'crypto-js/md5'
-import {paramsSerializer} from './paramsSerializer'
 import {nanoid} from 'nanoid'
+import {paramsSerializer} from './paramsSerializer'
 
 /**
  * 阿里云 API 网关签名拦截器
