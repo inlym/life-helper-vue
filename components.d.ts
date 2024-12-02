@@ -24,6 +24,7 @@ declare module 'vue' {
     ATypographyLink: typeof import('ant-design-vue/es')['TypographyLink']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     ATypographyTitle: typeof import('ant-design-vue/es')['TypographyTitle']
+    AUpload: typeof import('ant-design-vue/es')['Upload']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheHeader: typeof import('./src/components/global/TheHeader.vue')['default']

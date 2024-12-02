@@ -7,6 +7,8 @@ import {useRequest, type Options, type Service} from 'vue-request'
  *
  * ### 使用说明
  * 当前方法用于在页面层级注册 HTTP 请求
+ *
+ * @deprecated
  */
 export function useHttp<R, P extends unknown[] = any>(service: Service<R, P>, options?: Options<R, P>) {
   // 对 `options` 进行默认值处理

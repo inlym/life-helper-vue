@@ -4,6 +4,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import DebugView from '@/views/debug/DebugView.vue'
+import DebugUpload from '@/views/debug/DebugUpload.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,12 @@ export const router = createRouter({
       path: '/debug',
       name: 'debug',
       component: DebugView,
+    },
+
+    {
+      path: '/debug/upload',
+      name: 'DebugUpload',
+      component: DebugUpload,
     },
   ],
 })
