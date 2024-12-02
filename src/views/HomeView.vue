@@ -1,7 +1,7 @@
 <template>
   <!-- 顶部导航栏 -->
   <a-affix :offset-top="0">
-    <div class="flex justify-center bg-white">
+    <div class="flex justify-center border-b bg-white">
       <div class="w-[1200px]"><TheHeader /></div>
     </div>
   </a-affix>
@@ -78,6 +78,60 @@
           <img :src="item" alt="" />
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- 底栏 -->
+  <div class="bg-gray-50">
+    <div class="mx-auto flex w-[1200px] justify-between p-14">
+      <!-- 左边 -->
+      <div class="flex w-[300px] flex-col">
+        <div class="text-2xl font-bold">小鸣助手</div>
+        <div class="mt-2 text-sm">一个生活提效工具</div>
+        <div class="mt-6 flex items-center">
+          <img class="h-20" src="https://static.weutil.com/web/jMck4Kiksnj7.jpg" alt="公众号二维码" />
+          <div class="ml-4 flex h-20 flex-col justify-around">
+            <div class="text-sm">微信扫码关注「小鸣 AI」</div>
+            <div class="text-xs text-slate-600">了解最新资讯，获得更多信息</div>
+          </div>
+        </div>
+      </div>
+      <!-- 右边 -->
+      <div class="flex justify-between">
+        <div class="w-[160px]">
+          <div class="text-base text-slate-600">产品</div>
+          <div class="mt-4 flex flex-col justify-between">
+            <div class="text-base">小鸣清单</div>
+            <div class="mt-4 text-base">小鸣 AI</div>
+            <div class="mt-4 text-base">小鸣保险箱</div>
+          </div>
+        </div>
+
+        <div class="w-[160px]">
+          <div class="text-base text-slate-600">服务支持</div>
+          <div class="mt-4 flex flex-col justify-between">
+            <div class="text-base">帮助中心</div>
+            <div class="mt-4 text-base">数据安全</div>
+            <div class="mt-4 text-base">服务协议</div>
+          </div>
+        </div>
+
+        <div class="w-[160px]">
+          <div class="text-base text-slate-600">关于</div>
+          <div class="mt-4 flex flex-col justify-between">
+            <div class="text-base">关于 WeUtil</div>
+            <div class="mt-4 text-base">联系我们</div>
+            <div class="mt-4 text-base">了解更多</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 最底部版权信息 -->
+  <div class="h-10 bg-slate-600 leading-10 text-white">
+    <div class="mx-auto w-[1200px] text-center">
+      © WeUtil.com 小鸣助手版权所有 ICP备案号：<a-typography-link href="https://beian.miit.gov.cn/" target="_blank">浙ICP备2024067463号-1 </a-typography-link>
     </div>
   </div>
 </template>
