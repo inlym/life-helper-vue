@@ -13,7 +13,7 @@
       <div class="flex flex-col justify-center">
         <a-typography-title :level="2">个人日程管理</a-typography-title>
         <a-typography-text>可互动的日程清单，随时随地管理你的生活</a-typography-text>
-        <a-button class="mt-8" size="large" :block="false">免费使用</a-button>
+        <a-button class="mt-8" size="large" :block="false" @click="showTips">免费使用</a-button>
       </div>
       <!-- 右侧区域 -->
       <img src="/images/banner01.png" alt="banner" />
@@ -137,7 +137,12 @@
 </template>
 
 <script lang="ts" setup>
+import {Modal} from 'ant-design-vue'
 import {ref} from 'vue'
+
+function showTips() {
+  Modal.info({title: '提示', content: '网站正在 ICP 备案中，暂时停止开放，预计将于1月1日重新上线！', okText: '我知道了'})
+}
 
 const features = ref([
   {
