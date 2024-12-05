@@ -8,14 +8,13 @@ import {createAliyunApigwSignatureInterceptor} from './axios/aliyunApigwSignatur
 import {authInterceptor} from './axios/authInterceptor'
 import {handleBusinessError} from './axios/handleBusinessError'
 import {paramsSerializer} from './axios/paramsSerializer'
+import {env} from './env'
 
-const appKey = import.meta.env.VITE_ALIYUN_APP_KEY
-const appSecret = import.meta.env.VITE_ALIYUN_APP_SECRET
-const jwk: JWK = JSON.parse(import.meta.env.VITE_ALIYUN_APIGW_JWT_KEYPAIR_JSON)
+const jwk: JWK = JSON.parse(env.ALIYUN_APIGW_JWT_KEYPAIR_JSON)
 
 /** HTTP 请求客户端实例 */
 export const instance = axios.create({
-  baseURL: import.meta.env.VITE_REQUEST_BASE_URL,
+  baseURL: env.REQUEST_BASE_URL,
 
   // HTTP 状态码校验，以下等同于不校验
   validateStatus: function (status: number): boolean {
@@ -26,7 +25,7 @@ export const instance = axios.create({
 })
 
 // 添加请求拦截器（注意：请求拦截器先添加的后执行）
-instance.interceptors.request.use(createAliyunApigwSignatureInterceptor(appKey, appSecret, false))
+instance.interceptors.request.use(createAliyunApigwSignatureInterceptor(env.ALIYUN_APP_KEY, env.ALIYUN_APP_SECRET, false))
 instance.interceptors.request.use(createAliyunApigwJwtAuthenticationInterceptor(jwk))
 instance.interceptors.request.use(authInterceptor)
 

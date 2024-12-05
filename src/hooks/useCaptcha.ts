@@ -1,3 +1,4 @@
+import {env} from '@/core/env'
 import {useScriptTag} from '@vueuse/core'
 
 /** 使用验证码方法参数 */
@@ -28,8 +29,8 @@ export function useCaptcha(options: UseCaptchaOptions) {
     scriptUrl,
     () => {
       initAliyunCaptcha({
-        SceneId: import.meta.env.VITE_ALIYUN_CAPTCHA_SCENE_ID,
-        prefix: import.meta.env.VITE_ALIYUN_CAPTCHA_PREFIX,
+        SceneId: env.ALIYUN_CAPTCHA_SCENE_ID,
+        prefix: env.ALIYUN_CAPTCHA_PREFIX,
         mode: 'popup',
         element: typeof options.element === 'string' ? options.element : '#captcha-element',
         button: typeof options.button === 'string' ? options.button : '#captcha-button',
