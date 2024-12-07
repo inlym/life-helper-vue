@@ -4,6 +4,7 @@ import {fileURLToPath, URL} from 'node:url'
 import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import {defineConfig} from 'vite'
+import obfuscatorPlugin from 'vite-plugin-javascript-obfuscator'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import pkg from './package.json'
 
@@ -17,6 +18,16 @@ export default defineConfig({
     // https://antdv.com/docs/vue/introduce-cn
     Components({
       resolvers: [AntDesignVueResolver({importStyle: false})],
+    }),
+
+    // 代码混淆插件
+    // https://github.com/elmeet/vite-plugin-javascript-obfuscator
+    obfuscatorPlugin({
+      include: ['src/**/*.ts'],
+      apply: 'build',
+      options: {
+        transformObjectKeys: true,
+      },
     }),
   ],
   resolve: {
