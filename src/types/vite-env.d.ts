@@ -11,12 +11,16 @@ interface ImportMetaEnv {
   readonly VITE_ALIYUN_APP_KEY: string
   /** 阿里云 API 网关摘要签名认证使用的 AppSecret */
   readonly VITE_ALIYUN_APP_SECRET: string
+  /** 阿里云 API 网关 JWT 认证插件配置，JSON 格式的 JWK 密钥对信息 */
+  readonly VITE_ALIYUN_APIGW_JWT_KEYPAIR_JSON: string
   /** 阿里云验证码服务场景 ID */
   readonly VITE_ALIYUN_CAPTCHA_SCENE_ID: string
   /** 阿里云验证码服务身份标 */
   readonly VITE_ALIYUN_CAPTCHA_PREFIX: string
-  /** 阿里云 API 网关 JWT 认证插件配置，JSON 格式的 JWK 密钥对信息 */
-  readonly VITE_ALIYUN_APIGW_JWT_KEYPAIR_JSON: string
+  /** 部署版本使用的“提交”对应的 commit ID */
+  readonly VITE_CI_COMMIT_SHA: string
+  /** 部署版本使用的“提交”分支名或标签名 */
+  readonly VITE_CI_COMMIT_REF_NAME: string
 }
 
 interface ImportMeta {

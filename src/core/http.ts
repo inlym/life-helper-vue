@@ -8,6 +8,7 @@ import {createAliyunApigwSignatureInterceptor} from './axios/aliyunApigwSignatur
 import {authInterceptor} from './axios/authInterceptor'
 import {handleBusinessError} from './axios/handleBusinessError'
 import {paramsSerializer} from './axios/paramsSerializer'
+import {clientInfoInterceptor} from './axios/clientInfoInterceptor'
 
 const appKey = import.meta.env.VITE_ALIYUN_APP_KEY
 const appSecret = import.meta.env.VITE_ALIYUN_APP_SECRET
@@ -29,6 +30,7 @@ export const instance = axios.create({
 instance.interceptors.request.use(createAliyunApigwSignatureInterceptor(appKey, appSecret, false))
 instance.interceptors.request.use(createAliyunApigwJwtAuthenticationInterceptor(jwk))
 instance.interceptors.request.use(authInterceptor)
+instance.interceptors.request.use(clientInfoInterceptor)
 
 // 添加相应拦截器
 instance.interceptors.response.use(handleBusinessError)
