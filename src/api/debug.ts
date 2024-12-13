@@ -29,13 +29,13 @@ export interface ServerInfo {
  * @date 2024/12/04
  */
 export function getServerInfo() {
-  return requestForData<ServerInfo>({method: 'get', url: '/debug/system/server'})
+  return requestForData<ServerInfo>({method: 'get', url: '/debug/system/server', requireAuth: false})
 }
 
 export function debug(id: number, name: string) {
-  return requestForData({method: 'post', url: '/debug', params: {id}, data: {name, age: 19}})
+  return requestForData({method: 'post', url: '/debug', params: {id}, data: {name, age: 19}, requireAuth: false})
 }
 
 export function debugData(data: any) {
-  return requestForData({method: 'post', url: '/debug/data', params: {id: 11111111}, data})
+  return requestForData({method: 'post', url: '/debug/data', params: {id: 11111111}, data, requireAuth: false})
 }

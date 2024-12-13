@@ -33,8 +33,21 @@ instance.interceptors.response.use(handleBusinessError)
 // 以 `http` 变量名导出
 export const http = instance
 
+export interface RequestForDataOptions {
+  /** 请求方法 */
+  method: 'get' | 'post' | 'put' | 'delete'
+  /** 请求路径 */
+  url: string
+  /** 请求参数 */
+  params?: Record<string, string | number | boolean>
+  /** 请求数据 */
+  data?: any
+  /** 是否需要权限 */
+  requireAuth: boolean
+}
+
 /** 封装内部使用请求客户端 */
-export async function requestForData<T = any>(config: AxiosRequestConfig): Promise<T> {
+export async function requestForData<T = any>(config: RequestForDataOptions): Promise<T> {
   const response = await instance(config)
   return response.data
 }
