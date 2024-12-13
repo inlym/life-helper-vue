@@ -1,6 +1,6 @@
 import type {IdentityCertificate} from '@/core/auth'
 import {requestForData} from '@/core/http'
-import {type ErrorResponse} from '@/core/model'
+import {type ResponseData} from '@/core/model'
 
 export interface CheckTicket {
   /** 校验码 */
@@ -8,7 +8,7 @@ export interface CheckTicket {
 }
 
 /** 短信发送速率超出限制异常响应数据 */
-export interface SmsRateLimitExceededError extends ErrorResponse {
+export interface SmsRateLimitExceededError extends ResponseData {
   remainingSeconds: number
 }
 

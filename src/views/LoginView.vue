@@ -56,11 +56,11 @@
 </template>
 
 <script lang="ts" setup>
+import {loginBySmsCode, sendSms, type SmsRateLimitExceededError} from '@/api/login'
 import {type IdentityCertificate, saveIdentityCertificate} from '@/core/auth'
-import {useData} from '@/core/http'
 import {BusinessError} from '@/core/model'
 import {showSimpleDialog} from '@/core/view'
-import {loginBySmsCode, sendSms, type SmsRateLimitExceededError} from '@/api/login'
+import {useHttp} from '@/hooks/useHttp'
 import {useTimestamp} from '@vueuse/core'
 import {message} from 'ant-design-vue'
 import type {FormInstance, Rule} from 'ant-design-vue/es/form'
@@ -72,9 +72,10 @@ const router = useRouter()
 // ============================= 注册页面请求 =============================
 
 // 发送短信验证码
-const {data: data1, error: error1, loading: loading1, run: run1} = useData(sendSms)
+const {data: data1, error: error1, loading: loading1, run: run1} = useHttp(sendSms)
+
 // 使用短信验证码登录
-const {loading: loading2, run: run2} = useData(loginBySmsCode, {onSuccess: afterLogin})
+const {loading: loading2, run: run2} = useHttp(loginBySmsCode, {onSuccess: afterLogin})
 
 // ============================= 响应数据处理 =============================
 

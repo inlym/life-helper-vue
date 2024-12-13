@@ -13,23 +13,26 @@ export function useHttp<R, P extends unknown[] = any>(service: Service<R, P>, op
   if (options === undefined) {
     options = {}
   }
+
   if (options.manual === undefined) {
+    // 默认手动触发请求
     options.manual = true
   }
   if (options.loadingDelay === undefined) {
+    // 延迟 500ms （而不是立即）才将 loading 由 false 改为 true
     options.loadingDelay = 500
   }
   if (options.loadingKeep === undefined) {
+    // loading 后的持续时间
     options.loadingKeep = 1000
   }
+
   // 发生错误时，自动弹窗提示
   if (options.onError === undefined) {
     options.onError = (error: Error) => {
       if (error instanceof BusinessError) {
-        // 已经在 axios 拦截器中处理，将错误封装为了 `BusinessError`，因此发生错误一定会进入这一个分支
-        if (!error.handled) {
-          Modal.info({title: '提示', content: error.errorMessage, okText: '我知道了'})
-        }
+        // 普通业务错误，直接抛出弹窗提示
+        Modal.info({title: '提示', content: error.errorMessage, okText: '我知道了'})
       }
     }
   }
