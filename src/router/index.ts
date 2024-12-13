@@ -6,6 +6,7 @@ import LoginView from '@/views/LoginView.vue'
 import DebugView from '@/views/debug/DebugView.vue'
 import DebugUpload from '@/views/debug/DebugUpload.vue'
 import DebugServer from '@/views/debug/DebugServer.vue'
+import ReminderView from '@/views/reminder/ReminderView.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,16 @@ export const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+    },
+
+    // 待办任务功能主页
+    {
+      path: '/reminder',
+      name: 'reminder',
+      component: ReminderView,
+      meta: {
+        requireAuth: true,
+      },
     },
 
     {

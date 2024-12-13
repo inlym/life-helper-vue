@@ -1,6 +1,6 @@
+import {router} from '@/router'
 import type {InternalAxiosRequestConfig} from 'axios'
 import {getIdentityCertificate} from '../auth'
-import {useRouter} from 'vue-router'
 
 /** 鉴权拦截器 */
 export function authInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
@@ -10,7 +10,7 @@ export function authInterceptor(config: InternalAxiosRequestConfig): InternalAxi
 
   if (!cert && config.requireAuth) {
     // 需要登录但未登录，则跳转登录页
-    useRouter().push({name: 'login'})
+    router.push({name: 'login'})
   }
 
   return config
