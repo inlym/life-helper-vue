@@ -20,12 +20,12 @@
 
 <script setup lang="ts">
 import {getServerInfo} from '@/api/debug'
-import {useData} from '@/core/http'
+import {useHttp} from '@/hooks/useHttp'
 
 // ============================= 注册页面请求 =============================
 
 // 获取服务器信息
-const {data: server} = useData(getServerInfo, {manual: false})
+const {data: server} = useHttp(getServerInfo, {manual: false})
 </script>
 
 <style scoped lang="scss"></style>
