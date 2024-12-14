@@ -4,6 +4,9 @@
 export enum StorageKey {
   /** 访问凭据 */
   ACCESS_TOKEN = 'WEUTIL_ACCESS_TOKEN',
+
+  /** 重定向 URL */
+  REDIRECT_URL = 'WEUTIL_REDIRECT_URL',
 }
 
 /** 静态资源 */

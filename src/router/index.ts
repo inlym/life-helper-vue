@@ -1,12 +1,13 @@
+import LoginView from '@/views/LoginView.vue'
+import DebugServer from '@/views/debug/DebugServer.vue'
+import DebugUpload from '@/views/debug/DebugUpload.vue'
+import DebugView from '@/views/debug/DebugView.vue'
 import PrivacyView from '@/views/policy/PrivacyView.vue'
 import TermsView from '@/views/policy/TermsView.vue'
+import ReminderView from '@/views/reminder/ReminderView.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import LoginView from '@/views/LoginView.vue'
-import DebugView from '@/views/debug/DebugView.vue'
-import DebugUpload from '@/views/debug/DebugUpload.vue'
-import DebugServer from '@/views/debug/DebugServer.vue'
-import ReminderView from '@/views/reminder/ReminderView.vue'
+import {loginGuard} from './guards/loginGuard'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -78,3 +79,5 @@ export const router = createRouter({
     },
   ],
 })
+
+router.beforeEach(loginGuard)

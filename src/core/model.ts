@@ -34,3 +34,15 @@ export class BusinessError extends Error {
     this.errorMessage = data.errorMessage
   }
 }
+
+/**
+ * 已解决的错误
+ *
+ * ### 使用说明
+ * 部分流程中，虽然已解决问题，但是只能抛出错误中断流程，此时抛出该错误。
+ */
+export class SolvedError extends Error {
+  constructor(message: string) {
+    super(message)
+  }
+}

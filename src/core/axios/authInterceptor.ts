@@ -2,6 +2,7 @@ import {router} from '@/router'
 import type {InternalAxiosRequestConfig} from 'axios'
 import {getIdentityCertificate} from '../auth'
 import {Modal} from 'ant-design-vue'
+import {SolvedError} from '../model'
 
 /** 鉴权拦截器 */
 export function authInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
@@ -27,7 +28,7 @@ export function authInterceptor(config: InternalAxiosRequestConfig): InternalAxi
     })
 
     // 抛出错误，暂停执行
-    throw new Error('未登录')
+    throw new SolvedError('未登录')
   }
 
   return config

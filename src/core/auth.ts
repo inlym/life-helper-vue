@@ -21,7 +21,11 @@ export function getIdentityCertificate(): IdentityCertificate | null {
 
     // 判断是否已过期
     if (dayjs(cert.expireTime).isAfter(dayjs())) {
+      // 未过期则可以使用，直接返回
       return cert
+    } else {
+      // 已过期则直接删除本地记录
+      localStorage.removeItem(StorageKey.ACCESS_TOKEN)
     }
   }
 
