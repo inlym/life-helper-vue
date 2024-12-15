@@ -175,6 +175,8 @@ function onHttp2Success(data: IdentityCertificate) {
   if (redirectUrl) {
     localStorage.removeItem(StorageKey.REDIRECT_URL)
     router.replace(redirectUrl)
+  } else {
+    router.replace('/')
   }
 
   message.success('登录成功！正在为你跳转页面 ...')

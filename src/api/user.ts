@@ -20,7 +20,11 @@ export interface BaseUserInfoDTO {
  * 获取基础用户信息
  */
 export function getUserInfo() {
-  return requestForData<BaseUserInfo>({method: 'get', url: '/user-info/base', requireAuth: true})
+  return requestForData<BaseUserInfo>({
+    method: 'get',
+    url: '/user-info/base',
+    requireAuth: true,
+  })
 }
 
 /**
@@ -29,5 +33,10 @@ export function getUserInfo() {
  * @param data 请求数据
  */
 export function updateUserInfo(data: BaseUserInfoDTO) {
-  return requestForData<BaseUserInfo>({method: 'post', url: '/user-info/base', data, requireAuth: true})
+  return requestForData<BaseUserInfo>({
+    method: 'post',
+    url: '/user-info/base',
+    data,
+    requireAuth: true,
+  })
 }
