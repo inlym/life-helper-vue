@@ -5,6 +5,7 @@ import LoginView from '@/views/login/LoginView.vue'
 import PrivacyView from '@/views/policy/PrivacyView.vue'
 import TermsView from '@/views/policy/TermsView.vue'
 import ReminderView from '@/views/reminder/ReminderView.vue'
+import UserCenter from '@/views/user/UserCenter.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import {loginGuard} from './guards/loginGuard'
@@ -31,6 +32,17 @@ export const router = createRouter({
       meta: {
         title: '登录',
         requireAuth: false,
+      },
+    },
+
+    // 用户中心
+    {
+      path: '/me',
+      name: 'UserCenter',
+      component: UserCenter,
+      meta: {
+        title: '个人中心',
+        requireAuth: true,
       },
     },
 

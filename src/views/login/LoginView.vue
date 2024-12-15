@@ -40,6 +40,7 @@ import {message, Modal} from 'ant-design-vue'
 import {saveIdentityCertificate, type IdentityCertificate} from '@/core/auth'
 import {StorageKey} from '@/core/constant'
 import {useRouter} from 'vue-router'
+import {useUserStore} from '@/stores/user'
 
 const router = useRouter()
 
@@ -176,10 +177,14 @@ function onHttp2Success(data: IdentityCertificate) {
     localStorage.removeItem(StorageKey.REDIRECT_URL)
     router.replace(redirectUrl)
   } else {
-    router.replace('/')
+    router.replace('/me')
   }
 
   message.success('登录成功！正在为你跳转页面 ...')
+
+  // 再更新下个人资料
+  const userStore = useUserStore()
+  userStore.update()
 }
 </script>
 
