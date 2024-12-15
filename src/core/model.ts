@@ -46,3 +46,6 @@ export class SolvedError extends Error {
     super(message)
   }
 }
+
+/** 空函数，用于覆盖一些默认行为 */
+export const EMPTY_FUNCTION = () => {}

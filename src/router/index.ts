@@ -1,7 +1,7 @@
-import LoginView from '@/views/LoginView.vue'
 import DebugServer from '@/views/debug/DebugServer.vue'
 import DebugUpload from '@/views/debug/DebugUpload.vue'
 import DebugView from '@/views/debug/DebugView.vue'
+import LoginView from '@/views/login/LoginView.vue'
 import PrivacyView from '@/views/policy/PrivacyView.vue'
 import TermsView from '@/views/policy/TermsView.vue'
 import ReminderView from '@/views/reminder/ReminderView.vue'
@@ -18,15 +18,20 @@ export const router = createRouter({
       name: 'Root',
       component: HomeView,
       meta: {
-        title: '小鸣助手',
+        title: '首页',
         requireAuth: false,
       },
     },
 
+    // 登录页
     {
       path: '/login',
       name: 'login',
       component: LoginView,
+      meta: {
+        title: '登录',
+        requireAuth: false,
+      },
     },
 
     // 待办任务功能主页
