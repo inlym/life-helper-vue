@@ -9,6 +9,7 @@ import UserCenter from '@/views/user/UserCenter.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import {loginGuard} from './guards/loginGuard'
+import {titleGuard} from './guards/titleGuard'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,7 +20,6 @@ export const router = createRouter({
       name: 'Root',
       component: HomeView,
       meta: {
-        title: '首页',
         requireAuth: false,
       },
     },
@@ -98,3 +98,4 @@ export const router = createRouter({
 })
 
 router.beforeEach(loginGuard)
+router.beforeEach(titleGuard)
