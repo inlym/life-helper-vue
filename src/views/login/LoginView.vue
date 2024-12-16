@@ -170,21 +170,27 @@ function onBtn2Click() {
   }
 }
 
-function onHttp2Success(data: IdentityCertificate) {
-  saveIdentityCertificate(data)
+function getRedirectUrl() {
   const redirectUrl = localStorage.getItem(StorageKey.REDIRECT_URL)
   if (redirectUrl) {
     localStorage.removeItem(StorageKey.REDIRECT_URL)
-    router.replace(redirectUrl)
+    return redirectUrl
   } else {
-    router.replace('/me')
+    return '/me'
   }
+}
+
+async function onHttp2Success(data: IdentityCertificate) {
+  saveIdentityCertificate(data)
 
   message.success('登录成功！正在为你跳转页面 ...')
 
   // 再更新下个人资料
   const userStore = useUserStore()
-  userStore.update()
+  await userStore.update()
+
+  // 都完成了再跳转
+  router.replace(getRedirectUrl())
 }
 </script>
 
