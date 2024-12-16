@@ -52,3 +52,15 @@ export function updateUserInfo(data: BaseUserInfoDTO) {
 export function updateNickName(nickName: string) {
   return updateUserInfo({nickName})
 }
+
+/**
+ * 修改头像
+ *
+ * @param avatarKey 头像在 OSS 的存储路径
+ *
+ * @since 3.0.0
+ * @date 2024/12/17
+ */
+export function updateAvatar(avatarKey: string) {
+  return updateUserInfo({avatarKey})
+}

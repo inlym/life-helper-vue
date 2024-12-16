@@ -5,7 +5,10 @@
     <div class="flex w-[450px] flex-col rounded-lg bg-white p-10 shadow-md">
       <a-descriptions title="个人资料" :column="1" bordered>
         <a-descriptions-item label="头像">
-          <a-avatar :size="100" :src="userStore.avatarUrl" />
+          <div class="flex items-center justify-between">
+            <a-avatar :size="100" :src="userStore.avatarUrl" />
+            <UploadAvatar />
+          </div>
         </a-descriptions-item>
 
         <a-descriptions-item label="昵称">
@@ -26,6 +29,7 @@
 import {useUserStore} from '@/stores/user'
 import {ref} from 'vue'
 import EditNickNameDialog from './components/EditNickNameDialog.vue'
+import UploadAvatar from './components/UploadAvatar.vue'
 
 const userStore = useUserStore()
 
