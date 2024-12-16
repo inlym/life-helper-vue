@@ -48,6 +48,8 @@ const inputNickName = ref(initNickName)
 // #################### 对话框[取消]按钮 ####################
 
 function OnCancel() {
+  // 重置输入框内容
+  inputNickName.value = initNickName
   open.value = false
 }
 
