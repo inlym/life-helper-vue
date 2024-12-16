@@ -34,9 +34,21 @@ export function getUserInfo() {
  */
 export function updateUserInfo(data: BaseUserInfoDTO) {
   return requestForData<BaseUserInfo>({
-    method: 'post',
+    method: 'put',
     url: '/user-info/base',
     data,
     requireAuth: true,
   })
+}
+
+/**
+ * 修改用户昵称
+ *
+ * @param nickName 用户昵称
+ *
+ * @since 3.0.0
+ * @date 2024/12/16
+ */
+export function updateNickName(nickName: string) {
+  return updateUserInfo({nickName})
 }

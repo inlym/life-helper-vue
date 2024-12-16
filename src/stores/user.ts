@@ -2,7 +2,7 @@ import {defineStore} from 'pinia'
 import {requestForData} from '@/core/http'
 import {ref} from 'vue'
 import {StaticResource} from '@/core/constant'
-import {getUserInfo} from '@/api/user'
+import {getUserInfo, type BaseUserInfo} from '@/api/user'
 
 export const useUserStore = defineStore(
   'user',
@@ -14,6 +14,12 @@ export const useUserStore = defineStore(
     /** 头像的完整 URL 地址 */
     const avatarUrl = ref(StaticResource.DEFAULT_AVATAR.toString())
 
+    /** 保存 */
+    function save(info: BaseUserInfo) {
+      nickName.value = info.nickName
+      avatarUrl.value = info.avatarUrl
+    }
+
     /** 更新资料 */
     async function update() {
       const result = await getUserInfo()
@@ -22,7 +28,7 @@ export const useUserStore = defineStore(
       avatarUrl.value = result.avatarUrl
     }
 
-    return {nickName, avatarUrl, update}
+    return {nickName, avatarUrl, save, update}
   },
 
   {
