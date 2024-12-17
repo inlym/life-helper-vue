@@ -1,34 +1,42 @@
-import {defineStore} from 'pinia'
-import {requestForData} from '@/core/http'
-import {ref} from 'vue'
-import {StaticResource} from '@/core/constant'
 import {getUserInfo, type BaseUserInfo} from '@/api/user'
+import {StaticResource} from '@/core/constant'
+import {defineStore} from 'pinia'
+import {ref} from 'vue'
 
 export const useUserStore = defineStore(
   'user',
 
   () => {
     /** 昵称 */
-    const nickName = ref('小鸣助手用户')
+    const nickName = ref('')
 
     /** 头像的完整 URL 地址 */
-    const avatarUrl = ref(StaticResource.DEFAULT_AVATAR.toString())
+    const avatarUrl = ref('')
+
+    /** 是否已获取 */
+    const isAcquired = ref(false)
 
     /** 保存 */
     function save(info: BaseUserInfo) {
       nickName.value = info.nickName
       avatarUrl.value = info.avatarUrl
+      isAcquired.value = true
     }
 
     /** 更新资料 */
     async function update() {
       const result = await getUserInfo()
 
-      nickName.value = result.nickName
-      avatarUrl.value = result.avatarUrl
+      save(result)
     }
 
-    return {nickName, avatarUrl, save, update}
+    function clear() {
+      nickName.value = ''
+      avatarUrl.value = ''
+      isAcquired.value = false
+    }
+
+    return {nickName, avatarUrl, isAcquired, save, update, clear}
   },
 
   {

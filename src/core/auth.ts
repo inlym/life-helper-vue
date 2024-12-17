@@ -43,3 +43,8 @@ export function saveIdentityCertificate(cert: IdentityCertificate) {
 export function isLogined(): boolean {
   return !!getIdentityCertificate()
 }
+
+/** 清除身份证书 */
+export function clearIdentityCertificate() {
+  localStorage.removeItem(StorageKey.ACCESS_TOKEN)
+}
