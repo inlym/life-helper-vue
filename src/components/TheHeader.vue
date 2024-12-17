@@ -5,7 +5,7 @@
     <div class="left-area flex h-full items-center">
       <!-- logo 图片 -->
       <img class="mr-2 h-10" src="/images/logo.png" alt="logo" />
-      <a-tooltip>
+      <a-tooltip :getPopupContainer="getTooltipContainer">
         <template #title>目前为 Beta 版本，将于公测完毕后发布稳定版本</template>
         <div class="mr-10 mt-2 cursor-help">
           <a-tag color="red">Beta</a-tag>
@@ -15,7 +15,7 @@
       <div class="flex-1"></div>
       <!-- 菜单组 -->
       <a-space>
-        <a-button type="text" size="large">首页</a-button>
+        <a-button type="text" size="large" @click="goToIndex">首页</a-button>
         <a-button type="text" size="large" @click="showTips">产品</a-button>
         <a-button type="text" size="large" @click="showTips">帮助与支持</a-button>
         <a-button type="text" size="large" @click="showTips">关于</a-button>
@@ -29,11 +29,15 @@
       <!-- 已登录情况 -->
       <a-popover v-else trigger="click" placement="bottomRight" :getPopupContainer="getPopoverContainer">
         <template #content>
-          <div class="w-[160px]">
+          <div class="w-[180px]">
             <!-- 头像、昵称区域 -->
             <div class="flex h-[60px] items-center rounded-md bg-slate-50">
-              <a-avatar class="cursor-pointer" :src="avatarUrl" :size="46" />
-              <a-typography-text class="ml-4 flex-1" strong ellipsis>{{ nickName }}</a-typography-text>
+              <!-- 左边放头像，右边放昵称和 UID -->
+              <a-avatar class="cursor-pointer" :src="avatarUrl" :size="50" />
+              <div class="ml-4 flex flex-1 flex-col items-start justify-between">
+                <a-typography-text v-model:content="nickName" strong ellipsis></a-typography-text>
+                <a-typography-text type="secondary">uid: {{ accountId }}</a-typography-text>
+              </div>
             </div>
             <!-- 菜单列表区域 -->
             <div class="mt-2 pt-2 text-base">
@@ -64,15 +68,23 @@ import {useRouter} from 'vue-router'
 
 const router = useRouter()
 const userStore = useUserStore()
-const {nickName, avatarUrl, isAcquired} = storeToRefs(userStore)
+const {nickName, avatarUrl, accountId, isAcquired} = storeToRefs(userStore)
 
 // 避免弹出组件跟随屏幕滚动
 function getPopoverContainer() {
   return document.querySelector('.right-area')
 }
 
+function getTooltipContainer() {
+  return document.querySelector('.left-area')
+}
+
 function goToUserHome() {
   router.push('/me')
+}
+
+function goToIndex() {
+  router.push('/')
 }
 
 function goToLoginPage() {

@@ -13,6 +13,9 @@ export const useUserStore = defineStore(
     /** 头像的完整 URL 地址 */
     const avatarUrl = ref('')
 
+    /** 账户 ID */
+    const accountId = ref(0)
+
     /** 是否已获取 */
     const isAcquired = ref(false)
 
@@ -20,6 +23,8 @@ export const useUserStore = defineStore(
     function save(info: BaseUserInfo) {
       nickName.value = info.nickName
       avatarUrl.value = info.avatarUrl
+      accountId.value = info.accountId
+
       isAcquired.value = true
     }
 
@@ -33,10 +38,11 @@ export const useUserStore = defineStore(
     function clear() {
       nickName.value = ''
       avatarUrl.value = ''
+      accountId.value = 0
       isAcquired.value = false
     }
 
-    return {nickName, avatarUrl, isAcquired, save, update, clear}
+    return {nickName, avatarUrl, accountId, isAcquired, save, update, clear}
   },
 
   {

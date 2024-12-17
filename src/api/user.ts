@@ -6,6 +6,8 @@ export interface BaseUserInfo {
   nickName: string
   /** 头像的完整 URL 地址 */
   avatarUrl: string
+  /** 账户 ID (uid) */
+  accountId: number
 }
 
 /** 修改基础用户信息时的请求数据 */

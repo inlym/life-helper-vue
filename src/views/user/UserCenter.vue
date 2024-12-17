@@ -17,6 +17,13 @@
             <a-button @click="dialog1Open = true">修改</a-button>
           </div>
         </a-descriptions-item>
+
+        <a-descriptions-item label="UID">
+          <div class="flex items-center justify-between">
+            <div>{{ userStore.accountId }}</div>
+            <a-button @click="onCopy">复制</a-button>
+          </div>
+        </a-descriptions-item>
       </a-descriptions>
     </div>
   </div>
@@ -27,6 +34,8 @@
 
 <script setup lang="ts">
 import {useUserStore} from '@/stores/user'
+import {useClipboard} from '@vueuse/core'
+import {message} from 'ant-design-vue'
 import {ref} from 'vue'
 import EditNickNameDialog from './components/EditNickNameDialog.vue'
 import UploadAvatar from './components/UploadAvatar.vue'
@@ -39,6 +48,12 @@ const userStore = useUserStore()
 
 /** [修改昵称]弹窗 - 是否打开 */
 const dialog1Open = ref(false)
+
+function onCopy() {
+  const {copy} = useClipboard()
+  copy(String(userStore.accountId))
+  message.success('复制成功')
+}
 </script>
 
 <style scoped lang="scss"></style>
