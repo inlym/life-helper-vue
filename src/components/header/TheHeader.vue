@@ -74,7 +74,7 @@ const {logined} = storeToRefs(authStore)
 const {nickName, avatarUrl, accountId, isAcquired} = storeToRefs(userStore)
 
 if (!isAcquired.value) {
-  userStore.update()
+  userStore.updateIfLogined()
 }
 
 // 避免弹出组件跟随屏幕滚动

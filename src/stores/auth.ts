@@ -12,7 +12,6 @@ export const useAuthStore = defineStore(
     const logined = ref(isLogined())
 
     function invalid() {
-      console.log('invalid store')
       logined.value = false
     }
 
