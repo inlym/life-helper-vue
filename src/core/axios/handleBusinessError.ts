@@ -3,6 +3,8 @@ import {Modal} from 'ant-design-vue'
 import {type AxiosResponse} from 'axios'
 import {logger} from '../logger'
 import {BusinessError, SolvedError, type CommonResponse} from '../model'
+import {useAuthStore} from '@/stores/auth'
+import {clearIdentityCertificate} from '../auth'
 
 /** 封装处理业务错误 */
 export function handleBusinessError(response: AxiosResponse<CommonResponse>): AxiosResponse {
@@ -24,6 +26,10 @@ export function handleBusinessError(response: AxiosResponse<CommonResponse>): Ax
         },
       })
 
+      // 标记为“未登录”状态
+      useAuthStore().invalid()
+      // 清除本地身份证书
+      clearIdentityCertificate()
       // 抛出错误，暂停执行
       throw new SolvedError('未登录')
     } else {

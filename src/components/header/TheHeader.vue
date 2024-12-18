@@ -25,7 +25,7 @@
     <!-- 右侧区域 -->
     <div class="right-area">
       <!-- 未登录情况 -->
-      <a-button v-if="!isAcquired" type="primary" size="large" @click="goToLoginPage">登录</a-button>
+      <a-button v-if="!logined" type="primary" size="large" @click="goToLoginPage">登录</a-button>
       <!-- 已登录情况 -->
       <a-popover v-else trigger="click" placement="bottomRight" :getPopupContainer="getPopoverContainer">
         <template #content>
@@ -45,7 +45,7 @@
                 <HomeFilled />
                 <a-typography-text class="ml-2 text-base">我的主页</a-typography-text>
               </div>
-              <div class="my-2 flex h-10 cursor-pointer items-center rounded-md pl-4 hover:bg-slate-200" @click="logout">
+              <div class="my-2 flex h-10 cursor-pointer items-center rounded-md pl-4 hover:bg-slate-200" @click="onLogoutBtnClick">
                 <CloseCircleFilled />
                 <a-typography-text class="ml-2 text-base">退出登录</a-typography-text>
               </div>
@@ -59,16 +59,23 @@
 </template>
 
 <script setup lang="ts">
-import {clearIdentityCertificate} from '@/core/auth'
+import {useAuthStore} from '@/stores/auth'
 import {useUserStore} from '@/stores/user'
 import {CloseCircleFilled, HomeFilled} from '@ant-design/icons-vue'
-import {message, Modal} from 'ant-design-vue'
+import {Modal} from 'ant-design-vue'
 import {storeToRefs} from 'pinia'
 import {useRouter} from 'vue-router'
 
 const router = useRouter()
+const authStore = useAuthStore()
 const userStore = useUserStore()
+
+const {logined} = storeToRefs(authStore)
 const {nickName, avatarUrl, accountId, isAcquired} = storeToRefs(userStore)
+
+if (!isAcquired.value) {
+  userStore.update()
+}
 
 // 避免弹出组件跟随屏幕滚动
 function getPopoverContainer() {
@@ -92,16 +99,8 @@ function goToLoginPage() {
 }
 
 /** 点击[退出登录] */
-function logout() {
-  Modal.confirm({
-    title: '提示',
-    content: '是否确认退出登录？',
-    onOk: () => {
-      clearIdentityCertificate()
-      userStore.clear()
-      message.success('你已退出登录')
-    },
-  })
+function onLogoutBtnClick() {
+  authStore.logout()
 }
 
 function showTips() {

@@ -1,6 +1,7 @@
 <template>
+  <FixedHeader />
   <!-- 与屏幕等宽高的容器 -->
-  <div class="flex h-screen items-center justify-center bg-gray-100">
+  <div class="flex items-center justify-center bg-gray-100 py-[300px]">
     <!-- 居中的容器 -->
     <div class="flex w-[450px] flex-col rounded-lg bg-white p-10 shadow-md">
       <a-descriptions title="个人资料" :column="1" bordered>

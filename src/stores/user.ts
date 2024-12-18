@@ -1,5 +1,4 @@
 import {getUserInfo, type BaseUserInfo} from '@/api/user'
-import {StaticResource} from '@/core/constant'
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
 
@@ -43,9 +42,5 @@ export const useUserStore = defineStore(
     }
 
     return {nickName, avatarUrl, accountId, isAcquired, save, update, clear}
-  },
-
-  {
-    persist: true,
   },
 )

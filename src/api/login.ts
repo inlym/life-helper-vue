@@ -1,4 +1,3 @@
-import type {IdentityCertificate} from '@/core/auth'
 import {requestForData} from '@/core/http'
 import {type ResponseData} from '@/core/model'
 
@@ -6,6 +5,18 @@ import {type ResponseData} from '@/core/model'
 export interface SmsRateLimitExceededResponse extends ResponseData {
   /** 剩余的等待秒数 */
   remainingSeconds: number
+}
+
+/** 身份证书 */
+export interface IdentityCertificate {
+  /** 鉴权令牌 */
+  token: string
+  /** 发起请求时，携带令牌的请求头名称 */
+  headerName: string
+  /** 创建时间 */
+  createTime: string
+  /** 过期时间 */
+  expireTime: string
 }
 
 /**

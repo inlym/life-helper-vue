@@ -27,9 +27,10 @@ declare module 'vue' {
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     ATypographyTitle: typeof import('ant-design-vue/es')['TypographyTitle']
     AUpload: typeof import('ant-design-vue/es')['Upload']
+    FixedHeader: typeof import('./src/components/header/FixedHeader.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TheHeader: typeof import('./src/components/TheHeader.vue')['default']
+    TheHeader: typeof import('./src/components/header/TheHeader.vue')['default']
     UploadImage: typeof import('./src/components/UploadImage.vue')['default']
   }
 }
