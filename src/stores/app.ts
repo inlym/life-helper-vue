@@ -11,8 +11,7 @@ export const useAppStore = defineStore(
     /** 主题配置 */
     const themeConfig = ref({
       token: {
-        // 使用“青葱色”作为品牌色
-        colorPrimary: '#0eb83a',
+        colorPrimary: '#2aae67',
       },
     })
 
