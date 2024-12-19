@@ -8,6 +8,7 @@ import {router} from './router'
 
 import 'ant-design-vue/dist/reset.css'
 import 'tailwindcss/tailwind.css'
+import '@icon-park/vue-next/styles/index.css'
 
 const app = createApp(App)
 

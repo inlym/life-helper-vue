@@ -42,12 +42,12 @@
             <!-- 菜单列表区域 -->
             <div class="mt-2 pt-2 text-base">
               <div class="flex h-10 cursor-pointer items-center rounded-md pl-4 hover:bg-slate-200" @click="goToUserHome">
-                <HomeFilled />
-                <a-typography-text class="ml-2 text-base">我的主页</a-typography-text>
+                <people theme="outline" size="20" />
+                <a-typography-text class="ml-4 text-base">我的主页</a-typography-text>
               </div>
               <div class="my-2 flex h-10 cursor-pointer items-center rounded-md pl-4 hover:bg-slate-200" @click="onLogoutBtnClick">
-                <CloseCircleFilled />
-                <a-typography-text class="ml-2 text-base">退出登录</a-typography-text>
+                <power theme="outline" size="20" />
+                <a-typography-text class="ml-4 text-base">退出登录</a-typography-text>
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@
 <script setup lang="ts">
 import {useAuthStore} from '@/stores/auth'
 import {useUserStore} from '@/stores/user'
-import {CloseCircleFilled, HomeFilled} from '@ant-design/icons-vue'
+import {People, Power} from '@icon-park/vue-next'
 import {Modal} from 'ant-design-vue'
 import {storeToRefs} from 'pinia'
 import {useRouter} from 'vue-router'
