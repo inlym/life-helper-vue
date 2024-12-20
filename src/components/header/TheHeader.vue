@@ -27,7 +27,7 @@
       <!-- 未登录情况 -->
       <a-button v-if="!logined" type="primary" size="large" @click="goToLoginPage">登录</a-button>
       <!-- 已登录情况 -->
-      <a-popover v-else trigger="click" placement="bottomRight" :getPopupContainer="getPopoverContainer">
+      <a-popover v-model:open="pop1Open" v-else trigger="click" placement="bottomRight" :getPopupContainer="getPopoverContainer">
         <template #content>
           <div class="w-[180px]">
             <!-- 头像、昵称区域 -->
@@ -64,9 +64,11 @@ import {useUserStore} from '@/stores/user'
 import {People, Power} from '@icon-park/vue-next'
 import {Modal} from 'ant-design-vue'
 import {storeToRefs} from 'pinia'
-import {useRouter} from 'vue-router'
+import {ref} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const userStore = useUserStore()
 
@@ -76,6 +78,9 @@ const {nickName, avatarUrl, accountId, isAcquired} = storeToRefs(userStore)
 if (!isAcquired.value) {
   userStore.updateIfLogined()
 }
+
+/** 点击头像后的浮层是否展示 */
+const pop1Open = ref(false)
 
 // 避免弹出组件跟随屏幕滚动
 function getPopoverContainer() {
@@ -87,7 +92,11 @@ function getTooltipContainer() {
 }
 
 function goToUserHome() {
-  router.push('/me')
+  pop1Open.value = false
+
+  if (route.path !== '/me') {
+    router.push('/me')
+  }
 }
 
 function goToIndex() {
@@ -100,6 +109,7 @@ function goToLoginPage() {
 
 /** 点击[退出登录] */
 function onLogoutBtnClick() {
+  pop1Open.value = false
   authStore.logout()
 }
 

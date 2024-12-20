@@ -16,7 +16,7 @@
         </div>
       </div>
       <!-- [登录/注册]按钮 - btn2 -->
-      <a-button :disabled="btn2Disabled" :loading="btn2.loading" block class="mt-20" size="large" type="primary" @click="onBtn2Click">登录/注册</a-button>
+      <a-button :disabled="btn2Disabled" :loading="btn2.loading" block class="mt-20" size="large" type="primary" @click="onBtn2Click">登录 / 注册</a-button>
       <!-- 隐私协议政策 -->
       <PolicyLine class="mt-4" v-model:checked="policyChecked" />
     </div>
@@ -29,20 +29,22 @@
 </template>
 
 <script setup lang="ts">
-import {loginBySmsCode, sendSms, type SmsRateLimitExceededResponse} from '@/api/login'
-import {useHttp} from '@/hooks/useHttp'
-import {computed, onUnmounted, reactive, ref, watch} from 'vue'
-import PolicyLine from './components/PolicyLine.vue'
-import {useCaptcha} from '@/hooks/useCaptcha'
+import {loginBySmsCode, sendSms, type IdentityCertificate, type SmsRateLimitExceededResponse} from '@/api/login'
+import {StorageKey} from '@/core/constant'
 import {BusinessError, EMPTY_FUNCTION} from '@/core/model'
+import {useCaptcha} from '@/hooks/useCaptcha'
+import {useHttp} from '@/hooks/useHttp'
+import {useAuthStore} from '@/stores/auth'
+import {useUserStore} from '@/stores/user'
 import {useIntervalFn} from '@vueuse/core'
 import {message, Modal} from 'ant-design-vue'
-import {saveIdentityCertificate, type IdentityCertificate} from '@/core/auth'
-import {StorageKey} from '@/core/constant'
+import {computed, onUnmounted, reactive, ref} from 'vue'
 import {useRouter} from 'vue-router'
-import {useUserStore} from '@/stores/user'
+import PolicyLine from './components/PolicyLine.vue'
 
 const router = useRouter()
+const authStore = useAuthStore()
+const userStore = useUserStore()
 
 // ===================================== 注册页面请求 =====================================
 
@@ -164,7 +166,17 @@ function startClock(seconds: number) {
 /** [登录/注册]按钮 - 点击事件 */
 function onBtn2Click() {
   if (!policyChecked.value) {
-    Modal.info({title: '提示', content: '请先阅读并同意《用户协议》和《隐私政策》', okText: '我知道了'})
+    Modal.confirm({
+      title: '用户协议及隐私保护',
+      content: '为更好地保护你的合法权益，请阅读并同意《用户协议》和《隐私政策》',
+      okText: '同意',
+      cancelText: '不同意',
+      onOk: () => {
+        policyChecked.value = true
+        run2(phone.value, code.value)
+      },
+      onCancel: () => {},
+    })
   } else {
     run2(phone.value, code.value)
   }
@@ -181,12 +193,10 @@ function getRedirectUrl() {
 }
 
 async function onHttp2Success(data: IdentityCertificate) {
-  saveIdentityCertificate(data)
-
+  authStore.login(data)
   message.success('登录成功！正在为你跳转页面 ...')
 
   // 再更新下个人资料
-  const userStore = useUserStore()
   await userStore.update()
 
   // 都完成了再跳转
