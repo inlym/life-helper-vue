@@ -1,6 +1,6 @@
 <template>
   <!-- 与屏幕等宽高的容器 -->
-  <div class="flex h-screen items-center justify-center bg-gray-100">
+  <div class="bg flex h-screen items-center justify-center bg-gray-100">
     <!-- 居中的容器 -->
     <div class="flex w-[400px] flex-col rounded-lg bg-white p-10 shadow-md">
       <!-- 标题 -->
@@ -205,4 +205,10 @@ async function onHttp2Success(data: IdentityCertificate) {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.bg {
+  background: radial-gradient(66.06% 66.06% at 0 0, rgba(52, 86, 255, 0.1) 0, rgba(52, 86, 255, 0) 100%),
+    radial-gradient(46.32% 67.56% at 52.35% -1%, rgba(255, 122, 146, 0.16) 0, rgba(255, 122, 146, 0) 100%),
+    radial-gradient(59.31% 62.11% at 92.4% 0, rgba(122, 247, 255, 0.1) 0, rgba(122, 247, 255, 0) 100%);
+}
+</style>
