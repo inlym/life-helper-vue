@@ -14,8 +14,6 @@ const route = useRoute()
 const c1 = 'flex h-12 items-center'
 const c2 = 'flex h-12 items-center cursor-pointer'
 
-console.log(route.path === '/')
-
 /** 图片地址 */
 const imageUrl = ref('https://static.weutil.com/logo/logo-2.png')
 

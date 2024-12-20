@@ -1,5 +1,5 @@
 import {getUserInfo, type BaseUserInfo} from '@/api/user'
-import {isLogined} from '@/core/auth'
+import {StaticResource} from '@/core/constant'
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
 
@@ -11,7 +11,7 @@ export const useUserStore = defineStore(
     const nickName = ref('')
 
     /** 头像的完整 URL 地址 */
-    const avatarUrl = ref('')
+    const avatarUrl = ref<string>(StaticResource.DEFAULT_AVATAR)
 
     /** 账户 ID */
     const accountId = ref(0)
@@ -35,13 +35,6 @@ export const useUserStore = defineStore(
       save(result)
     }
 
-    /** 如果已登录则更新资料 */
-    function updateIfLogined() {
-      if (isLogined()) {
-        update()
-      }
-    }
-
     function clear() {
       nickName.value = ''
       avatarUrl.value = ''
@@ -49,8 +42,6 @@ export const useUserStore = defineStore(
       isAcquired.value = false
     }
 
-    return {nickName, avatarUrl, accountId, isAcquired, save, update, updateIfLogined, clear}
+    return {nickName, avatarUrl, accountId, isAcquired, save, update, clear}
   },
-
-  {persist: true},
 )
