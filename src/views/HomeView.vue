@@ -82,7 +82,7 @@
     <div class="mx-auto flex w-[1200px] justify-between p-14">
       <!-- 左边 -->
       <div class="flex w-[300px] flex-col">
-        <div class="text-2xl font-bold">小鸣助手</div>
+        <LogoWithName />
         <div class="mt-2 text-sm">一个生活提效工具</div>
         <div class="mt-6 flex items-center">
           <img class="h-20" src="https://static.weutil.com/web/jMck4Kiksnj7.jpg" alt="公众号二维码" />
@@ -133,6 +133,8 @@
 </template>
 
 <script lang="ts" setup>
+import LogoWithName from '@/components/logo/LogoWithName.vue'
+import {StaticResource} from '@/core/constant'
 import {Modal} from 'ant-design-vue'
 import {ref} from 'vue'
 

@@ -4,7 +4,7 @@
     <!-- 左侧区域 -->
     <div class="left-area flex h-full items-center">
       <!-- logo 图片 -->
-      <img class="mr-2 h-10" src="/images/logo.png" alt="logo" />
+      <LogoWithName class="mr-2" />
       <a-tooltip :getPopupContainer="getTooltipContainer">
         <template #title>目前为 Beta 版本，将于公测完毕后发布稳定版本</template>
         <div class="mr-10 mt-2 cursor-help">
@@ -66,6 +66,7 @@ import {Modal} from 'ant-design-vue'
 import {storeToRefs} from 'pinia'
 import {ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
+import LogoWithName from '../logo/LogoWithName.vue'
 
 const router = useRouter()
 const route = useRoute()

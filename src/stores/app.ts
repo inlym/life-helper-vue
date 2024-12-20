@@ -11,7 +11,7 @@ export const useAppStore = defineStore(
     /** 主题配置 */
     const themeConfig = ref({
       token: {
-        colorPrimary: '#2aae67',
+        colorPrimary: '#00b96b',
       },
     })
 

@@ -2,9 +2,9 @@
   <!-- 与屏幕等宽高的容器 -->
   <div class="flex h-screen items-center justify-center bg-gray-100">
     <!-- 居中的容器 -->
-    <div class="flex w-[450px] flex-col rounded-lg bg-white p-10 shadow-md">
+    <div class="flex w-[400px] flex-col rounded-lg bg-white p-10 shadow-md">
       <!-- 标题 -->
-      <h1 class="mb-12 text-2xl font-bold">小鸣助手</h1>
+      <LogoWithName class="mb-20 self-center" />
       <!-- 手机号输入框 -->
       <a-input v-model:value="phone" :maxlength="11" addon-before="+86" placeholder="请输入手机号" size="large" />
       <div class="mt-4 flex justify-between">
@@ -41,6 +41,7 @@ import {message, Modal} from 'ant-design-vue'
 import {computed, onUnmounted, reactive, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import PolicyLine from './components/PolicyLine.vue'
+import LogoWithName from '@/components/logo/LogoWithName.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
