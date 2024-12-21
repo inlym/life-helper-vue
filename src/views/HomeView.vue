@@ -1,5 +1,6 @@
 <template>
   <!-- 顶部导航栏 -->
+  <AnnouncementBar />
   <FixedHeader />
 
   <!-- 横幅区域 -->
@@ -137,6 +138,7 @@ import LogoWithName from '@/components/logo/LogoWithName.vue'
 import {StaticResource} from '@/core/constant'
 import {Modal} from 'ant-design-vue'
 import {ref} from 'vue'
+import AnnouncementBar from './home/components/AnnouncementBar.vue'
 
 function showTips() {
   Modal.info({title: '提示', content: '网站正在 ICP 备案中，暂时停止开放，预计将于1月1日重新上线！', okText: '我知道了'})
