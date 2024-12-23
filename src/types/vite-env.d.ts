@@ -7,6 +7,8 @@ interface ImportMetaEnv {
   readonly VITE_ENV_NAME: 'dev' | 'test' | 'prod'
   /** 服务器请求地址 */
   readonly VITE_REQUEST_BASE_URL: string
+  /** 是否开启调试慢请求 */
+  readonly VITE_DEBUG_SLOW_REQUEST: string
   /** 阿里云 API 网关摘要签名认证使用的 AppKey */
   readonly VITE_ALIYUN_APP_KEY: string
   /** 阿里云 API 网关摘要签名认证使用的 AppSecret */

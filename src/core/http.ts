@@ -1,9 +1,10 @@
-import axios, {type AxiosRequestConfig} from 'axios'
+import axios from 'axios'
 import type {JWK} from 'jose'
 import {createAliyunApigwJwtAuthenticationInterceptor} from './axios/aliyunApigwJwtAuthenticationInterceptor'
 import {createAliyunApigwSignatureInterceptor} from './axios/aliyunApigwSignatureInterceptor'
 import {authInterceptor} from './axios/authInterceptor'
 import {clientInfoInterceptor} from './axios/clientInfoInterceptor'
+import {debugSlowRequestInterceptor} from './axios/debugSlowRequestInterceptor'
 import {handleBusinessError} from './axios/handleBusinessError'
 import {paramsSerializer} from './axios/paramsSerializer'
 
@@ -19,6 +20,8 @@ export const instance = axios.create({
   },
 
   paramsSerializer,
+
+  requireAuth: false,
 })
 
 // 添加请求拦截器（注意：请求拦截器先添加的后执行）
@@ -26,6 +29,7 @@ instance.interceptors.request.use(createAliyunApigwSignatureInterceptor(import.m
 instance.interceptors.request.use(createAliyunApigwJwtAuthenticationInterceptor(jwk))
 instance.interceptors.request.use(authInterceptor)
 instance.interceptors.request.use(clientInfoInterceptor)
+instance.interceptors.request.use(debugSlowRequestInterceptor)
 
 // 添加相应拦截器
 instance.interceptors.response.use(handleBusinessError)
