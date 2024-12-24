@@ -52,6 +52,7 @@ export const router = createRouter({
       name: 'reminder',
       component: ReminderView,
       meta: {
+        title: '我的待办',
         requireAuth: true,
       },
     },

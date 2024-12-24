@@ -37,5 +37,10 @@ export function debug(id: number, name: string) {
 }
 
 export function debugData(data: any) {
-  return requestForData({method: 'post', url: '/debug/data', params: {id: 11111111}, data, requireAuth: false})
+  return requestForData({method: 'post', url: '/debug/data', params: {id: 123}, data, requireAuth: false})
+}
+
+/** 调试错误情况 */
+export function debugError(errorCode: number, errorMessage: string) {
+  return debugData({errorCode, errorMessage})
 }

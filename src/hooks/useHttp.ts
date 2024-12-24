@@ -19,8 +19,8 @@ export function useHttp<R, P extends unknown[] = any>(service: Service<R, P>, op
     options.manual = true
   }
   if (options.loadingDelay === undefined) {
-    // 延迟 500ms （而不是立即）才将 loading 由 false 改为 true
-    options.loadingDelay = 500
+    // 延迟 200ms （而不是立即）才将 loading 由 false 改为 true
+    options.loadingDelay = 200
   }
   if (options.loadingKeep === undefined) {
     // loading 后的持续时间
