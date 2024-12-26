@@ -38,6 +38,69 @@ export interface ReminderTask {
   content: string
   /** 截止时间 */
   dueTime: string
+  /** 所属的项目名称 */
+  projectName: string
+}
+
+export enum ReminderTaskOperation {
+  /** 把待办任务标记为“已完成” */
+  COMPLETE = 'COMPLETE',
+  /** 把待办任务标记为“未完成” */
+  UNCOMPLETE = 'UNCOMPLETE',
+  /** 清空待办任务标的截止时间 */
+  CLEAR_DUE_TIME = 'CLEAR_DUE_TIME',
+  /** 置顶 */
+  PIN = 'PIN',
+  /** 取消置顶 */
+  UNPIN = 'UNPIN',
+}
+
+export enum TaskFilter {
+  /** 所有待办（未完成） */
+  ALL_UNCOMPLETED = 'ALL_UNCOMPLETED',
+  /** 已完成 */
+  ALL_COMPLETED = 'ALL_COMPLETED',
+  /** 今天 */
+  TODAY = 'TODAY',
+  /** 已过期 */
+  EXPIRED = 'EXPIRED',
+  /** 无期限 */
+  UNDATED = 'UNDATED',
+  /** 未分类（未选择项目的） */
+  UNSPECIFIED = 'UNSPECIFIED',
+}
+
+export interface UpdateReminderTaskDTO {
+  /** 任务名称 */
+  name: string
+  /**
+   * 所属项目 ID
+   *
+   * <h3>说明
+   * <p>该值为 {@code 0} 则表示不从属于任何项目。
+   */
+  projectId: number
+  /** 任务描述内容文本 */
+  content: string
+  /** 截止时间 */
+  dueTime: string
+  /** 特定操作 */
+  operation: ReminderTaskOperation
+}
+
+export interface FilterTaskCount {
+  /** 所有未完成任务数 */
+  allUncompleted: number
+  /** 今天的未完成任务数 */
+  allCompleted: number
+  /** 所有已完成任务数 */
+  today: number
+  /** 已过期（并且未完成）的任务数 */
+  expired: number
+  /** 无期限（并且未完成）的任务数 */
+  undated: number
+  /** 未分类（并且未完成）的任务数 */
+  unspecified: number
 }
 
 /**
@@ -74,6 +137,24 @@ export function deleteProject(projectId: number) {
 }
 
 /**
+ * 对项目改名
+ *
+ * @param projectId 项目 ID
+ * @param newName 新的项目名称
+ *
+ * @date 2024/12/26
+ * @since 3.0.0
+ */
+export function renameProject(projectId: number, newName: string) {
+  return requestForData<ReminderProject>({
+    method: 'put',
+    url: `/reminder/projects/${projectId}`,
+    requireAuth: true,
+    data: {name: newName},
+  })
+}
+
+/**
  * 获取所有的待办项目
  *
  * @date 2024/12/13
@@ -101,6 +182,87 @@ export function addTask(name: string, projectId: number) {
     method: 'post',
     url: '/reminder/tasks',
     data: {name, projectId},
+    requireAuth: true,
+  })
+}
+
+/**
+ * 删除待办任务
+ *
+ * @param taskId 待办任务 ID
+ *
+ * @date 2024/12/26
+ * @since 3.0.0
+ */
+export function deleteTask(taskId: number) {
+  return requestForData<ReminderTask>({
+    method: 'delete',
+    url: `/reminder/tasks/${taskId}`,
+    requireAuth: true,
+  })
+}
+
+/**
+ * 更新任务信息
+ *
+ * @param taskId 待办任务 ID
+ * @param dto 请求数据
+ *
+ * @date 2024/12/26
+ * @since 3.0.0
+ */
+export function updateTask(taskId: number, dto: Partial<UpdateReminderTaskDTO>) {
+  return requestForData<ReminderTask>({
+    method: 'put',
+    url: `/reminder/tasks/${taskId}`,
+    requireAuth: true,
+    data: dto,
+  })
+}
+
+/**
+ * 查看单条任务详情
+ *
+ * @param taskId 待办任务 ID
+ *
+ * @date 2024/12/26
+ * @since 3.0.0
+ */
+export function getTask(taskId: number) {
+  return requestForData<ReminderTask>({
+    method: 'get',
+    url: `/reminder/tasks/${taskId}`,
+    requireAuth: true,
+  })
+}
+
+/**
+ * 查看各个过滤器的未完成任务数
+ *
+ * @date 2024/12/26
+ * @since 3.0.0
+ */
+export function countFilter() {
+  return requestForData<FilterTaskCount>({
+    method: 'get',
+    url: `/reminder/filters/count`,
+    requireAuth: true,
+  })
+}
+
+/**
+ * 以过滤器为条件，获取任务列表
+ *
+ * @param filter 过滤器
+ *
+ * @date 2024/12/26
+ * @since 3.0.0
+ */
+export function getTasksByFilter(filter: TaskFilter) {
+  return requestForData<CommonListResponse<ReminderTask>>({
+    method: 'get',
+    url: `/reminder/tasks`,
+    params: {filter},
     requireAuth: true,
   })
 }
