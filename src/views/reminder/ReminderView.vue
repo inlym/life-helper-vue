@@ -1,10 +1,10 @@
 <template>
   <!-- 外层占满屏幕高度的容器，内部分设左、中、右三栏 -->
-  <div class="flex h-screen">
+  <div class="flex h-screen justify-between">
     <!-- 左栏，项目及筛选项区域 -->
-    <div class="flex w-80 flex-col bg-slate-50 p-4">
+    <div class="flex w-80 flex-col p-4">
       <!-- 顶部筛选过滤器区域 -->
-      <div class="h-80 bg-gray-200">
+      <div class="h-80">
         <TaskFilter />
       </div>
       <!-- 我的项目区域 -->
@@ -23,8 +23,8 @@
       </div>
     </div>
     <!-- 中栏，任务列表区域 -->
-    <div class="flex flex-1 flex-col p-4">
-      <div class="text-lg">待补充标题</div>
+    <div class="flex w-full min-w-96 flex-1 flex-col p-4">
+      <ProjectHeader />
       <AddTaskInput />
       <TaskList class="flex-1" />
     </div>
@@ -35,7 +35,7 @@
   </div>
 
   <!-- 非页面布局流元素 -->
-  <AddProjectDialog v-model:open="addProjectDialogOpened" @after-close="handleAddProjectDialogClosed" />
+  <AddProjectDialog v-model:open="addProjectDialogOpened" />
 </template>
 
 <script setup lang="ts">
@@ -43,25 +43,20 @@ import {useReminderStore} from '@/stores/reminder'
 import TaskDetail from '@/views/reminder/components/TaskDetail.vue'
 import {PlusOutlined} from '@ant-design/icons-vue'
 import {AllApplication} from '@icon-park/vue-next'
+import {storeToRefs} from 'pinia'
 import {ref} from 'vue'
 import AddProjectDialog from './components/AddProjectDialog.vue'
 import AddTaskInput from './components/AddTaskInput.vue'
+import TaskFilter from './components/FilterList.vue'
+import ProjectHeader from './components/ProjectHeader.vue'
 import ProjectList from './components/ProjectList.vue'
-import TaskFilter from './components/TaskFilter.vue'
 import TaskList from './components/TaskList.vue'
-import {storeToRefs} from 'pinia'
 
 const reminderStore = useReminderStore()
-const {activeCategoryType, activeFilter, activeProjectId, activeTaskId} = storeToRefs(reminderStore)
-
-// ============================= 注册页面请求 =============================
+const {activeTaskId} = storeToRefs(reminderStore)
 
 /** 新增项目弹窗是否打开 */
 const addProjectDialogOpened = ref(false)
-
-function handleAddProjectDialogClosed(msg: string) {
-  console.log(msg)
-}
 </script>
 
 <style scoped lang="scss"></style>

@@ -57,7 +57,7 @@ export enum ReminderTaskOperation {
   UNPIN = 'UNPIN',
 }
 
-export enum TaskFilter {
+export enum ReminderFilterType {
   /** 所有待办（未完成） */
   ALL_UNCOMPLETED = 'ALL_UNCOMPLETED',
   /** 已完成 */
@@ -88,6 +88,15 @@ export interface UpdateReminderTaskDTO {
   dueTime: string
   /** 特定操作 */
   operation: ReminderTaskOperation
+}
+
+export interface ReminderFilter {
+  /** 名称 */
+  name: string
+  /** 类型 */
+  type: ReminderFilterType
+  /** 计数（除“已完成”过滤器外，其余均为未完成任务数） */
+  count: number
 }
 
 export interface FilterTaskCount {
@@ -230,7 +239,7 @@ export function updateTask(taskId: number, dto: Partial<UpdateReminderTaskDTO>) 
  * @date 2024/12/26
  * @since 3.0.0
  */
-export function getTask(taskId: number) {
+export function getTaskDetail(taskId: number) {
   return requestForData<ReminderTask>({
     method: 'get',
     url: `/reminder/tasks/${taskId}`,
@@ -244,10 +253,10 @@ export function getTask(taskId: number) {
  * @date 2024/12/26
  * @since 3.0.0
  */
-export function countFilter() {
-  return requestForData<FilterTaskCount>({
+export function getFilterList() {
+  return requestForData<CommonListResponse<ReminderFilter>>({
     method: 'get',
-    url: `/reminder/filters/count`,
+    url: `/reminder/filters`,
     requireAuth: true,
   })
 }
@@ -260,7 +269,7 @@ export function countFilter() {
  * @date 2024/12/26
  * @since 3.0.0
  */
-export function getTasksByFilter(filter: TaskFilter) {
+export function getTasksByFilter(filter: ReminderFilterType) {
   return requestForData<CommonListResponse<ReminderTask>>({
     method: 'get',
     url: `/reminder/tasks`,

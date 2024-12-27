@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import {getTasksByFilter, getTasksByProjectId, TaskFilter, type ReminderTask} from '@/api/reminder'
+import {getTasksByFilter, getTasksByProjectId, ReminderFilterType, type ReminderTask} from '@/api/reminder'
 import type {CommonListResponse} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {CategoryType, useReminderStore} from '@/stores/reminder'
@@ -17,7 +17,7 @@ import {storeToRefs} from 'pinia'
 import {ref, watch} from 'vue'
 
 const reminderStore = useReminderStore()
-const {activeCategoryType, activeFilter, activeProjectId, activeTaskId} = storeToRefs(reminderStore)
+const {activeCategoryType, activeFilterType, activeProjectId, activeTaskId} = storeToRefs(reminderStore)
 
 // ===================================== 注册页面请求 =====================================
 
@@ -47,9 +47,9 @@ function onHttpSuccess(res: CommonListResponse<ReminderTask>) {
 
 // ===================================== 其他 =====================================
 
-watch([activeCategoryType, activeFilter, activeProjectId], ([type, filter, projectId]) => {
+watch([activeCategoryType, activeFilterType, activeProjectId], ([type, filterType, projectId]) => {
   if (type === CategoryType.FILTER) {
-    run1(filter)
+    run1(filterType)
   } else if (type === CategoryType.PROJECT) {
     run2(projectId)
   }

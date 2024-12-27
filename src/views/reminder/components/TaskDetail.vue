@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import {getTask, type ReminderTask} from '@/api/reminder'
+import {getTaskDetail, type ReminderTask} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
 import {useReminderStore} from '@/stores/reminder'
 import {storeToRefs} from 'pinia'
@@ -40,7 +40,7 @@ const {activeTaskId} = storeToRefs(reminderStore)
 // ===================================== 注册页面请求 =====================================
 
 // 获取任务详情
-const {data: data1, run: run1} = useHttp(getTask, {onSuccess: onHttp1Success})
+const {data: data1, run: run1} = useHttp(getTaskDetail, {onSuccess: onHttp1Success})
 
 // ===================================== 表单绑定数据 =====================================
 
