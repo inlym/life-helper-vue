@@ -1,6 +1,6 @@
 <template>
   <!-- 添加任务操作的输入框 -->
-  <div class="p-4">
+  <div class="mt-2">
     <a-input v-model:value="inputTaskName" size="large" placeholder="请输入待办事件, 按回车键保存" :maxlength="50" @pressEnter="onPressEnter">
       <template #prefix>
         <PlusOutlined :style="{fontSize: '12px'}" />

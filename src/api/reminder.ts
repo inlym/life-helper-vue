@@ -36,6 +36,8 @@ export interface ReminderTask {
   name: string
   /** 任务描述内容文本 */
   content: string
+  /** 任务完成时间 */
+  completeTime: string
   /** 截止时间 */
   dueTime: string
   /** 所属的项目名称 */
@@ -263,6 +265,23 @@ export function getTasksByFilter(filter: TaskFilter) {
     method: 'get',
     url: `/reminder/tasks`,
     params: {filter},
+    requireAuth: true,
+  })
+}
+
+/**
+ * 以项目 ID 为条件，获取任务列表
+ *
+ * @param filter 过滤器
+ *
+ * @date 2024/12/26
+ * @since 3.0.0
+ */
+export function getTasksByProjectId(projectId: number) {
+  return requestForData<CommonListResponse<ReminderTask>>({
+    method: 'get',
+    url: `/reminder/tasks`,
+    params: {project_id: projectId},
     requireAuth: true,
   })
 }

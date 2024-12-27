@@ -4,8 +4,8 @@
     <div v-if="projectList.length > 0" class="p-1">
       <!-- 列表项 -->
       <div
-        class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-slate-200"
-        :class="activeCategoryType === CategoryType.Project && item.id === activeProjectId ? 'bg-slate-400' : ''"
+        class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-slate-400"
+        :class="activeCategoryType === CategoryType.PROJECT && item.id === activeProjectId ? 'bg-slate-200' : ''"
         v-for="item in projectList"
         :key="item.id"
         @click="onItemClick(item.id)"
@@ -43,7 +43,7 @@ const {run, loading} = useHttp(getProjectList, {manual: false, onSuccess: onHttp
 
 /** 点击列表项 */
 function onItemClick(projectId: number) {
-  activeCategoryType.value = CategoryType.Project
+  activeCategoryType.value = CategoryType.PROJECT
   activeProjectId.value = projectId
 }
 

@@ -23,12 +23,15 @@
       </div>
     </div>
     <!-- 中栏，任务列表区域 -->
-    <div class="flex-1">
+    <div class="flex flex-1 flex-col p-4">
       <div class="text-lg">待补充标题</div>
       <AddTaskInput />
+      <TaskList class="flex-1" />
     </div>
     <!-- 右栏，任务详情，按需展示 -->
-    <div class="w-[800px] bg-red-100"></div>
+    <div v-if="activeTaskId" class="w-[800px] border-l">
+      <TaskDetail />
+    </div>
   </div>
 
   <!-- 非页面布局流元素 -->
@@ -36,15 +39,20 @@
 </template>
 
 <script setup lang="ts">
-import {getProjectList} from '@/api/reminder'
-import {useHttp} from '@/hooks/useHttp'
+import {useReminderStore} from '@/stores/reminder'
+import TaskDetail from '@/views/reminder/components/TaskDetail.vue'
 import {PlusOutlined} from '@ant-design/icons-vue'
-import {computed, ref} from 'vue'
-import AddProjectDialog from './components/AddProjectDialog.vue'
 import {AllApplication} from '@icon-park/vue-next'
-import ProjectList from './components/ProjectList.vue'
+import {ref} from 'vue'
+import AddProjectDialog from './components/AddProjectDialog.vue'
 import AddTaskInput from './components/AddTaskInput.vue'
+import ProjectList from './components/ProjectList.vue'
 import TaskFilter from './components/TaskFilter.vue'
+import TaskList from './components/TaskList.vue'
+import {storeToRefs} from 'pinia'
+
+const reminderStore = useReminderStore()
+const {activeCategoryType, activeFilter, activeProjectId, activeTaskId} = storeToRefs(reminderStore)
 
 // ============================= 注册页面请求 =============================
 
