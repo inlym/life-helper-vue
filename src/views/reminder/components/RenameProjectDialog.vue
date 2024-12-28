@@ -1,8 +1,8 @@
 <template>
-  <!-- 新增待办项目弹窗 -->
+  <!-- 修改项目名称弹窗 -->
   <a-modal
     v-model:open="open"
-    title="新增项目"
+    title="重命名"
     :okButtonProps="{disabled: btn1Disabled}"
     centered
     :confirmLoading="loading"
@@ -11,29 +11,31 @@
     :width="400"
   >
     <a-space class="my-4" direction="vertical">
-      <a-input v-model:value="inputProjectName" size="large" placeholder="请输入项目名称" showCount :maxlength="10" />
+      <a-input v-model:value="inputProjectName" size="large" placeholder="请输入新的项目名称" showCount :maxlength="10" />
       <a-typography-text type="secondary">请输入项目名称, 最多10个字</a-typography-text>
     </a-space>
   </a-modal>
 </template>
 
 <script setup lang="ts">
-import {addProject, type ReminderProject} from '@/api/reminder'
+import {renameProject, type ReminderProject} from '@/api/reminder'
 import {BusinessError} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {useReminderStore} from '@/stores/reminder'
 import {message} from 'ant-design-vue'
-import {computed, ref} from 'vue'
+import {storeToRefs} from 'pinia'
+import {computed, ref, watch} from 'vue'
 
 /** 对话框是否打开 */
 const open = defineModel('open', {required: true})
 
 const reminderStore = useReminderStore()
+const {activeProject} = storeToRefs(reminderStore)
 
 // ===================================== 注册页面请求 =====================================
 
-// 新增待办项目
-const {run, loading} = useHttp(addProject, {onSuccess: onHttpSuccess, onError: onHttpError})
+// 修改项目名称
+const {run, loading} = useHttp(renameProject, {onSuccess: onHttpSuccess, onError: onHttpError})
 
 // ===================================== 表单绑定数据 =====================================
 
@@ -47,14 +49,14 @@ const inputProjectName = ref('')
 const btn1Disabled = computed(() => inputProjectName.value.length === 0 || loading.value)
 
 function onOk() {
-  run(inputProjectName.value)
+  run(activeProject.value!.id, inputProjectName.value)
 }
 
 // ===================================== 请求回调处理 =====================================
 
 function onHttpSuccess(data: ReminderProject) {
   open.value = false
-  message.success(`待办项目 ${data.name} 创建成功`)
+  message.success(`待办项目名称修改成功`)
   reminderStore.update()
 }
 
@@ -64,4 +66,10 @@ function onHttpError(error: Error) {
     message.error(error.errorMessage)
   }
 }
+
+// ===================================== 请求回调处理 =====================================
+
+watch(open, () => {
+  inputProjectName.value = activeProject.value!.name
+})
 </script>
