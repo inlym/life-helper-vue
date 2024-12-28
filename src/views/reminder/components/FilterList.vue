@@ -1,16 +1,24 @@
 <template>
   <!-- 过滤器列表区域 -->
-  <div
-    class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-slate-200"
-    :class="activeCategoryType === CategoryType.FILTER && item.type === activeFilterType ? 'bg-slate-100' : ''"
-    v-for="item in filters"
-    :key="item.type"
-    @click="onItemClick(item)"
-  >
-    <hamburger-button theme="outline" size="18" />
-    <div class="ml-2 text-base">{{ item.name }}</div>
-    <div class="flex-1"></div>
-    <div>{{ item.count }}</div>
+  <div v-if="data">
+    <!-- 单个列表项 -->
+    <div
+      class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-slate-200"
+      :class="activeCategoryType === CategoryType.FILTER && item.type === activeFilterType ? 'bg-slate-100' : ''"
+      v-for="item in filters"
+      :key="item.type"
+      @click="onItemClick(item)"
+    >
+      <hamburger-button theme="outline" size="18" />
+      <div class="ml-2 text-base">{{ item.name }}</div>
+      <div class="flex-1"></div>
+      <div>{{ item.numStr }}</div>
+    </div>
+  </div>
+
+  <!-- 首次加载中 -->
+  <div v-else>
+    <a-skeleton-button class="my-2" v-for="n in 6" active block />
   </div>
 </template>
 
@@ -23,17 +31,29 @@ import {HamburgerButton} from '@icon-park/vue-next'
 import {storeToRefs} from 'pinia'
 import {computed, watch} from 'vue'
 
+interface ExtendedReminderFilter extends ReminderFilter {
+  /** 文本化展示，为0则展示为空 */
+  numStr: string
+}
+
 const reminderStore = useReminderStore()
 const {activeCategoryType, activeFilterType, activeFilter, updateCount} = storeToRefs(reminderStore)
 
 // ===================================== 注册页面请求 =====================================
 
 // 获取各个过滤器的任务数
-const {data: data1, run: run1} = useHttp(getFilterList, {manual: false, onSuccess: onHttp1Success})
+const {data, run, loading} = useHttp(getFilterList, {manual: false, onSuccess: onHttp1Success})
 
 // ===================================== 页面元素状态 =====================================
 
-const filters = computed(() => (data1 && data1.value ? data1.value.list : []))
+/** 过滤器列表 */
+const filters = computed<ExtendedReminderFilter[]>(() =>
+  data && data.value
+    ? data.value.list.map((item) => {
+        return {...item, numStr: item.num > 0 ? String(item.num) : ''}
+      })
+    : [],
+)
 
 /** 点击列表项 */
 function onItemClick(filter: ReminderFilter) {
@@ -54,7 +74,7 @@ function onHttp1Success(res: CommonListResponse<ReminderFilter>) {
 // ===================================== 其他 =====================================
 
 watch(updateCount, () => {
-  run1()
+  run()
 })
 </script>
 

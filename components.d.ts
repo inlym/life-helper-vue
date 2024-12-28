@@ -21,6 +21,7 @@ declare module 'vue' {
     AInput: typeof import('ant-design-vue/es')['Input']
     AModal: typeof import('ant-design-vue/es')['Modal']
     APopover: typeof import('ant-design-vue/es')['Popover']
+    ASkeletonButton: typeof import('ant-design-vue/es')['SkeletonButton']
     ASpace: typeof import('ant-design-vue/es')['Space']
     ASpin: typeof import('ant-design-vue/es')['Spin']
     ATag: typeof import('ant-design-vue/es')['Tag']

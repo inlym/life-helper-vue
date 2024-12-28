@@ -96,7 +96,7 @@ export interface ReminderFilter {
   /** 类型 */
   type: ReminderFilterType
   /** 计数（除“已完成”过滤器外，其余均为未完成任务数） */
-  count: number
+  num: number
 }
 
 export interface FilterTaskCount {
