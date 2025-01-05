@@ -2,7 +2,7 @@
   <!-- 外层占满屏幕高度的容器，内部分设左、中、右三栏 -->
   <div class="flex h-screen justify-between">
     <!-- 左栏，项目及筛选项区域 -->
-    <div class="flex w-80 flex-col p-4">
+    <div class="flex w-80 flex-col bg-gray-50 p-2">
       <!-- 顶部筛选过滤器区域 -->
       <div class="h-80">
         <TaskFilter />
