@@ -1,0 +1,25 @@
+<template>
+  <!-- 外层占满屏幕高度的容器，内部分设左、中、右三栏 -->
+  <div class="flex h-screen justify-between">
+    <!-- 左栏 -->
+    <div class="w-80 bg-gray-50">
+      <LeftColumnArea />
+    </div>
+    <!-- 中栏 -->
+    <div class="flex-1">
+      <TaskListArea />
+    </div>
+    <!-- 右栏 -->
+    <div class="w-[800px] border-l">
+      <TaskDetail />
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import LeftColumnArea from './components/LeftColumnArea.vue'
+import TaskDetail from './components/TaskDetail.vue'
+import TaskListArea from './components/TaskListArea.vue'
+</script>
+
+<style scoped lang="scss"></style>

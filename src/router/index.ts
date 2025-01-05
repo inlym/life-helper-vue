@@ -48,7 +48,7 @@ export const router = createRouter({
 
     // 待办任务功能主页
     {
-      path: '/reminder',
+      path: '/reminder/projects/:projectId/tasks/:taskId?',
       name: 'reminder',
       component: ReminderView,
       meta: {
