@@ -7,8 +7,8 @@
       :key="item.type"
       class="flex h-10 cursor-pointer items-center justify-between rounded-md px-3 hover:bg-gray-200"
     >
-      <Label class="mr-2" theme="outline" size="18" fill="#333" />
-      <div class="flex-1 text-sm">{{ item.name }}</div>
+      <TagOutlined />
+      <div class="ml-2 flex-1 text-sm">{{ item.name }}</div>
       <div>{{ item.num > 0 ? String(item.num) : '' }}</div>
     </div>
   </div>
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import {getFilterList, ReminderFilterType} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
-import {Label} from '@icon-park/vue-next'
+import {TagOutlined} from '@ant-design/icons-vue'
 import {computed} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 

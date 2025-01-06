@@ -46,6 +46,12 @@ export const router = createRouter({
       },
     },
 
+    // 待办任务功能主页跳转
+    {
+      path: '/reminder',
+      redirect: '/reminder/projects/filter-all_uncompleted/tasks',
+    },
+
     // 待办任务功能主页
     {
       path: '/reminder/projects/:projectId/tasks/:taskId?',
