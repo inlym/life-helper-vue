@@ -26,6 +26,7 @@
     "dayjs": "^1.11.12",
     "jose": "^5.9.6",
     "loglevel": "^1.9.1",
+    "mitt": "^3.0.1",
     "nanoid": "^5.0.8",
     "pinia": "^2.2.4",
     "pinia-plugin-persistedstate": "^4.1.1",

@@ -35,6 +35,9 @@ importers:
       loglevel:
         specifier: ^1.9.1
         version: 1.9.1
+      mitt:
+        specifier: ^3.0.1
+        version: 3.0.1
       nanoid:
         specifier: ^5.0.8
         version: 5.0.8
