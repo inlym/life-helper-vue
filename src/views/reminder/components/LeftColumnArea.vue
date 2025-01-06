@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import CompletedBox from './CompletedBox.vue'
 import FilterList from './FilterList.vue'
 import ProjectList from './ProjectList.vue'
 </script>

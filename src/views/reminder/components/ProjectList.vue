@@ -15,7 +15,8 @@
         <div v-if="projects.length > 0">
           <!-- 列表项 -->
           <div
-            class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-slate-200"
+            class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-gray-200"
+            :class="{'bg-gray-200': item.id.toString() === activeProjectId}"
             v-for="item in projects"
             :key="item.id"
             @click="onItemClick(item)"
@@ -52,8 +53,8 @@ import {useRoute, useRouter} from 'vue-router'
 const route = useRoute()
 const router = useRouter()
 
-const projectId = computed(() => route.params.projectId)
-const taskId = computed(() => route.params.taskId)
+const projectId = computed(() => route.params.projectId as string)
+const taskId = computed(() => route.params.taskId as string)
 
 // ===================================== 注册页面请求 =====================================
 
@@ -72,9 +73,18 @@ const emptyImage = Empty.PRESENTED_IMAGE_SIMPLE
 /** 新增项目弹窗是否打开 */
 const dialog1Open = ref(false)
 
+/** 点击列表项 */
 function onItemClick(project: ReminderProject) {
   router.push({name: 'reminder', params: {projectId: project.id}})
 }
+
+const activeProjectId = computed(() => {
+  if (!projectId.value.startsWith('filter-')) {
+    return projectId.value
+  }
+
+  return ''
+})
 </script>
 
 <style scoped lang="scss"></style>
