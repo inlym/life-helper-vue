@@ -21,14 +21,13 @@
 import {addProject, type ReminderProject} from '@/api/reminder'
 import {BusinessError} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
-import {useReminderStore} from '@/stores/reminder'
 import {message} from 'ant-design-vue'
 import {computed, ref} from 'vue'
 
 /** 对话框是否打开 */
 const open = defineModel('open', {required: true})
 
-// ===================================== 注册页面请求 =====================================
+// ===================================== 注册HTTP请求 =====================================
 
 // 新增待办项目
 const {run, loading} = useHttp(addProject, {onSuccess, onError})

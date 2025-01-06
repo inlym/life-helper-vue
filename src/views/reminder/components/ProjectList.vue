@@ -49,6 +49,7 @@ import {useHttp} from '@/hooks/useHttp'
 import {getProjectList, type ReminderProject} from '@/api/reminder'
 import {Empty} from 'ant-design-vue'
 import {useRoute, useRouter} from 'vue-router'
+import {reminderEmitter} from '../reminder'
 
 const route = useRoute()
 const router = useRouter()
@@ -56,7 +57,7 @@ const router = useRouter()
 const projectId = computed(() => route.params.projectId as string)
 const taskId = computed(() => route.params.taskId as string)
 
-// ===================================== 注册页面请求 =====================================
+// ===================================== 注册HTTP请求 =====================================
 
 // 获取待办项目列表
 const {run, data, loading} = useHttp(getProjectList, {manual: false})
@@ -85,6 +86,14 @@ const activeProjectId = computed(() => {
 
   return ''
 })
+
+// 2025-01-06 22:35:05
+// 临时测试代码 --- start ---
+reminderEmitter.on('hello', (str: any) => {
+  console.log('===== ProjectList =====')
+  console.log(str)
+})
+// 临时测试代码  --- end ---
 </script>
 
 <style scoped lang="scss"></style>

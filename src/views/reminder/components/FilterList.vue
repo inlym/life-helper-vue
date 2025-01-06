@@ -21,6 +21,7 @@ import {useHttp} from '@/hooks/useHttp'
 import {TagOutlined} from '@ant-design/icons-vue'
 import {computed} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
+import {reminderEmitter, ReminderEvent} from '../reminder'
 
 const route = useRoute()
 const router = useRouter()
@@ -28,7 +29,7 @@ const router = useRouter()
 const projectId = computed(() => route.params.projectId as string)
 const taskId = computed(() => route.params.taskId as string)
 
-// ===================================== 注册页面请求 =====================================
+// ===================================== 注册HTTP请求 =====================================
 
 // 获取过滤器列表
 const {data, run, loading} = useHttp(getFilterList, {manual: false})
@@ -38,7 +39,7 @@ const {data, run, loading} = useHttp(getFilterList, {manual: false})
 /** 过滤器列表 */
 const filters = computed(() => (data.value && data.value.list ? data.value.list : []))
 
-// ===================================== 页面元素状态 =====================================
+// ===================================== 元素状态管理 =====================================
 
 function onItemClick(type: ReminderFilterType) {
   router.push({name: 'reminder', params: {projectId: `filter-${type.toLowerCase()}`}})
@@ -50,6 +51,12 @@ const activeType = computed(() => {
   }
 
   return ''
+})
+
+// ===================================== 其他 =====================================
+
+reminderEmitter.on(ReminderEvent.TaskEvent, () => {
+  run()
 })
 </script>
 

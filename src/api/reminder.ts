@@ -10,10 +10,16 @@ export enum ReminderProjectOperation {
 
 /** 待办项目操作 */
 export enum ReminderTaskOperation {
-  Add = 'add_task',
-  Delete = 'delete_task',
-  Move = 'move_task',
-  Edit = 'edit_task',
+  /** 把待办任务标记为“已完成” */
+  COMPLETE = 'COMPLETE',
+  /** 把待办任务标记为“未完成” */
+  UNCOMPLETE = 'UNCOMPLETE',
+  /** 清空待办任务标的截止时间 */
+  CLEAR_DUE_TIME = 'CLEAR_DUE_TIME',
+  /** 置顶 */
+  PIN = 'PIN',
+  /** 取消置顶 */
+  UNPIN = 'UNPIN',
 }
 
 /** 待办项目 */
@@ -42,19 +48,6 @@ export interface ReminderTask {
   dueTime: string
   /** 所属的项目名称 */
   projectName: string
-}
-
-export enum ReminderTaskOperation {
-  /** 把待办任务标记为“已完成” */
-  COMPLETE = 'COMPLETE',
-  /** 把待办任务标记为“未完成” */
-  UNCOMPLETE = 'UNCOMPLETE',
-  /** 清空待办任务标的截止时间 */
-  CLEAR_DUE_TIME = 'CLEAR_DUE_TIME',
-  /** 置顶 */
-  PIN = 'PIN',
-  /** 取消置顶 */
-  UNPIN = 'UNPIN',
 }
 
 export enum ReminderFilterType {
@@ -229,6 +222,19 @@ export function updateTask(taskId: number, dto: Partial<UpdateReminderTaskDTO>) 
     requireAuth: true,
     data: dto,
   })
+}
+
+/**
+ * 对任务进行操作
+ *
+ * @param taskId 待办任务 ID
+ * @param operation 操作方式
+ *
+ * @date 2025/01/06
+ * @since 3.0.0
+ */
+export function operateTask(taskId: number, operation: ReminderTaskOperation) {
+  return updateTask(taskId, {operation})
 }
 
 /**

@@ -7,7 +7,7 @@
       <div class="flex h-14 items-center border-b">
         <!-- 是否完成勾选框 -->
         <div class="flex h-full w-14 items-center justify-center border-r">
-          <CompletedBox :completed="!!data.completeTime" />
+          <TaskCompletedBox :completed="data.completeTime" :task-id="data.id" />
         </div>
         <!-- 截止时间操作按钮 -->
         <div class="ml-4 flex cursor-pointer items-center rounded-md px-4 py-2 hover:bg-gray-100">
@@ -45,10 +45,11 @@
 <script setup lang="ts">
 import {getTaskDetail} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
+import {Calendar} from '@icon-park/vue-next'
 import {computed, useTemplateRef, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
-import CompletedBox from './CompletedBox.vue'
-import {Calendar} from '@icon-park/vue-next'
+import CompletedBox from './TaskCompletedBox.vue'
+import TaskCompletedBox from './TaskCompletedBox.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -58,15 +59,17 @@ const taskId = computed(() => route.params.taskId as string)
 
 const contentInput = useTemplateRef<HTMLInputElement>('content-input')
 
-// ===================================== 注册页面请求 =====================================
+// ===================================== 注册HTTP请求 =====================================
 
 // 获取任务详情
 const {data, run} = useHttp(getTaskDetail)
 
 watch(
   taskId,
-  (newTaskId) => {
-    run(Number.parseInt(taskId.value))
+  (newTaskId: string) => {
+    if (newTaskId) {
+      run(Number.parseInt(taskId.value))
+    }
   },
   {immediate: true},
 )
