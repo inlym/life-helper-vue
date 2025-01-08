@@ -7,9 +7,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {reminderEmitter} from '../reminder'
-import CompletedBox from './TaskCompletedBox.vue'
 import FilterList from './FilterList.vue'
 import ProjectList from './ProjectList.vue'
 
@@ -22,4 +21,4 @@ reminderEmitter.on('hello', (str: any) => {
 // 临时测试代码  --- end ---
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>
