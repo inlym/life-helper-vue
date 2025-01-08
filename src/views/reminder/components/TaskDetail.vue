@@ -7,7 +7,7 @@
       <div class="flex h-14 items-center border-b">
         <!-- 是否完成勾选框 -->
         <div class="flex h-full w-14 items-center justify-center border-r">
-          <CompletedBox :completed="data.completeTime" :task-id="data.id" />
+          <CompletedBox :completed="Boolean(data.completeTime)" />
         </div>
         <!-- 截止时间操作按钮 -->
         <div class="ml-4 flex cursor-pointer items-center rounded-md px-4 py-2 hover:bg-gray-100">
@@ -27,7 +27,7 @@
           v-model:value="data.content"
           :bordered="false"
           :maxlength="1000"
-          autosize
+          autoSize
           class="h-96 text-base"
           placeholder="输入任务描述"
         />

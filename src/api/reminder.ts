@@ -43,11 +43,11 @@ export interface ReminderTask {
   /** 任务描述内容文本 */
   content: string
   /** 任务完成时间 */
-  completeTime: string
+  completeTime?: string
   /** 截止时间 */
-  dueTime: string
+  dueTime?: string
   /** 所属的项目名称 */
-  projectName: string
+  projectName?: string
 }
 
 export enum ReminderFilterType {
@@ -287,7 +287,7 @@ export function getTasksByFilter(filter: ReminderFilterType) {
 /**
  * 以项目 ID 为条件，获取任务列表
  *
- * @param filter 过滤器
+ * @param projectId 项目 ID
  *
  * @date 2024/12/26
  * @since 3.0.0
