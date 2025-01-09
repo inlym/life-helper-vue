@@ -1,7 +1,7 @@
 <template>
   <!-- 新增待办项目弹窗 -->
   <a-modal
-    v-model:open="open"
+    v-model:open="addProjectDialogOpen"
     title="新增项目"
     :okButtonProps="{disabled: btn1Disabled}"
     centered
@@ -9,6 +9,7 @@
     @ok="onOk"
     :maskClosable="false"
     :width="400"
+    :afterClose
   >
     <a-space class="my-4" direction="vertical">
       <a-input v-model:value="inputProjectName" size="large" placeholder="请输入项目名称" showCount :maxlength="10" />
@@ -23,9 +24,12 @@ import {BusinessError} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {message} from 'ant-design-vue'
 import {computed, ref} from 'vue'
+import {reminderEmitter, useReminderStore} from '../reminder'
+import {storeToRefs} from 'pinia'
 
-/** 对话框是否打开 */
-const open = defineModel('open', {required: true})
+// ===================================== 全局状态管理 =====================================
+
+const {addProjectDialogOpen} = storeToRefs(useReminderStore())
 
 // ===================================== 注册HTTP请求 =====================================
 
@@ -47,11 +51,16 @@ function onOk() {
   run(inputProjectName.value)
 }
 
+function afterClose() {
+  inputProjectName.value = ''
+}
+
 // ===================================== 请求回调处理 =====================================
 
-function onSuccess(data: ReminderProject) {
-  open.value = false
-  message.success(`待办项目 ${data.name} 创建成功`)
+function onSuccess(res: ReminderProject) {
+  addProjectDialogOpen.value = false
+  reminderEmitter.emit('projectChanged', res.id)
+  message.success(`待办项目 ${res.name} 创建成功`)
 }
 
 function onError(error: Error) {

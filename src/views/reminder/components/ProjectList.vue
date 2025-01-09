@@ -4,7 +4,7 @@
     <!-- 列表头部区域 -->
     <div class="flex h-8 items-center justify-between">
       <div class="font-bold text-gray-500">清单</div>
-      <div class="mr-2 flex h-full w-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200">
+      <div class="mr-2 flex h-full w-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200" @click="addProjectDialogOpen = true">
         <PlusOutlined />
       </div>
     </div>
@@ -21,9 +21,8 @@
             :key="item.id"
             @click="onItemClick(item)"
           >
-            <FolderOpenOutlined />
-            <a-typography-text class="ml-2 mr-4 text-sm" v-model:content="item.name" ellipsis />
-            <div class="flex-1"></div>
+            <Icon icon="solar:clipboard-list-outline" :height="20" />
+            <a-typography-text class="ml-2 mr-4 flex-1 text-sm" v-model:content="item.name" ellipsis />
             <div>{{ item.uncompletedTaskCount }}</div>
           </div>
         </div>
@@ -36,20 +35,18 @@
       <div v-else></div>
     </div>
   </div>
-
-  <!-- 非页面布局流元素 -->
-  <AddProjectDialog v-model:open="dialog1Open" />
 </template>
 
 <script setup lang="ts">
-import {computed, ref} from 'vue'
-import AddProjectDialog from './AddProjectDialog.vue'
-import {FolderOpenOutlined, PlusOutlined} from '@ant-design/icons-vue'
-import {useHttp} from '@/hooks/useHttp'
 import {getProjectList, type ReminderProject} from '@/api/reminder'
+import {useHttp} from '@/hooks/useHttp'
+import {PlusOutlined} from '@ant-design/icons-vue'
+import {Icon} from '@iconify/vue'
 import {Empty} from 'ant-design-vue'
+import {computed, ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
-import {reminderEmitter} from '../reminder'
+import {reminderEmitter, useReminderStore} from '../reminder'
+import {storeToRefs} from 'pinia'
 
 const route = useRoute()
 const router = useRouter()
@@ -57,10 +54,14 @@ const router = useRouter()
 const projectId = computed(() => route.params.projectId as string)
 const taskId = computed(() => route.params.taskId as string)
 
+// ===================================== 全局状态管理 =====================================
+
+const {addProjectDialogOpen} = storeToRefs(useReminderStore())
+
 // ===================================== 注册HTTP请求 =====================================
 
 // 获取待办项目列表
-const {run, data, loading} = useHttp(getProjectList, {manual: false})
+const {refresh, data, loading} = useHttp(getProjectList, {manual: false})
 
 // ===================================== 页面展示数据 =====================================
 
@@ -87,13 +88,11 @@ const activeProjectId = computed(() => {
   return ''
 })
 
-// 2025-01-06 22:35:05
-// 临时测试代码 --- start ---
-reminderEmitter.on('hello', (str: any) => {
-  console.log('===== ProjectList =====')
-  console.log(str)
+// ===================================== 事件监听 =====================================
+
+reminderEmitter.on('*', () => {
+  refresh()
 })
-// 临时测试代码  --- end ---
 </script>
 
 <style scoped lang="scss"></style>

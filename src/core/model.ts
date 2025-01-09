@@ -19,6 +19,11 @@ export interface CommonListResponse<T> extends ResponseData {
   list: T[]
 }
 
+/** 单个数据项响应数据 */
+export interface SingleNumberResponse extends ResponseData {
+  num: number
+}
+
 /** 业务错误 */
 export class BusinessError extends Error {
   /** 错误码 */

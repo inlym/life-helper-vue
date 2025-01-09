@@ -14,9 +14,13 @@
       <TaskDetail />
     </div>
   </div>
+
+  <!-- 非页面布局流元素 -->
+  <AddProjectDialog />
 </template>
 
 <script setup lang="ts">
+import AddProjectDialog from './components/AddProjectDialog.vue'
 import LeftColumnArea from './components/LeftColumnArea.vue'
 import TaskDetail from './components/TaskDetail.vue'
 import TaskListArea from './components/TaskListArea.vue'

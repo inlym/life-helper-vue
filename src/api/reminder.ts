@@ -1,5 +1,5 @@
 import {requestForData} from '@/core/http'
-import type {CommonListResponse} from '@/core/model'
+import type {CommonListResponse, SingleNumberResponse} from '@/core/model'
 
 /** 待办项目操作 */
 export enum ReminderProjectOperation {
@@ -11,14 +11,10 @@ export enum ReminderProjectOperation {
 /** 待办项目操作 */
 export enum ReminderTaskOperation {
   /** 把待办任务标记为“已完成” */
-  COMPLETE = 'COMPLETE',
-  /** 把待办任务标记为“未完成” */
-  UNCOMPLETE = 'UNCOMPLETE',
-  /** 清空待办任务标的截止时间 */
-  CLEAR_DUE_TIME = 'CLEAR_DUE_TIME',
-  /** 置顶 */
-  PIN = 'PIN',
-  /** 取消置顶 */
+  COMPLETE = 'COMPLETE' /** 把待办任务标记为“未完成” */,
+  UNCOMPLETE = 'UNCOMPLETE' /** 清空待办任务标的截止时间 */,
+  CLEAR_DUE_TIME = 'CLEAR_DUE_TIME' /** 置顶 */,
+  PIN = 'PIN' /** 取消置顶 */,
   UNPIN = 'UNPIN',
 }
 
@@ -51,18 +47,20 @@ export interface ReminderTask {
 }
 
 export enum ReminderFilterType {
-  /** 所有待办（未完成） */
-  ALL_UNCOMPLETED = 'ALL_UNCOMPLETED',
-  /** 已完成 */
-  ALL_COMPLETED = 'ALL_COMPLETED',
-  /** 今天 */
-  TODAY = 'TODAY',
-  /** 已过期 */
-  EXPIRED = 'EXPIRED',
-  /** 无期限 */
-  UNDATED = 'UNDATED',
-  /** 未分类（未选择项目的） */
-  UNSPECIFIED = 'UNSPECIFIED',
+  // 所有
+  ALL = 'all',
+  // 收集箱（即未设置项目的）
+  INBOX = 'inbox',
+  // 今天
+  TODAY = 'today',
+  // 最近7天
+  NEXT_SEVEN_DAYS = 'next_seven_days',
+  // 已过期
+  OVERDUE = 'overdue',
+  // 未设置截止日期的
+  NO_DATE = 'no_date',
+  // 已完成
+  COMPLETED = 'completed',
 }
 
 export interface UpdateReminderTaskDTO {
@@ -83,28 +81,20 @@ export interface UpdateReminderTaskDTO {
   operation: ReminderTaskOperation
 }
 
-export interface ReminderFilter {
-  /** 名称 */
-  name: string
-  /** 类型 */
-  type: ReminderFilterType
-  /** 计数（除“已完成”过滤器外，其余均为未完成任务数） */
-  num: number
-}
-
-export interface FilterTaskCount {
-  /** 所有未完成任务数 */
-  allUncompleted: number
-  /** 今天的未完成任务数 */
-  allCompleted: number
-  /** 所有已完成任务数 */
-  today: number
-  /** 已过期（并且未完成）的任务数 */
-  expired: number
-  /** 无期限（并且未完成）的任务数 */
-  undated: number
-  /** 未分类（并且未完成）的任务数 */
-  unspecified: number
+/**
+ * 查看指定过滤器的未完成任务数
+ *
+ * @param {ReminderFilterType} filter 过滤器类型
+ *
+ * @date 2024/12/27
+ * @since 3.0.0
+ */
+export function countUncompletedTasks(filter: ReminderFilterType) {
+  return requestForData<SingleNumberResponse>({
+    method: 'get',
+    url: `/reminder/filters/${filter}/count-uncompleted`,
+    requireAuth: true,
+  })
 }
 
 /**
@@ -249,20 +239,6 @@ export function getTaskDetail(taskId: number) {
   return requestForData<ReminderTask>({
     method: 'get',
     url: `/reminder/tasks/${taskId}`,
-    requireAuth: true,
-  })
-}
-
-/**
- * 查看各个过滤器的未完成任务数
- *
- * @date 2024/12/26
- * @since 3.0.0
- */
-export function getFilterList() {
-  return requestForData<CommonListResponse<ReminderFilter>>({
-    method: 'get',
-    url: `/reminder/filters`,
     requireAuth: true,
   })
 }

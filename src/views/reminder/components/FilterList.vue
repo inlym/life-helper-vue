@@ -1,63 +1,26 @@
 <template>
   <!-- 左栏右上角的过滤器列表 -->
   <div class="py-2">
-    <div
-      @click="onItemClick(item.type)"
-      v-for="item in filters"
-      :key="item.type"
-      class="flex h-10 cursor-pointer items-center justify-between rounded-md px-3 hover:bg-gray-200"
-      :class="{'bg-gray-200': item.type === activeType}"
-    >
-      <TagOutlined />
-      <div class="ml-2 flex-1 text-sm">{{ item.name }}</div>
-      <div>{{ item.num > 0 ? String(item.num) : '' }}</div>
-    </div>
+    <FilterListItem v-for="item in filterList" :key="item.type" :filter="item.type" :name="item.name" />
   </div>
 </template>
 
-<script setup lang="ts">
-import {getFilterList, ReminderFilterType} from '@/api/reminder'
-import {useHttp} from '@/hooks/useHttp'
-import {TagOutlined} from '@ant-design/icons-vue'
-import {computed} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
-import {reminderEmitter, ReminderEvent} from '../reminder'
+<script lang="ts" setup>
+import {ReminderFilterType} from '@/api/reminder'
+import {reactive} from 'vue'
+import FilterListItem from './FilterListItem.vue'
 
-const route = useRoute()
-const router = useRouter()
-
-const projectId = computed(() => route.params.projectId as string)
-const taskId = computed(() => route.params.taskId as string)
-
-// ===================================== 注册HTTP请求 =====================================
-
-// 获取过滤器列表
-const {data, run, loading} = useHttp(getFilterList, {manual: false})
-
-// ===================================== 页面展示数据 =====================================
-
-/** 过滤器列表 */
-const filters = computed(() => (data.value && data.value.list ? data.value.list : []))
-
-// ===================================== 元素状态管理 =====================================
-
-function onItemClick(type: ReminderFilterType) {
-  router.push({name: 'reminder', params: {projectId: `filter-${type.toLowerCase()}`}})
+interface Filter {
+  type: ReminderFilterType
+  name: string
 }
 
-const activeType = computed(() => {
-  if (projectId.value.startsWith('filter-')) {
-    return projectId.value.substring(7).toUpperCase()
-  }
-
-  return ''
-})
-
-// ===================================== 其他 =====================================
-
-reminderEmitter.on(ReminderEvent.TaskEvent, () => {
-  run()
-})
+const filterList = reactive<Filter[]>([
+  {type: ReminderFilterType.ALL, name: '所有'},
+  {type: ReminderFilterType.TODAY, name: '今天'},
+  {type: ReminderFilterType.NEXT_SEVEN_DAYS, name: '最近7天'},
+  {type: ReminderFilterType.INBOX, name: '收集箱'},
+])
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

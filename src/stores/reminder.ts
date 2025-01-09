@@ -1,4 +1,4 @@
-import {ReminderFilterType, type ReminderFilter, type ReminderProject, type ReminderTask} from '@/api/reminder'
+import {ReminderFilterType, type ReminderProject, type ReminderTask} from '@/api/reminder'
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
 
@@ -10,18 +10,12 @@ export enum CategoryType {
   FILTER = 'FILTER',
 }
 
-/** 任务列表组合 */
-export interface TaskListGroup {
-  /** 已完成任务列表 */
-  completed: ReminderTask[]
-  /** 未完成任务列表 */
-  uncompleted: ReminderTask[]
-}
-
 export const useReminderStore = defineStore(
   'reminder',
 
   () => {
+    // 2025-01-09 13:14:29
+    // 临时测试代码 --- start ---
     /** 当前活跃的分类类型 */
     const activeCategoryType = ref<CategoryType>(CategoryType.FILTER)
 
@@ -29,7 +23,7 @@ export const useReminderStore = defineStore(
     const activeFilterType = ref<ReminderFilterType>()
 
     /** 当前活跃的过滤器 */
-    const activeFilter = ref<ReminderFilter>()
+    const activeFilter = ref<ReminderFilterType>()
 
     /** 当前活跃的项目 ID */
     const activeProjectId = ref<number>()
@@ -50,6 +44,18 @@ export const useReminderStore = defineStore(
     /** 项目列表 */
     const projectList = ref<ReminderProject[]>([])
 
-    return {activeCategoryType, activeFilterType, activeFilter, activeProjectId, activeProject, activeTaskId, updateCount, projectList, update}
+    // 临时测试代码  --- end ---
+
+    return {
+      activeCategoryType,
+      activeFilterType,
+      activeFilter,
+      activeProjectId,
+      activeProject,
+      activeTaskId,
+      updateCount,
+      projectList,
+      update,
+    }
   },
 )
