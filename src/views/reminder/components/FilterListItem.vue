@@ -10,7 +10,7 @@
       <FilterIcon :filter="props.filter" />
     </div>
     <!-- 过滤器名称 -->
-    <div class="text-md flex-1">{{ props.name }}</div>
+    <div class="text-md flex-1">{{ name }}</div>
     <div class="flex size-8 items-center justify-center">
       <div v-if="data" class="text-base">{{ numStr }}</div>
       <!-- 仅首次空数据等待中转圈即可 -->
@@ -25,12 +25,11 @@ import FilterIcon from './FilterIcon.vue'
 import {useHttp} from '@/hooks/useHttp'
 import {computed} from 'vue'
 import {useRouter} from 'vue-router'
-import {reminderEmitter, useReminderStore} from '../reminder'
+import {getFilterName, reminderEmitter, useReminderStore} from '../reminder'
 import {storeToRefs} from 'pinia'
 
 interface FilterListItemProps {
   filter: ReminderFilterType
-  name: string
 }
 
 const props = defineProps<FilterListItemProps>()
@@ -49,6 +48,9 @@ const {refresh, data, loading} = useHttp(countUncompletedTasks, {
 })
 
 // ===================================== 页面展示数据 =====================================
+
+/** 过滤器名称 */
+const name = computed(() => getFilterName(props.filter))
 
 /** 未完成任务数 */
 const numStr = computed(() => (data.value && data.value.num > 0 ? String(data.value.num) : ''))

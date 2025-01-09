@@ -1,7 +1,14 @@
 <template>
   <!-- 添加任务操作的输入框 -->
-  <div class="mt-2">
-    <a-input v-model:value="inputTaskName" size="large" placeholder="请输入待办事件, 按回车键保存" :maxlength="50" @pressEnter="onPressEnter">
+  <div class="py-2">
+    <a-input
+      v-model:value="inputTaskName"
+      size="large"
+      placeholder="请输入待办事件, 按回车键保存"
+      :disabled="loading"
+      :maxlength="50"
+      @pressEnter="onPressEnter"
+    >
       <template #prefix>
         <PlusOutlined :style="{fontSize: '12px'}" />
       </template>
@@ -12,15 +19,25 @@
 <script setup lang="ts">
 import {addTask, type ReminderTask} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
-import {useReminderStore} from '@/stores/reminder'
 import {PlusOutlined} from '@ant-design/icons-vue'
 import {storeToRefs} from 'pinia'
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
+import {reminderEmitter, useReminderStore} from '../reminder'
+import {useRouter} from 'vue-router'
+import {message} from 'ant-design-vue'
 
-const reminderStore = useReminderStore()
-const {activeProjectId, activeProject, activeTaskId} = storeToRefs(reminderStore)
+const router = useRouter()
 
-// ===================================== 注册页面请求 =====================================
+const {rawProjectId} = storeToRefs(useReminderStore())
+
+const projectId = computed(() => {
+  if (rawProjectId.value.startsWith('filter-')) {
+    return 0
+  }
+  return Number.parseInt(rawProjectId.value)
+})
+
+// ===================================== 注册HTTP请求 =====================================
 
 // 新增待办任务
 const {run, loading} = useHttp(addTask, {onSuccess: onHttpSuccess})
@@ -32,14 +49,16 @@ const inputTaskName = ref('')
 
 /** 按下回车键的回调 */
 function onPressEnter() {
-  console.log(`按下了回车键，输入框文本为：${inputTaskName.value}`)
-  run(inputTaskName.value, activeProjectId.value!)
+  run(inputTaskName.value, projectId.value)
 }
 
 // ===================================== 请求回调处理 =====================================
 
 function onHttpSuccess(res: ReminderTask) {
-  activeTaskId.value = res.id
+  inputTaskName.value = ''
+  message.success('任务添加成功')
+  reminderEmitter.emit('taskChanged', res.id)
+  router.push({name: 'reminder', params: {projectId: rawProjectId.value, taskId: res.id}})
 }
 </script>
 

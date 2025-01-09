@@ -40,7 +40,9 @@ export interface ReminderTask {
   content: string
   /** 任务完成时间 */
   completeTime?: string
-  /** 截止时间 */
+  /** 截止期限的日期部分（年月日） */
+  dueDate?: string
+  /** 截止期限的时间部分（时分秒） */
   dueTime?: string
   /** 所属的项目名称 */
   projectName?: string

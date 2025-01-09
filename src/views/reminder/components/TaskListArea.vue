@@ -2,9 +2,9 @@
   <!-- 中间任务列表区域 -->
   <div class="flex h-full flex-col p-5">
     <!-- 标题栏 -->
-    <div class="flex h-10 items-center justify-between">
-      <a-typography-text class="flex-1 text-2xl font-bold">所有待办</a-typography-text>
-    </div>
+    <TaskListHeader />
+    <!-- 添加任务输入框 -->
+    <AddTaskInput />
     <!-- 列表主体 -->
     <div class="list-body flex-1 overflow-y-auto">
       <TaskListItem v-for="item in taskList" v-bind="item" @click="onItemClick(item)" />
@@ -19,6 +19,8 @@ import {useHttp} from '@/hooks/useHttp'
 import {computed, ref, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import TaskListItem from './TaskListItem.vue'
+import TaskListHeader from './TaskListHeader.vue'
+import AddTaskInput from './AddTaskInput.vue'
 
 const route = useRoute()
 const router = useRouter()
