@@ -156,3 +156,47 @@ export function getNext7DaysTaskGroup(taskList: ReminderTask[]) {
 export function getLaterTaskGroup(taskList: ReminderTask[]) {
   return taskList.filter((task) => !task.completeTime).filter((task) => task.dueDate && dayjs(task.dueDate).isAfter(dayjs().add(7, 'day'), 'day'))
 }
+
+export interface TaskGroup {
+  name: string
+  list: ReminderTask[]
+}
+
+export function getTaskGroupList(taskList: ReminderTask[]) {
+  const result: TaskGroup[] = []
+
+  const list1 = getOverdueTaskGroup(taskList)
+  if (list1.length > 0) {
+    result.push({name: '已过期', list: list1})
+  }
+
+  const list2 = getTodayTaskGroup(taskList)
+  if (list1.length > 0) {
+    result.push({name: '今天', list: list2})
+  }
+
+  const list3 = getTomorrowTaskGroup(taskList)
+  if (list1.length > 0) {
+    result.push({name: '明天', list: list3})
+  }
+
+  const list4 = getNext7DaysTaskGroup(taskList)
+  if (list1.length > 0) {
+    result.push({name: '最近7天', list: list4})
+  }
+
+  const list5 = getLaterTaskGroup(taskList)
+  if (list1.length > 0) {
+    result.push({name: '未来', list: list5})
+  }
+
+  const list6 = getNoDateTaskGroup(taskList)
+  if (list1.length > 0) {
+    result.push({name: '无期限', list: list6})
+  }
+
+  const list7 = getCompletedTaskGroup(taskList)
+  if (list1.length > 0) {
+    result.push({name: '已完成', list: list7})
+  }
+}
