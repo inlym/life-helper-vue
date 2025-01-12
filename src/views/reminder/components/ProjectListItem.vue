@@ -3,7 +3,7 @@
   <div class="project-list-item" @click="onItemClick(props.id)">
     <a-dropdown :trigger="['contextmenu']">
       <div :class="{'bg-gray-200': isActived}" class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-gray-200">
-        <Icon icon="solar:clipboard-list-outline" :height="20" />
+        <SolarClipboardListOutline :height="20" />
         <a-typography-text class="ml-2 mr-4 flex-1 text-sm" v-model:content="props.name" ellipsis />
         <div>{{ numStr }}</div>
       </div>
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import {Icon} from '@iconify/vue'
+import SolarClipboardListOutline from '~icons/solar/clipboard-list-outline'
 import {storeToRefs} from 'pinia'
 import {computed} from 'vue'
 import {useRouter} from 'vue-router'

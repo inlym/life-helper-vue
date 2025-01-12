@@ -1,6 +1,7 @@
 import vue from '@vitejs/plugin-vue'
 import path from 'node:path'
 import {fileURLToPath, URL} from 'node:url'
+import Icons from 'unplugin-icons/vite'
 import {AntDesignVueResolver} from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import {defineConfig} from 'vite'
@@ -13,6 +14,9 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
+
+    // https://github.com/unplugin/unplugin-icons
+    Icons({compiler: 'vue3'}),
 
     // Ant Design Vue 自动按需引入组件
     // https://antdv.com/docs/vue/introduce-cn
