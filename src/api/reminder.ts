@@ -10,11 +10,15 @@ export enum ReminderProjectOperation {
 
 /** 待办项目操作 */
 export enum ReminderTaskOperation {
-  /** 把待办任务标记为“已完成” */
-  COMPLETE = 'COMPLETE' /** 把待办任务标记为“未完成” */,
-  UNCOMPLETE = 'UNCOMPLETE' /** 清空待办任务标的截止时间 */,
-  CLEAR_DUE_TIME = 'CLEAR_DUE_TIME' /** 置顶 */,
-  PIN = 'PIN' /** 取消置顶 */,
+  // 把待办任务标记为“已完成”
+  COMPLETE = 'COMPLETE',
+  // 把待办任务标记为“未完成”
+  UNCOMPLETE = 'UNCOMPLETE',
+  // 清空待办任务标的截止时间
+  CLEAR_DUE_DATETIME = 'CLEAR_DUE_DATETIME',
+  // 置顶
+  PIN = 'PIN',
+  // 取消置顶
   UNPIN = 'UNPIN',
 }
 
@@ -77,6 +81,8 @@ export interface UpdateReminderTaskDTO {
   projectId: number
   /** 任务描述内容文本 */
   content: string
+  /** 截止日期 */
+  dueDate: string
   /** 截止时间 */
   dueTime: string
   /** 特定操作 */
@@ -217,19 +223,6 @@ export function updateTask(taskId: number, dto: Partial<UpdateReminderTaskDTO>) 
 }
 
 /**
- * 对任务进行操作
- *
- * @param taskId 待办任务 ID
- * @param operation 操作方式
- *
- * @date 2025/01/06
- * @since 3.0.0
- */
-export function operateTask(taskId: number, operation: ReminderTaskOperation) {
-  return updateTask(taskId, {operation})
-}
-
-/**
  * 查看单条任务详情
  *
  * @param taskId 待办任务 ID
@@ -277,4 +270,35 @@ export function getTasksByProjectId(projectId: number) {
     params: {project_id: projectId},
     requireAuth: true,
   })
+}
+
+/**
+ * 设置截止期限
+ *
+ * @param taskId 待办任务 ID
+ * @param dueDate 截止日期
+ * @param dueTime 截止时间
+ *
+ * @date 2025/01/13
+ * @since 3.0.0
+ */
+export function setDueDate(taskId: number, dueDate: string, dueTime?: string) {
+  const dto: Partial<UpdateReminderTaskDTO> = {dueDate}
+  if (dueTime) {
+    dto.dueTime = dueTime
+  }
+
+  return updateTask(taskId, dto)
+}
+
+/**
+ * 清除截止期限
+ *
+ * @param taskId 待办任务 ID
+ *
+ * @date 2025/01/13
+ * @since 3.0.0
+ */
+export function clearDueDate(taskId: number) {
+  return updateTask(taskId, {operation: ReminderTaskOperation.CLEAR_DUE_DATETIME})
 }

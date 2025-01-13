@@ -10,10 +10,7 @@
           <CompletedBox :completed="Boolean(data.completeTime)" />
         </div>
         <!-- 截止时间操作按钮 -->
-        <div class="ml-4 flex cursor-pointer items-center rounded-md px-4 py-2 hover:bg-gray-100">
-          <Calendar fill="#9ca3af" size="18" theme="outline" />
-          <div class="ml-2 text-gray-400">设置截止时间</div>
-        </div>
+        <TaskDueDate type="button" :taskId="data.id" :dueDate="data.dueDate" :dueTime="data.dueTime" />
       </div>
       <!-- 第二行，任务标题 -->
       <div class="h-14 px-4 pb-2 pt-4">
@@ -49,6 +46,7 @@ import {Calendar} from '@icon-park/vue-next'
 import {computed, useTemplateRef, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import CompletedBox from './CompletedBox.vue'
+import TaskDueDate from './TaskDueDate.vue'
 
 const route = useRoute()
 const router = useRouter()
