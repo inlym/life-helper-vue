@@ -1,14 +1,17 @@
 import Antd from 'ant-design-vue'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
 import {createPinia} from 'pinia'
 import {createPersistedState} from 'pinia-plugin-persistedstate'
 import {createApp} from 'vue'
 import Vue3Lottie from 'vue3-lottie'
 import App from './App.vue'
 import {router} from './router'
+dayjs.locale('zh-cn')
 
+import '@icon-park/vue-next/styles/index.css'
 import 'ant-design-vue/dist/reset.css'
 import 'tailwindcss/tailwind.css'
-import '@icon-park/vue-next/styles/index.css'
 
 const app = createApp(App)
 
