@@ -7,7 +7,7 @@
       <div class="flex h-14 items-center border-b">
         <!-- 是否完成勾选框 -->
         <div class="flex h-full w-14 items-center justify-center border-r">
-          <CompletedBox :completed="Boolean(currentTask.completeTime)" />
+          <CompletedBox :task-id="currentTask.id" v-model:complete-time="currentTask.completeTime" />
         </div>
         <!-- 截止时间操作按钮 -->
         <TaskDueDate type="button" :taskId="currentTask.id" :dueDate="currentTask.dueDate" :dueTime="currentTask.dueTime" />
@@ -52,7 +52,7 @@ const contentInput = useTemplateRef<HTMLInputElement>('content-input')
 
 // ===================================== 共享类数据 =====================================
 
-const {rawProjectId, rawTaskId, taskList, currentTask} = storeToRefs(useReminderStore())
+const {rawTaskId, currentTask} = storeToRefs(useReminderStore())
 
 // ===================================== 注册HTTP请求 =====================================
 
@@ -70,6 +70,7 @@ function onContentBlockClick() {
 
 // ===================================== 请求回调 =====================================
 
+// 请求成功处理
 function onSuccess(res: ReminderTask) {
   currentTask.value = res
 }

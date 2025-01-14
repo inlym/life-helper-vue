@@ -75,9 +75,10 @@ import QuillSnoozeTomorrow from '~icons/quill/snooze-tomorrow'
 import QuillCalendarAdd from '~icons/quill/calendar-add'
 import QuillMoon from '~icons/quill/moon'
 import {useHttp} from '@/hooks/useHttp'
-import {clearDueDate, setDueDate} from '@/api/reminder'
+import {clearDueDate, setDueDate, type ReminderTask} from '@/api/reminder'
 import dayjs, {Dayjs} from 'dayjs'
-import {reminderEmitter} from '../reminder'
+import {reminderEmitter, useReminderStore} from '../reminder'
+import {storeToRefs} from 'pinia'
 
 interface TaskDueDateProps {
   /** 展示类型：按钮或文字 */
@@ -92,13 +93,17 @@ interface TaskDueDateProps {
 
 const props = defineProps<TaskDueDateProps>()
 
+// ===================================== 共享类数据 =====================================
+
+const {rawTaskId, currentTask} = storeToRefs(useReminderStore())
+
 // ===================================== 注册HTTP请求 =====================================
 
 // 设置截止期限
-const {data: data1, run: run1} = useHttp(setDueDate, {onSuccess: onSuccess1})
+const {data: data1, run: run1} = useHttp(setDueDate, {onSuccess})
 
 // 清空截止期限
-const {data: data2, run: run2} = useHttp(clearDueDate, {onSuccess: onSuccess2})
+const {data: data2, run: run2} = useHttp(clearDueDate, {onSuccess})
 
 // ===================================== 表单类数据 =====================================
 
@@ -130,7 +135,7 @@ function clear() {
 function submit() {
   const taskId = props.taskId
   if (dueDate.value) {
-    const dueDateStr = dueDate.value?.format('YYYY-MM-DD')
+    const dueDateStr = dueDate.value.format('YYYY-MM-DD')
     if (dueTime.value) {
       const dueTimeStr = dueTime.value.format('HH:mm:ss')
       run1(taskId, dueDateStr, dueTimeStr)
@@ -142,12 +147,10 @@ function submit() {
 
 // ===================================== 请求回调 =====================================
 
-function onSuccess1() {
-  reminderEmitter.emit('taskChanged', props.taskId)
-  open.value = false
-}
-
-function onSuccess2() {
+function onSuccess(res: ReminderTask) {
+  if (props.taskId === res.id) {
+    currentTask.value = res
+  }
   reminderEmitter.emit('taskChanged', props.taskId)
   open.value = false
 }

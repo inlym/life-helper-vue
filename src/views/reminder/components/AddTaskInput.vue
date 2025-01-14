@@ -40,7 +40,7 @@ const projectId = computed(() => {
 // ===================================== 注册HTTP请求 =====================================
 
 // 新增待办任务
-const {run, loading} = useHttp(addTask, {onSuccess: onHttpSuccess})
+const {run, loading} = useHttp(addTask, {onSuccess})
 
 // ===================================== 表单绑定数据 =====================================
 
@@ -52,9 +52,9 @@ function onPressEnter() {
   run(inputTaskName.value, projectId.value)
 }
 
-// ===================================== 请求回调处理 =====================================
+// ===================================== 请求回调 =====================================
 
-function onHttpSuccess(res: ReminderTask) {
+function onSuccess(res: ReminderTask) {
   inputTaskName.value = ''
   message.success('任务添加成功')
   reminderEmitter.emit('taskChanged', res.id)

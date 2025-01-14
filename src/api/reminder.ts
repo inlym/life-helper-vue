@@ -302,3 +302,27 @@ export function setDueDate(taskId: number, dueDate: string, dueTime?: string) {
 export function clearDueDate(taskId: number) {
   return updateTask(taskId, {operation: ReminderTaskOperation.CLEAR_DUE_DATETIME})
 }
+
+/**
+ * 完成任务
+ *
+ * @param taskId 待办任务 ID
+ *
+ * @date 2025/01/13
+ * @since 3.0.0
+ */
+export function completeTask(taskId: number) {
+  return updateTask(taskId, {operation: ReminderTaskOperation.COMPLETE})
+}
+
+/**
+ * 取消完成任务
+ *
+ * @param taskId 待办任务 ID
+ *
+ * @date 2025/01/13
+ * @since 3.0.0
+ */
+export function uncompleteTask(taskId: number) {
+  return updateTask(taskId, {operation: ReminderTaskOperation.UNCOMPLETE})
+}

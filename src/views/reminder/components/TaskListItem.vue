@@ -1,7 +1,7 @@
 <template>
   <!-- 单个任务列表项 -->
   <div class="task-list-item flex h-10 items-center justify-between rounded-md px-2 hover:bg-gray-100">
-    <CompletedBox :completed />
+    <CompletedBox :task-id="task.id" v-model:complete-time="task.completeTime" />
     <div class="ml-1 flex h-full flex-1 items-center border-b border-gray-100">
       <!-- 任务名称 -->
       <a-typography-text class="flex-1" :class="{'text-gray-400': completed}" v-model:content="props.name" ellipsis />
@@ -19,18 +19,33 @@
 import {type ReminderTask} from '@/api/reminder'
 import CompletedBox from './CompletedBox.vue'
 import {useRouter} from 'vue-router'
-import {computed} from 'vue'
+import {computed, ref, watch} from 'vue'
 import TaskDueDate from './TaskDueDate.vue'
 
 const router = useRouter()
 
 const props = defineProps<ReminderTask>()
 
+// ===================================== 展示类数据 =====================================
+
+const task = ref<ReminderTask>(props)
+
+const completed = computed(() => Boolean(task.value.completeTime))
+
+// ===================================== 交互事件 =====================================
+
 function onProjectClick(id: number) {
   router.push({name: 'reminder', params: {projectId: id}})
 }
 
-const completed = computed(() => Boolean(props.completeTime))
+// ===================================== 事件监听 =====================================
+
+watch(
+  () => props,
+  (val) => {
+    task.value = val
+  },
+)
 </script>
 
 <style lang="scss" scoped></style>

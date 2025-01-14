@@ -29,7 +29,7 @@ import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
 import {ref, watch} from 'vue'
 import {useRouter} from 'vue-router'
-import {useReminderStore} from '../reminder'
+import {reminderEmitter, useReminderStore} from '../reminder'
 import {getTaskGroupListByDate, type TaskGroup} from '../services/filter'
 import AddTaskInput from './AddTaskInput.vue'
 import TaskListHeader from './TaskListHeader.vue'
@@ -65,6 +65,15 @@ function onItemClick(item: ReminderTask) {
   router.push({name: 'reminder', params: {projectId: rawProjectId.value, taskId: item.id}})
 }
 
+function refreshData() {
+  if (rawProjectId.value.startsWith('filter-')) {
+    const type = rawProjectId.value.substring(7).toUpperCase() as ReminderFilterType
+    run1(type)
+  } else {
+    run2(Number.parseInt(rawProjectId.value))
+  }
+}
+
 // ===================================== 请求回调 =====================================
 
 function onSuccess(res: CommonListResponse<ReminderTask>) {
@@ -78,15 +87,21 @@ function onSuccess(res: CommonListResponse<ReminderTask>) {
 watch(
   rawProjectId,
   (newProjectId) => {
-    if (newProjectId.startsWith('filter-')) {
-      const type = newProjectId.substring(7).toUpperCase() as ReminderFilterType
-      run1(type)
-    } else {
-      run2(Number.parseInt(newProjectId))
-    }
+    refreshData()
   },
   {immediate: true},
 )
+
+watch(
+  taskList,
+  (newList) => {
+    taskGroupList.value = getTaskGroupListByDate(newList)
+    collapseActiveKey.value = taskGroupList.value.map((item, index) => index.toString())
+  },
+  {deep: true},
+)
+
+reminderEmitter.on('taskChanged', refreshData)
 </script>
 
 <style lang="scss" scoped>
