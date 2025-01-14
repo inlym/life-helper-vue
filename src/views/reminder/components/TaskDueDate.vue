@@ -1,7 +1,7 @@
 <template>
   <!-- 任务的截止期限 -->
   <div class="flex items-center justify-between" @click.stop="">
-    <a-popover trigger="click">
+    <a-popover trigger="click" :open>
       <template #content>
         <!-- 弹出框中的内容 -->
         <div class="flex w-64 flex-col p-1">
@@ -38,21 +38,21 @@
           </div>
           <!-- 日历操作区域 -->
           <div class="mt-2">
-            <a-calendar :fullscreen="false" mode="month" />
+            <a-calendar v-model:value="dueDate" :fullscreen="false" mode="month" />
           </div>
           <!-- 时间选择区域 -->
           <div class="mt-2">
-            <a-time-picker class="w-full" @openChange="openChange" @panelChange="panelChange" />
+            <a-time-picker v-model:value="dueTime" class="w-full" />
           </div>
           <!-- 按钮区 -->
           <div class="mt-4 flex items-center justify-between gap-4">
-            <a-button class="flex-1">清除</a-button>
-            <a-button class="flex-1" type="primary">确定</a-button>
+            <a-button class="flex-1" @click="clear">清除</a-button>
+            <a-button class="flex-1" type="primary" :disabled="btn1Disabled" @click="submit">确定</a-button>
           </div>
         </div>
       </template>
       <!-- 入口区域 -->
-      <div :class="textColor" class="cursor-pointer">
+      <div :class="textColor" class="cursor-pointer" @click="open = true">
         <div class="mx-2 flex items-center justify-between rounded-md px-2 py-1 hover:bg-gray-100" v-if="props.type === 'button'">
           <MdiCalendarMonthOutline />
           <div class="ml-2 flex items-center justify-between text-sm">
@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
 import {formatDate, formatDate2, formatTime, getDateColor} from '../services/date'
 import MdiCalendarMonthOutline from '~icons/mdi/calendar-month-outline'
 import QuillSun from '~icons/quill/sun'
@@ -76,6 +76,8 @@ import QuillCalendarAdd from '~icons/quill/calendar-add'
 import QuillMoon from '~icons/quill/moon'
 import {useHttp} from '@/hooks/useHttp'
 import {clearDueDate, setDueDate} from '@/api/reminder'
+import dayjs, {Dayjs} from 'dayjs'
+import {reminderEmitter} from '../reminder'
 
 interface TaskDueDateProps {
   /** 展示类型：按钮或文字 */
@@ -93,12 +95,15 @@ const props = defineProps<TaskDueDateProps>()
 // ===================================== 注册HTTP请求 =====================================
 
 // 设置截止期限
-const {data: data1, run: run1} = useHttp(setDueDate)
+const {data: data1, run: run1} = useHttp(setDueDate, {onSuccess: onSuccess1})
 
 // 清空截止期限
-const {data: data2, run: run2} = useHttp(clearDueDate)
+const {data: data2, run: run2} = useHttp(clearDueDate, {onSuccess: onSuccess2})
 
 // ===================================== 表单类数据 =====================================
+
+const dueDate = ref<Dayjs>()
+const dueTime = ref<Dayjs>()
 
 // ===================================== 展示类数据 =====================================
 
@@ -107,16 +112,56 @@ const dateText1 = computed(() => (props.dueDate ? formatDate2(props.dueDate) : '
 const dateText2 = computed(() => (props.dueDate ? formatDate(props.dueDate) : ''))
 const timeText = computed(() => (props.dueTime ? formatTime(props.dueTime) : ''))
 
-// 2025-01-13 22:17:51
-// 临时测试代码 --- start ---
-function openChange(status: any) {
-  console.log(status)
+// ===================================== 状态类数据 =====================================
+
+// [确定]按钮是否禁用
+const btn1Disabled = computed(() => !dueDate.value)
+
+// 整个浮层是否打开
+const open = ref(false)
+
+// ===================================== 交互事件 =====================================
+
+function clear() {
+  const taskId = props.taskId
+  run2(taskId)
 }
 
-function panelChange(value: any, mode: any) {
-  console.log(value, mode)
+function submit() {
+  const taskId = props.taskId
+  if (dueDate.value) {
+    const dueDateStr = dueDate.value?.format('YYYY-MM-DD')
+    if (dueTime.value) {
+      const dueTimeStr = dueTime.value.format('HH:mm:ss')
+      run1(taskId, dueDateStr, dueTimeStr)
+    } else {
+      run1(taskId, dueDateStr)
+    }
+  }
 }
-// 临时测试代码  --- end ---
+
+// ===================================== 请求回调 =====================================
+
+function onSuccess1() {
+  reminderEmitter.emit('taskChanged', props.taskId)
+  open.value = false
+}
+
+function onSuccess2() {
+  reminderEmitter.emit('taskChanged', props.taskId)
+  open.value = false
+}
+
+// ===================================== 其他 =====================================
+
+watch(
+  () => [props.dueDate, props.dueTime],
+  ([dueDateNew, dueTimeNew]) => {
+    dueDate.value = dueDateNew ? dayjs(dueDateNew) : undefined
+    dueTime.value = dueTimeNew ? dayjs(dueTimeNew, 'HH:mm:ss') : undefined
+  },
+  {immediate: true},
+)
 </script>
 
 <style scoped lang="scss"></style>

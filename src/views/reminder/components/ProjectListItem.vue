@@ -3,7 +3,7 @@
   <div class="project-list-item" @click="onItemClick(props.id)">
     <a-dropdown :trigger="['contextmenu']">
       <div :class="{'bg-gray-200': isActived}" class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-gray-200">
-        <SolarClipboardListOutline :height="20" />
+        <SolarClipboardListOutline class="size-5" />
         <a-typography-text class="ml-2 mr-4 flex-1 text-sm" v-model:content="props.name" ellipsis />
         <div>{{ numStr }}</div>
       </div>
@@ -35,10 +35,9 @@ interface ProjectListItemProps {
 const props = defineProps<ProjectListItemProps>()
 
 const router = useRouter()
-const reminderStore = useReminderStore()
-const {rawProjectId} = storeToRefs(reminderStore)
+const {rawProjectId} = storeToRefs(useReminderStore())
 
-// ===================================== 页面展示数据 =====================================
+// ===================================== 展示类数据 =====================================
 
 /** 未完成任务数 */
 const numStr = computed(() => (props.num > 0 ? String(props.num) : ''))
@@ -46,7 +45,7 @@ const numStr = computed(() => (props.num > 0 ? String(props.num) : ''))
 /** 当前列表项是否为“选中”状态 */
 const isActived = computed(() => `${props.id}` === rawProjectId.value)
 
-// ===================================== 页面交互事件 =====================================
+// ===================================== 交互事件 =====================================
 
 /** 点击列表项 */
 function onItemClick(id: number) {

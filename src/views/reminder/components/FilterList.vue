@@ -18,6 +18,7 @@ const filterList = reactive<Filter[]>([
   {type: ReminderFilterType.ALL},
   {type: ReminderFilterType.TODAY},
   {type: ReminderFilterType.NEXT_SEVEN_DAYS},
+  {type: ReminderFilterType.NO_DATE},
   {type: ReminderFilterType.INBOX},
 ])
 </script>

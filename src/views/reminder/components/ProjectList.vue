@@ -3,7 +3,7 @@
   <div class="py-1">
     <!-- 列表头部区域 -->
     <div class="flex h-8 items-center justify-between">
-      <div class="font-bold text-gray-500">清单</div>
+      <div class="ml-2 font-bold text-gray-500">清单</div>
       <div class="mr-2 flex h-full w-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200" @click="addProjectDialogOpen = true">
         <PlusOutlined />
       </div>
@@ -37,7 +37,7 @@ import {computed} from 'vue'
 import {reminderEmitter, useReminderStore} from '../reminder'
 import ProjectListItem from './ProjectListItem.vue'
 
-// ===================================== 全局状态管理 =====================================
+// ===================================== 共享状态数据 =====================================
 
 const {addProjectDialogOpen, projectList} = storeToRefs(useReminderStore())
 
@@ -51,7 +51,7 @@ const {refresh, data, loading} = useHttp(getProjectList, {
   },
 })
 
-// ===================================== 页面展示数据 =====================================
+// ===================================== 展示类数据 =====================================
 
 /** 项目列表 */
 const projects = computed(() => (data.value ? data.value.list : []))

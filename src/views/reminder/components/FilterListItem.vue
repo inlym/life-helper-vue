@@ -6,11 +6,10 @@
     @click="onItemClick(props.filter)"
   >
     <!-- 过滤器图标 -->
-    <div class="flex size-10 items-center justify-center">
-      <FilterIcon :filter="props.filter" />
-    </div>
+    <FilterIcon :filter="props.filter" />
     <!-- 过滤器名称 -->
     <div class="text-md flex-1">{{ name }}</div>
+    <!-- 未完成任务数 -->
     <div class="flex size-8 items-center justify-center">
       <div v-if="data" class="text-base">{{ numStr }}</div>
       <!-- 仅首次空数据等待中转圈即可 -->
@@ -21,12 +20,12 @@
 
 <script setup lang="ts">
 import {countUncompletedTasks, ReminderFilterType} from '@/api/reminder'
-import FilterIcon from './FilterIcon.vue'
 import {useHttp} from '@/hooks/useHttp'
+import {storeToRefs} from 'pinia'
 import {computed} from 'vue'
 import {useRouter} from 'vue-router'
 import {getFilterName, reminderEmitter, useReminderStore} from '../reminder'
-import {storeToRefs} from 'pinia'
+import FilterIcon from './FilterIcon.vue'
 
 interface FilterListItemProps {
   filter: ReminderFilterType
@@ -44,10 +43,9 @@ const {rawProjectId} = storeToRefs(reminderStore)
 const {refresh, data, loading} = useHttp(countUncompletedTasks, {
   manual: false,
   defaultParams: [props.filter],
-  cacheKey: `cache:reminder:filter-${props.filter}`,
 })
 
-// ===================================== 页面展示数据 =====================================
+// ===================================== 展示类数据 =====================================
 
 /** 过滤器名称 */
 const name = computed(() => getFilterName(props.filter))
@@ -58,7 +56,7 @@ const numStr = computed(() => (data.value && data.value.num > 0 ? String(data.va
 /** 当前列表项是否为“选中”状态 */
 const isActived = computed(() => `filter-${props.filter}` === rawProjectId.value)
 
-// ===================================== 页面交互事件 =====================================
+// ===================================== 交互事件 =====================================
 
 /** 点击列表项 */
 function onItemClick(filter: ReminderFilterType) {
