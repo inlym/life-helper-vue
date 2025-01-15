@@ -77,7 +77,7 @@ import QuillMoon from '~icons/quill/moon'
 import {useHttp} from '@/hooks/useHttp'
 import {clearDueDate, setDueDate, type ReminderTask} from '@/api/reminder'
 import dayjs, {Dayjs} from 'dayjs'
-import {reminderEmitter, useReminderStore} from '../reminder'
+import {reminderEventBus, useReminderStore} from '../reminder'
 import {storeToRefs} from 'pinia'
 
 interface TaskDueDateProps {
@@ -151,7 +151,7 @@ function onSuccess(res: ReminderTask) {
   if (props.taskId === res.id) {
     currentTask.value = res
   }
-  reminderEmitter.emit('taskChanged', props.taskId)
+  reminderEventBus.emit({refreshFilterList: true, refreshProjectList: true, refreshTaskList: true})
   open.value = false
 }
 

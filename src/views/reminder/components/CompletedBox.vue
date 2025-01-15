@@ -7,13 +7,13 @@
 </template>
 
 <script lang="ts" setup>
-import MaterialSymbolsCheckBoxRounded from '~icons/material-symbols/check-box-rounded'
-import MaterialSymbolsCheckBoxOutlineBlank from '~icons/material-symbols/check-box-outline-blank'
-import {storeToRefs} from 'pinia'
-import {reminderEmitter, useReminderStore} from '../reminder'
-import {useHttp} from '@/hooks/useHttp'
 import {completeTask, uncompleteTask, type ReminderTask} from '@/api/reminder'
+import {useHttp} from '@/hooks/useHttp'
 import dayjs from 'dayjs'
+import {storeToRefs} from 'pinia'
+import MaterialSymbolsCheckBoxOutlineBlank from '~icons/material-symbols/check-box-outline-blank'
+import MaterialSymbolsCheckBoxRounded from '~icons/material-symbols/check-box-rounded'
+import {reminderEventBus, useReminderStore} from '../reminder'
 
 /** 任务完成时间 */
 const completeTime = defineModel<string | undefined>('completeTime', {required: true})
@@ -63,7 +63,7 @@ function onSuccess(res: ReminderTask) {
     t.completeTime = res.completeTime
   }
 
-  reminderEmitter.emit('taskChanged', res.id)
+  reminderEventBus.emit({refreshFilterList: true, refreshProjectList: true, refreshTaskList: true})
 }
 </script>
 

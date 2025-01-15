@@ -29,7 +29,7 @@ import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
 import {ref, watch} from 'vue'
 import {useRouter} from 'vue-router'
-import {reminderEmitter, useReminderStore} from '../reminder'
+import {reminderEventBus, useReminderStore} from '../reminder'
 import {getTaskGroupListByDate, type TaskGroup} from '../services/filter'
 import AddTaskInput from './AddTaskInput.vue'
 import TaskListHeader from './TaskListHeader.vue'
@@ -101,7 +101,11 @@ watch(
   {deep: true},
 )
 
-reminderEmitter.on('taskChanged', refreshData)
+reminderEventBus.on((event) => {
+  if (event.refreshTaskList) {
+    refreshData()
+  }
+})
 </script>
 
 <style lang="scss" scoped>

@@ -24,7 +24,8 @@ import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
 import {computed} from 'vue'
 import {useRouter} from 'vue-router'
-import {getFilterName, reminderEmitter, useReminderStore} from '../reminder'
+import {reminderEventBus, useReminderStore} from '../reminder'
+import {getFilterName} from '../services/filter'
 import FilterIcon from './FilterIcon.vue'
 
 interface FilterListItemProps {
@@ -65,8 +66,10 @@ function onItemClick(filter: ReminderFilterType) {
 
 // ===================================== 事件监听 =====================================
 
-reminderEmitter.on('taskChanged', () => {
-  refresh()
+reminderEventBus.on((event) => {
+  if (event.refreshFilterList) {
+    refresh()
+  }
 })
 </script>
 

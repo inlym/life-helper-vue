@@ -23,9 +23,9 @@ import {addProject, type ReminderProject} from '@/api/reminder'
 import {BusinessError} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {message} from 'ant-design-vue'
-import {computed, ref} from 'vue'
-import {reminderEmitter, useReminderStore} from '../reminder'
 import {storeToRefs} from 'pinia'
+import {computed, ref} from 'vue'
+import {reminderEventBus, useReminderStore} from '../reminder'
 
 // ================================== 共享类数据 ===================================
 
@@ -59,8 +59,8 @@ function afterClose() {
 
 function onSuccess(res: ReminderProject) {
   dialog1.value.open = false
-  reminderEmitter.emit('projectChanged', res.id)
   message.success(`待办项目 ${res.name} 创建成功`)
+  reminderEventBus.emit({refreshProjectList: true})
 }
 
 function onError(error: Error) {

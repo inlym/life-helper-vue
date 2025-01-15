@@ -7,9 +7,10 @@
 
 <script setup lang="ts">
 import {storeToRefs} from 'pinia'
-import {getFilterName, useReminderStore} from '../reminder'
+import {useReminderStore} from '../reminder'
 import {computed} from 'vue'
 import type {ReminderFilterType} from '@/api/reminder'
+import {getFilterName} from '../services/filter'
 
 // ===================================== 全局状态管理 =====================================
 

@@ -1,16 +1,19 @@
-import {ReminderFilterType, type ReminderProject, type ReminderTask} from '@/api/reminder'
-import dayjs from 'dayjs'
-import mitt from 'mitt'
+import {type ReminderProject, type ReminderTask} from '@/api/reminder'
+import {useEventBus} from '@vueuse/core'
 import {defineStore} from 'pinia'
 import {computed, ref} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
+import {useRoute} from 'vue-router'
 
-type ReminderEvents = {
-  projectChanged: number
-  taskChanged: number
+export interface ReminderEventBus {
+  /** 是否需要刷新过滤器列表数据 */
+  refreshFilterList?: boolean
+  /** 是否需要刷新项目列表数据 */
+  refreshProjectList?: boolean
+  /** 是否需要刷新任务列表数据 */
+  refreshTaskList?: boolean
 }
 
-export const reminderEmitter = mitt<ReminderEvents>()
+export const reminderEventBus = useEventBus<ReminderEventBus>('reminder-bus')
 
 export const useReminderStore = defineStore(
   'reminder',
@@ -35,10 +38,18 @@ export const useReminderStore = defineStore(
     const dialog2 = ref({
       /** 对话框是否打开 */
       open: false,
-
+      /** 当前的项目 ID */
+      projectId: 0,
       /** 当前的项目名称 */
       name: '',
     })
+
+    /** 打开对话框2 */
+    function openDialog2(projectId: number, name: string) {
+      dialog2.value.projectId = projectId
+      dialog2.value.name = name
+      dialog2.value.open = true
+    }
 
     // ==================================== 跨组件共享数据 ====================================
 
@@ -59,35 +70,7 @@ export const useReminderStore = defineStore(
       currentTask,
       dialog1,
       dialog2,
+      openDialog2,
     }
   },
 )
-
-/**
- * 获取过滤器名称
- *
- * @param filter 过滤器
- *
- * @date 2025/01/09
- * @since 3.0.0
- */
-export function getFilterName(filter: ReminderFilterType) {
-  switch (filter) {
-    case ReminderFilterType.ALL:
-      return '所有'
-    case ReminderFilterType.INBOX:
-      return '收集箱'
-    case ReminderFilterType.TODAY:
-      return '今天'
-    case ReminderFilterType.NEXT_SEVEN_DAYS:
-      return '最近7天'
-    case ReminderFilterType.OVERDUE:
-      return '已过期'
-    case ReminderFilterType.NO_DATE:
-      return '无期限'
-    case ReminderFilterType.COMPLETED:
-      return '已完成'
-    default:
-      return ''
-  }
-}

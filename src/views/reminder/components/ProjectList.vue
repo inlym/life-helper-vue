@@ -34,7 +34,7 @@ import {PlusOutlined} from '@ant-design/icons-vue'
 import {Empty} from 'ant-design-vue'
 import {storeToRefs} from 'pinia'
 import {computed} from 'vue'
-import {reminderEmitter, useReminderStore} from '../reminder'
+import {reminderEventBus, useReminderStore} from '../reminder'
 import ProjectListItem from './ProjectListItem.vue'
 
 // ===================================== 共享类数据 =====================================
@@ -60,8 +60,10 @@ const emptyImage = Empty.PRESENTED_IMAGE_SIMPLE
 
 // ===================================== 事件监听 =====================================
 
-reminderEmitter.on('*', () => {
-  refresh()
+reminderEventBus.on((event) => {
+  if (event.refreshProjectList) {
+    refresh()
+  }
 })
 </script>
 

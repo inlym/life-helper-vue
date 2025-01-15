@@ -20,11 +20,11 @@
 import {addTask, type ReminderTask} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
 import {PlusOutlined} from '@ant-design/icons-vue'
+import {message} from 'ant-design-vue'
 import {storeToRefs} from 'pinia'
 import {computed, ref} from 'vue'
-import {reminderEmitter, useReminderStore} from '../reminder'
 import {useRouter} from 'vue-router'
-import {message} from 'ant-design-vue'
+import {reminderEventBus, useReminderStore} from '../reminder'
 
 const router = useRouter()
 
@@ -57,7 +57,7 @@ function onPressEnter() {
 function onSuccess(res: ReminderTask) {
   inputTaskName.value = ''
   message.success('任务添加成功')
-  reminderEmitter.emit('taskChanged', res.id)
+  reminderEventBus.emit({refreshFilterList: true, refreshProjectList: true, refreshTaskList: true})
   router.push({name: 'reminder', params: {projectId: rawProjectId.value, taskId: res.id}})
 }
 </script>

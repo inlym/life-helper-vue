@@ -1,4 +1,4 @@
-import type {ReminderTask} from '@/api/reminder'
+import {ReminderFilterType, type ReminderTask} from '@/api/reminder'
 import dayjs from 'dayjs'
 
 /** 过滤器函数 */
@@ -7,6 +7,35 @@ export type FilterFn = (task: ReminderTask) => boolean
 export interface FilterWrapper {
   title: string
   fn: FilterFn
+}
+
+/**
+ * 获取过滤器名称
+ *
+ * @param filter 过滤器
+ *
+ * @date 2025/01/09
+ * @since 3.0.0
+ */
+export function getFilterName(filter: ReminderFilterType) {
+  switch (filter) {
+    case ReminderFilterType.ALL:
+      return '所有'
+    case ReminderFilterType.INBOX:
+      return '收集箱'
+    case ReminderFilterType.TODAY:
+      return '今天'
+    case ReminderFilterType.NEXT_SEVEN_DAYS:
+      return '最近7天'
+    case ReminderFilterType.OVERDUE:
+      return '已过期'
+    case ReminderFilterType.NO_DATE:
+      return '无期限'
+    case ReminderFilterType.COMPLETED:
+      return '已完成'
+    default:
+      return ''
+  }
 }
 
 /** 日期过滤器列表 */

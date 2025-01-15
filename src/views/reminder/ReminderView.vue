@@ -1,6 +1,6 @@
 <template>
   <!-- 外层占满屏幕高度的容器，内部分设左、中、右三栏 -->
-  <div class="flex h-screen justify-between">
+  <div class="reminder-view flex h-screen justify-between">
     <!-- 左栏 -->
     <div class="w-80 bg-gray-50">
       <LeftColumnArea />
@@ -17,11 +17,13 @@
 
   <!-- 非页面布局流元素 -->
   <AddProjectDialog />
+  <RenameProjectDialog />
 </template>
 
 <script setup lang="ts">
 import AddProjectDialog from './components/AddProjectDialog.vue'
 import LeftColumnArea from './components/LeftColumnArea.vue'
+import RenameProjectDialog from './components/RenameProjectDialog.vue'
 import TaskDetail from './components/TaskDetail.vue'
 import TaskListArea from './components/TaskListArea.vue'
 </script>
