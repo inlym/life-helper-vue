@@ -23,12 +23,24 @@ export const useReminderStore = defineStore(
     const rawProjectId = computed(() => route.params.projectId as string)
     const rawTaskId = computed(() => route.params.taskId as string)
 
-    // ================================== 对话框组件启用状态 ==================================
+    // ================================ 对话框组件状态及数据传递 ================================
 
-    /** 新增项目对话框 */
-    const addProjectDialogOpen = ref(false)
+    /** 对话框1: 新增项目 */
+    const dialog1 = ref({
+      /** 对话框是否打开 */
+      open: false,
+    })
 
-    // ===================================== 跨组件共享数据 =====================================
+    /** 对话框2: 重命名项目 */
+    const dialog2 = ref({
+      /** 对话框是否打开 */
+      open: false,
+
+      /** 当前的项目名称 */
+      name: '',
+    })
+
+    // ==================================== 跨组件共享数据 ====================================
 
     /** 项目列表 */
     const projectList = ref<ReminderProject[]>([])
@@ -42,10 +54,11 @@ export const useReminderStore = defineStore(
     return {
       rawProjectId,
       rawTaskId,
-      addProjectDialogOpen,
       projectList,
       taskList,
       currentTask,
+      dialog1,
+      dialog2,
     }
   },
 )

@@ -1,7 +1,7 @@
 <template>
   <!-- 新增待办项目弹窗 -->
   <a-modal
-    v-model:open="addProjectDialogOpen"
+    v-model:open="dialog1.open"
     title="新增项目"
     :okButtonProps="{disabled: btn1Disabled}"
     centered
@@ -12,7 +12,7 @@
     :afterClose
   >
     <a-space class="my-4" direction="vertical">
-      <a-input v-model:value="inputProjectName" size="large" placeholder="请输入项目名称" showCount :maxlength="10" />
+      <a-input v-model:value="projectName" size="large" placeholder="请输入项目名称" showCount :maxlength="10" />
       <a-typography-text type="secondary">请输入项目名称, 最多10个字</a-typography-text>
     </a-space>
   </a-modal>
@@ -27,38 +27,38 @@ import {computed, ref} from 'vue'
 import {reminderEmitter, useReminderStore} from '../reminder'
 import {storeToRefs} from 'pinia'
 
-// ===================================== 全局状态管理 =====================================
+// ================================== 共享类数据 ===================================
 
-const {addProjectDialogOpen} = storeToRefs(useReminderStore())
+const {dialog1} = storeToRefs(useReminderStore())
 
-// ===================================== 注册HTTP请求 =====================================
+// ================================= 注册HTTP请求 =================================
 
 // 新增待办项目
 const {run, loading} = useHttp(addProject, {onSuccess, onError})
 
-// ===================================== 表单绑定数据 =====================================
+// ================================== 表单类数据 ===================================
 
 /** [项目名称]输入框的值 */
-const inputProjectName = ref('')
+const projectName = ref('')
 
-// ===================================== 页面元素状态 =====================================
+// =================================== 元素状态 ===================================
 
 // #################### 对话框[确定]按钮 - btn1 ####################
 
-const btn1Disabled = computed(() => inputProjectName.value.length === 0 || loading.value)
+const btn1Disabled = computed(() => projectName.value.length === 0 || loading.value)
 
 function onOk() {
-  run(inputProjectName.value)
+  run(projectName.value)
 }
 
 function afterClose() {
-  inputProjectName.value = ''
+  projectName.value = ''
 }
 
-// ===================================== 请求回调处理 =====================================
+// =================================== 请求回调 ===================================
 
 function onSuccess(res: ReminderProject) {
-  addProjectDialogOpen.value = false
+  dialog1.value.open = false
   reminderEmitter.emit('projectChanged', res.id)
   message.success(`待办项目 ${res.name} 创建成功`)
 }

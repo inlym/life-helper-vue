@@ -1,6 +1,6 @@
 <template>
   <!-- 是否完成勾选框 -->
-  <div class="flex h-8 w-8 cursor-pointer items-center justify-center" @click="onClick">
+  <div class="flex h-8 w-8 cursor-pointer items-center justify-center" @click.stop="onClick">
     <MaterialSymbolsCheckBoxRounded v-if="completeTime" class="size-6 text-gray-300" />
     <MaterialSymbolsCheckBoxOutlineBlank v-else class="size-6 text-gray-400" />
   </div>

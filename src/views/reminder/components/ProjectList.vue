@@ -4,7 +4,7 @@
     <!-- 列表头部区域 -->
     <div class="flex h-8 items-center justify-between">
       <div class="ml-2 font-bold text-gray-500">清单</div>
-      <div class="mr-2 flex h-full w-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200" @click="addProjectDialogOpen = true">
+      <div class="mr-2 flex h-full w-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200" @click="dialog1.open = true">
         <PlusOutlined />
       </div>
     </div>
@@ -37,9 +37,9 @@ import {computed} from 'vue'
 import {reminderEmitter, useReminderStore} from '../reminder'
 import ProjectListItem from './ProjectListItem.vue'
 
-// ===================================== 共享状态数据 =====================================
+// ===================================== 共享类数据 =====================================
 
-const {addProjectDialogOpen, projectList} = storeToRefs(useReminderStore())
+const {dialog1, projectList} = storeToRefs(useReminderStore())
 
 // ===================================== 注册HTTP请求 =====================================
 
