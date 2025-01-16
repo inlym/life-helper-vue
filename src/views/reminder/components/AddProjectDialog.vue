@@ -27,9 +27,10 @@ import {storeToRefs} from 'pinia'
 import {computed, ref} from 'vue'
 import {reminderEventBus, useReminderStore} from '../reminder'
 
-// ================================== 共享类数据 ===================================
+// ================================== 跨组件数据 ===================================
 
-const {dialog1} = storeToRefs(useReminderStore())
+const reminderStore = useReminderStore()
+const {dialog1} = storeToRefs(reminderStore)
 
 // ================================= 注册HTTP请求 =================================
 
@@ -43,26 +44,32 @@ const projectName = ref('')
 
 // =================================== 元素状态 ===================================
 
-// #################### 对话框[确定]按钮 - btn1 ####################
-
+/** 对话框[确定]按钮是否禁用 */
 const btn1Disabled = computed(() => projectName.value.length === 0 || loading.value)
 
+// =================================== 交互事件 ===================================
+
+/** 点击对话框[确定]按钮 */
 function onOk() {
   run(projectName.value)
 }
 
+/** 关闭对话框后 */
 function afterClose() {
   projectName.value = ''
 }
 
 // =================================== 请求回调 ===================================
 
+/** 处理请求成功情况 */
 function onSuccess(res: ReminderProject) {
   dialog1.value.open = false
   message.success(`待办项目 ${res.name} 创建成功`)
   reminderEventBus.emit({refreshProjectList: true})
+  reminderStore.goToProject(res.id)
 }
 
+/** 处理请求发生异常情况 */
 function onError(error: Error) {
   if (error instanceof BusinessError) {
     // 已经用了弹窗，因此错误提示改为使用全局提示的方式

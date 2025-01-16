@@ -93,7 +93,7 @@ interface TaskDueDateProps {
 
 const props = defineProps<TaskDueDateProps>()
 
-// ===================================== 共享类数据 =====================================
+// ===================================== 跨组件数据 =====================================
 
 const {rawTaskId, currentTask} = storeToRefs(useReminderStore())
 

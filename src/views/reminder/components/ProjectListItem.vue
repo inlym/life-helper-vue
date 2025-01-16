@@ -43,7 +43,7 @@ interface ProjectListItemProps {
 
 const props = defineProps<ProjectListItemProps>()
 
-// ================================== 共享类数据 ===================================
+// ================================== 跨组件数据 ===================================
 
 const reminderStore = useReminderStore()
 const {rawProjectId} = storeToRefs(reminderStore)
@@ -68,7 +68,8 @@ const isHovered = useElementHover(useTemplateRef('project-list-item'))
 
 /** 点击列表项 */
 function onItemClick(id: number) {
-  router.push({name: 'reminder', params: {projectId: `${id}`}})
+  // router.push({name: 'reminder', params: {projectId: `${id}`}})
+  reminderStore.goToProject(id)
 }
 
 /** 点击“重命名”菜单按钮 */

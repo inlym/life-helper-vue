@@ -1,7 +1,14 @@
 <template>
   <!-- 任务列表头部区域 -->
-  <div class="flex h-10 items-center">
-    <a-typography-title class="flex-1" :level="4" :content="title" ellipsis />
+  <div class="flex h-10 items-center gap-2">
+    <div class="flex size-8 cursor-pointer items-center justify-between rounded-md p-0.5 hover:bg-gray-200">
+      <LineMdMenuUnfoldLeft v-if="leftColumnShow" class="text-xl text-gray-700" @click="leftColumnShow = false" />
+      <LineMdMenuUnfoldRight v-else class="text-xl text-gray-700" @click="leftColumnShow = true" />
+    </div>
+
+    <div class="flex flex-1 items-center">
+      <a-typography-text class="text-xl font-bold" :content="title" ellipsis />
+    </div>
   </div>
 </template>
 
@@ -11,10 +18,12 @@ import {useReminderStore} from '../reminder'
 import {computed} from 'vue'
 import type {ReminderFilterType} from '@/api/reminder'
 import {getFilterName} from '../services/filter'
+import LineMdMenuUnfoldRight from '~icons/line-md/menu-unfold-right'
+import LineMdMenuUnfoldLeft from '~icons/line-md/menu-unfold-left'
 
 // ===================================== 全局状态管理 =====================================
 
-const {rawProjectId, projectList} = storeToRefs(useReminderStore())
+const {rawProjectId, projectList, leftColumnShow} = storeToRefs(useReminderStore())
 
 // ===================================== 页面展示数据 =====================================
 

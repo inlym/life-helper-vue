@@ -50,7 +50,7 @@ import TaskDueDate from './TaskDueDate.vue'
 
 const contentInput = useTemplateRef<HTMLInputElement>('content-input')
 
-// ===================================== 共享类数据 =====================================
+// ===================================== 跨组件数据 =====================================
 
 const {rawTaskId, currentTask} = storeToRefs(useReminderStore())
 

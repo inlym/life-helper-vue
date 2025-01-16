@@ -1,10 +1,12 @@
-import {type ReminderProject, type ReminderTask} from '@/api/reminder'
+import {ReminderFilterType, type ReminderProject, type ReminderTask} from '@/api/reminder'
 import {useEventBus} from '@vueuse/core'
 import {defineStore} from 'pinia'
 import {computed, ref} from 'vue'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 
 export interface ReminderEventBus {
+  /** 是否需要全部刷新 */
+  refreshAll?: boolean
   /** 是否需要刷新过滤器列表数据 */
   refreshFilterList?: boolean
   /** 是否需要刷新项目列表数据 */
@@ -20,13 +22,26 @@ export const useReminderStore = defineStore(
 
   () => {
     const route = useRoute()
+    const router = useRouter()
 
-    // ===================================== 原始路由参数 =====================================
+    // ================================ 原始路由参数 ================================
 
     const rawProjectId = computed(() => route.params.projectId as string)
     const rawTaskId = computed(() => route.params.taskId as string)
 
-    // ================================ 对话框组件状态及数据传递 ================================
+    function goToProject(projectId: number) {
+      router.push({name: 'reminder', params: {projectId: `${projectId}`}})
+    }
+
+    function goToFilter(filter: ReminderFilterType) {
+      router.push({name: 'reminder', params: {projectId: `filter-${filter}`}})
+    }
+
+    function goToTask(taskId: number) {
+      router.push({name: 'reminder', params: {projectId: rawProjectId.value, taskId: `${taskId}`}})
+    }
+
+    // ============================= 对话框组件状态及数据传递 =============================
 
     /** 对话框1: 新增项目 */
     const dialog1 = ref({
@@ -51,7 +66,7 @@ export const useReminderStore = defineStore(
       dialog2.value.open = true
     }
 
-    // ==================================== 跨组件共享数据 ====================================
+    // =============================== 跨组件共享数据 ================================
 
     /** 项目列表 */
     const projectList = ref<ReminderProject[]>([])
@@ -62,15 +77,27 @@ export const useReminderStore = defineStore(
     /** 当前活跃的任务（右侧任务详情部分） */
     const currentTask = ref<ReminderTask>()
 
+    // ================================ 其他元素状态 ================================
+
+    /** 左栏是否展示 */
+    const leftColumnShow = ref(true)
+
     return {
       rawProjectId,
       rawTaskId,
+      goToProject,
+      goToFilter,
+      goToTask,
+
       projectList,
       taskList,
+
       currentTask,
       dialog1,
       dialog2,
       openDialog2,
+
+      leftColumnShow,
     }
   },
 )

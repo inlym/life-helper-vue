@@ -34,11 +34,12 @@ interface FilterListItemProps {
 
 const props = defineProps<FilterListItemProps>()
 
-const router = useRouter()
+// ================================== 跨组件数据 ===================================
+
 const reminderStore = useReminderStore()
 const {rawProjectId} = storeToRefs(reminderStore)
 
-// ===================================== 注册HTTP请求 =====================================
+// ================================= 注册HTTP请求 =================================
 
 // 查看指定过滤器的未完成任务数
 const {refresh, data, loading} = useHttp(countUncompletedTasks, {
@@ -46,7 +47,7 @@ const {refresh, data, loading} = useHttp(countUncompletedTasks, {
   defaultParams: [props.filter],
 })
 
-// ===================================== 展示类数据 =====================================
+// ================================== 展示类数据 ===================================
 
 /** 过滤器名称 */
 const name = computed(() => getFilterName(props.filter))
@@ -57,17 +58,17 @@ const numStr = computed(() => (data.value && data.value.num > 0 ? String(data.va
 /** 当前列表项是否为“选中”状态 */
 const isActived = computed(() => `filter-${props.filter}` === rawProjectId.value)
 
-// ===================================== 交互事件 =====================================
+// =================================== 交互事件 ===================================
 
 /** 点击列表项 */
 function onItemClick(filter: ReminderFilterType) {
-  router.push({name: 'reminder', params: {projectId: `filter-${filter}`}})
+  reminderStore.goToFilter(filter)
 }
 
-// ===================================== 事件监听 =====================================
+// =================================== 事件监听 ===================================
 
 reminderEventBus.on((event) => {
-  if (event.refreshFilterList) {
+  if (event.refreshAll && event.refreshFilterList) {
     refresh()
   }
 })

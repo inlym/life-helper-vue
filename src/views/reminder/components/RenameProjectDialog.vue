@@ -26,7 +26,7 @@ import {storeToRefs} from 'pinia'
 import {computed, ref} from 'vue'
 import {reminderEventBus, useReminderStore} from '../reminder'
 
-// ================================== 共享类数据 ===================================
+// ================================== 跨组件数据 ===================================
 
 const {dialog2} = storeToRefs(useReminderStore())
 

@@ -15,7 +15,7 @@
               <div class="ml-4 text-sm text-gray-400">{{ group.list.length }}</div>
             </div>
           </template>
-          <TaskListItem v-for="task in group.list" v-bind="task" @click="onItemClick(task)" />
+          <TaskListItem v-for="task in group.list" v-bind="task" />
         </a-collapse-panel>
       </a-collapse>
     </div>
@@ -37,7 +37,7 @@ import TaskListItem from './TaskListItem.vue'
 
 const router = useRouter()
 
-// ===================================== 共享类数据 =====================================
+// ===================================== 跨组件数据 =====================================
 
 const {rawProjectId, taskList} = storeToRefs(useReminderStore())
 
@@ -60,10 +60,6 @@ const taskGroupList = ref<TaskGroup[]>([])
 const collapseActiveKey = ref<string[]>([])
 
 // ===================================== 交互事件 =====================================
-
-function onItemClick(item: ReminderTask) {
-  router.push({name: 'reminder', params: {projectId: rawProjectId.value, taskId: item.id}})
-}
 
 function refreshData() {
   if (rawProjectId.value.startsWith('filter-')) {

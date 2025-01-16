@@ -37,7 +37,7 @@ import {computed} from 'vue'
 import {reminderEventBus, useReminderStore} from '../reminder'
 import ProjectListItem from './ProjectListItem.vue'
 
-// ===================================== 共享类数据 =====================================
+// ===================================== 跨组件数据 =====================================
 
 const {dialog1, projectList} = storeToRefs(useReminderStore())
 

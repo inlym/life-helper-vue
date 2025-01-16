@@ -23,13 +23,26 @@ import {PlusOutlined} from '@ant-design/icons-vue'
 import {message} from 'ant-design-vue'
 import {storeToRefs} from 'pinia'
 import {computed, ref} from 'vue'
-import {useRouter} from 'vue-router'
 import {reminderEventBus, useReminderStore} from '../reminder'
 
-const router = useRouter()
+// ================================== 跨组件数据 ===================================
 
-const {rawProjectId} = storeToRefs(useReminderStore())
+const reminderStore = useReminderStore()
+const {rawProjectId} = storeToRefs(reminderStore)
 
+// ================================= 注册HTTP请求 =================================
+
+// 新增待办任务
+const {run, loading} = useHttp(addTask, {onSuccess})
+
+// ================================== 表单类数据 ===================================
+
+/** [项目名称]输入框的值 */
+const inputTaskName = ref('')
+
+// =================================== 交互事件 ===================================
+
+/** 发送请求时传递的项目 ID 值 */
 const projectId = computed(() => {
   if (rawProjectId.value.startsWith('filter-')) {
     return 0
@@ -37,28 +50,19 @@ const projectId = computed(() => {
   return Number.parseInt(rawProjectId.value)
 })
 
-// ===================================== 注册HTTP请求 =====================================
-
-// 新增待办任务
-const {run, loading} = useHttp(addTask, {onSuccess})
-
-// ===================================== 表单绑定数据 =====================================
-
-/** [项目名称]输入框的值 */
-const inputTaskName = ref('')
-
 /** 按下回车键的回调 */
 function onPressEnter() {
   run(inputTaskName.value, projectId.value)
 }
 
-// ===================================== 请求回调 =====================================
+// =================================== 请求回调 ===================================
 
+/** 处理请求成功情况 */
 function onSuccess(res: ReminderTask) {
   inputTaskName.value = ''
   message.success('任务添加成功')
-  reminderEventBus.emit({refreshFilterList: true, refreshProjectList: true, refreshTaskList: true})
-  router.push({name: 'reminder', params: {projectId: rawProjectId.value, taskId: res.id}})
+  reminderEventBus.emit({refreshAll: true})
+  reminderStore.goToTask(res.id)
 }
 </script>
 

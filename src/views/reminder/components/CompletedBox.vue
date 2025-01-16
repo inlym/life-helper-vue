@@ -15,6 +15,8 @@ import MaterialSymbolsCheckBoxOutlineBlank from '~icons/material-symbols/check-b
 import MaterialSymbolsCheckBoxRounded from '~icons/material-symbols/check-box-rounded'
 import {reminderEventBus, useReminderStore} from '../reminder'
 
+// =================================== 组件入参 ===================================
+
 /** 任务完成时间 */
 const completeTime = defineModel<string | undefined>('completeTime', {required: true})
 
@@ -23,11 +25,11 @@ const props = defineProps({
   taskId: {type: Number, required: true},
 })
 
-// ===================================== 共享类数据 =====================================
+// ================================== 跨组件数据 ===================================
 
 const {taskList, currentTask} = storeToRefs(useReminderStore())
 
-// ===================================== 注册HTTP请求 =====================================
+// ================================= 注册HTTP请求 =================================
 
 // 完成任务
 const {run: run1} = useHttp(completeTask, {onSuccess})
@@ -35,7 +37,7 @@ const {run: run1} = useHttp(completeTask, {onSuccess})
 // 取消完成任务
 const {run: run2} = useHttp(uncompleteTask, {onSuccess})
 
-// ===================================== 交互事件 =====================================
+// =================================== 交互事件 ===================================
 
 function onClick() {
   if (completeTime.value) {
@@ -49,8 +51,9 @@ function onClick() {
   }
 }
 
-// ===================================== 请求回调 =====================================
+// =================================== 请求回调 ===================================
 
+/** 处理请求成功情况 */
 function onSuccess(res: ReminderTask) {
   // 如果是当前选中的任务，则直接更新
   if (currentTask.value && currentTask.value.id === res.id) {
@@ -63,7 +66,7 @@ function onSuccess(res: ReminderTask) {
     t.completeTime = res.completeTime
   }
 
-  reminderEventBus.emit({refreshFilterList: true, refreshProjectList: true, refreshTaskList: true})
+  reminderEventBus.emit({refreshAll: true})
 }
 </script>
 
