@@ -74,7 +74,7 @@ export function formatTime(time: string): string {
  */
 export function getDateColor(date: string): string {
   if (dayjs(date).isAfter(dayjs().subtract(1, 'day'), 'day')) {
-    return 'text-blue-400'
+    return 'text-indigo-500'
   }
 
   return 'text-rose-500'

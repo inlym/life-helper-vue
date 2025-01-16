@@ -77,6 +77,19 @@ export const useReminderStore = defineStore(
     /** 当前活跃的任务（右侧任务详情部分） */
     const currentTask = ref<ReminderTask>()
 
+    /** 同步任务数据 */
+    function syncTask(task: ReminderTask) {
+      if (currentTask.value && currentTask.value.id === task.id) {
+        currentTask.value = task
+      }
+      if (taskList.value.length > 0) {
+        const index = taskList.value.findIndex((item) => item.id === task.id)
+        if (index !== -1) {
+          taskList.value[index] = task
+        }
+      }
+    }
+
     // ================================ 其他元素状态 ================================
 
     /** 左栏是否展示 */
@@ -89,13 +102,14 @@ export const useReminderStore = defineStore(
       goToFilter,
       goToTask,
 
-      projectList,
-      taskList,
-
-      currentTask,
       dialog1,
       dialog2,
       openDialog2,
+
+      projectList,
+      taskList,
+      currentTask,
+      syncTask,
 
       leftColumnShow,
     }

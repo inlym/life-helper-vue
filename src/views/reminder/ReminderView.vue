@@ -6,7 +6,7 @@
       <LeftColumnArea />
     </div>
     <!-- 中栏 -->
-    <div class="flex-1">
+    <div class="min-w-[800px] flex-1">
       <TaskListArea />
     </div>
     <!-- 右栏 -->

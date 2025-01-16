@@ -326,3 +326,16 @@ export function completeTask(taskId: number) {
 export function uncompleteTask(taskId: number) {
   return updateTask(taskId, {operation: ReminderTaskOperation.UNCOMPLETE})
 }
+
+/**
+ * 移动任务至新的项目
+ *
+ * @param taskId 待办任务 ID
+ * @param projectId 新的项目 ID
+ *
+ * @date 2025/01/16
+ * @since 3.0.0
+ */
+export function moveTask(taskId: number, projectId: number) {
+  return updateTask(taskId, {projectId})
+}

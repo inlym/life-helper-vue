@@ -3,7 +3,7 @@
   <a-dropdown :trigger="['contextmenu']">
     <div class="project-list-item" @click="onItemClick(props.id)" ref="project-list-item">
       <div :class="{'bg-gray-200': isActived}" class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-gray-200">
-        <SolarClipboardListOutline class="size-5" />
+        <PhListLight class="size-5" />
         <a-typography-text class="ml-2 mr-4 flex-1 text-sm" v-model:content="props.name" ellipsis />
         <div class="flex items-center justify-between">
           <div>{{ numStr }}</div>
@@ -28,7 +28,7 @@ import {useElementHover} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
 import {computed, useTemplateRef} from 'vue'
 import {useRouter} from 'vue-router'
-import SolarClipboardListOutline from '~icons/solar/clipboard-list-outline'
+import PhListLight from '~icons/ph/list-light'
 import {useReminderStore} from '../reminder'
 
 const router = useRouter()

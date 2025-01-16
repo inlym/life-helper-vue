@@ -31,9 +31,7 @@
       </div>
       <!-- 第四行，操作区 -->
       <div class="flex h-12 items-center border-t px-4">
-        <div class="flex cursor-pointer items-center rounded-md px-4 py-2 hover:bg-gray-100">
-          <div>{{ currentTask.projectName || '未分类' }}</div>
-        </div>
+        <MoveTask :task-id="currentTask.id" :projectId="currentTask.projectId" />
       </div>
     </template>
   </div>
@@ -47,19 +45,20 @@ import {useTemplateRef, watch} from 'vue'
 import {useReminderStore} from '../reminder'
 import CompletedBox from './CompletedBox.vue'
 import TaskDueDate from './TaskDueDate.vue'
+import MoveTask from './MoveTask.vue'
 
 const contentInput = useTemplateRef<HTMLInputElement>('content-input')
 
-// ===================================== 跨组件数据 =====================================
+// ================================== 跨组件数据 ===================================
 
 const {rawTaskId, currentTask} = storeToRefs(useReminderStore())
 
-// ===================================== 注册HTTP请求 =====================================
+// =================================== 交互事件 ===================================
 
 // 获取任务详情
 const {data, run} = useHttp(getTaskDetail, {onSuccess})
 
-// ===================================== 交互事件 =====================================
+// =================================== 交互事件 ===================================
 
 // 点击任务描述区域
 function onContentBlockClick() {
@@ -68,14 +67,14 @@ function onContentBlockClick() {
   }
 }
 
-// ===================================== 请求回调 =====================================
+// =================================== 请求回调 ===================================
 
 // 请求成功处理
 function onSuccess(res: ReminderTask) {
   currentTask.value = res
 }
 
-// ===================================== 事件监听 =====================================
+// =================================== 事件监听 ===================================
 
 watch(
   rawTaskId,
