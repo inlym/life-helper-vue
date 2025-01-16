@@ -30,33 +30,42 @@
         />
       </div>
       <!-- 第四行，操作区 -->
-      <div class="flex h-12 items-center border-t px-4">
+      <div class="flex h-12 items-center justify-between border-t px-4">
         <MoveTask :task-id="currentTask.id" :projectId="currentTask.projectId" />
+        <div class="flex size-10 cursor-pointer items-center justify-center rounded-md hover:bg-gray-100" @click="onDeleteTaskClick">
+          <MaterialSymbolsLightDeleteOutlineRounded class="size-6 text-red-500" />
+        </div>
       </div>
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {getTaskDetail, type ReminderTask} from '@/api/reminder'
+import {deleteTask, getTaskDetail, type ReminderTask} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
 import {useTemplateRef, watch} from 'vue'
-import {useReminderStore} from '../reminder'
+import {reminderEventBus, useReminderStore} from '../reminder'
 import CompletedBox from './CompletedBox.vue'
 import TaskDueDate from './TaskDueDate.vue'
 import MoveTask from './MoveTask.vue'
+import MaterialSymbolsLightDeleteOutlineRounded from '~icons/material-symbols-light/delete-outline-rounded'
+import {Modal} from 'ant-design-vue'
 
 const contentInput = useTemplateRef<HTMLInputElement>('content-input')
 
 // ================================== 跨组件数据 ===================================
 
-const {rawTaskId, currentTask} = storeToRefs(useReminderStore())
+const reminderStore = useReminderStore()
+const {rawTaskId, currentTask} = storeToRefs(reminderStore)
 
-// =================================== 交互事件 ===================================
+// ================================= 注册HTTP请求 =================================
 
-// 获取任务详情
-const {data, run} = useHttp(getTaskDetail, {onSuccess})
+// 请求[1]: 获取任务详情
+const {run: run1} = useHttp(getTaskDetail, {onSuccess: onSuccess1})
+
+// 请求[2]: 删除任务
+const {run: run2, loading: loading2} = useHttp(deleteTask, {onSuccess: onSuccess2})
 
 // =================================== 交互事件 ===================================
 
@@ -67,11 +76,35 @@ function onContentBlockClick() {
   }
 }
 
+// 点击删除任务按钮
+function onDeleteTaskClick() {
+  Modal.confirm({
+    title: '提示',
+    content: '确定删除该任务吗？删除后将不可恢复',
+    okText: '删除',
+    cancelText: '取消',
+    maskClosable: true,
+    okButtonProps: {loading: loading2.value},
+    onOk: () => {
+      if (currentTask.value) {
+        run2(currentTask.value.id)
+      }
+    },
+  })
+}
+
 // =================================== 请求回调 ===================================
 
-// 请求成功处理
-function onSuccess(res: ReminderTask) {
+/** 处理[获取任务详情]请求成功情况 */
+function onSuccess1(res: ReminderTask) {
   currentTask.value = res
+}
+
+/** 处理[删除任务]请求成功情况 */
+function onSuccess2() {
+  reminderEventBus.emit({refreshAll: true})
+  currentTask.value = undefined
+  reminderStore.goToTask(0)
 }
 
 // =================================== 事件监听 ===================================
@@ -80,7 +113,7 @@ watch(
   rawTaskId,
   (newTaskId: string) => {
     if (newTaskId) {
-      run(Number.parseInt(newTaskId))
+      run1(Number.parseInt(newTaskId))
     } else {
       currentTask.value = undefined
     }

@@ -1,6 +1,10 @@
 <template>
   <!-- 单个任务列表项 -->
-  <div class="task-list-item flex h-10 items-center justify-between gap-1 rounded-md px-2 hover:bg-gray-100" @click="onItemClick">
+  <div
+    :class="{'bg-gray-100': isActived}"
+    class="task-list-item flex h-10 items-center justify-between gap-1 rounded-md px-2 hover:bg-gray-100"
+    @click="onItemClick"
+  >
     <CompletedBox :task-id="task.id" v-model:complete-time="task.completeTime" />
     <div class="ml-1 flex h-full flex-1 items-center border-b border-gray-100">
       <!-- 任务名称 -->
@@ -21,6 +25,7 @@ import {computed, ref, watch} from 'vue'
 import {useReminderStore} from '../reminder'
 import CompletedBox from './CompletedBox.vue'
 import TaskDueDate from './TaskDueDate.vue'
+import {storeToRefs} from 'pinia'
 
 // =================================== 组件入参 ===================================
 
@@ -29,14 +34,19 @@ const props = defineProps<ReminderTask>()
 // ================================== 跨组件数据 ===================================
 
 const reminderStore = useReminderStore()
+const {rawTaskId} = storeToRefs(reminderStore)
 
-// ===================================== 展示类数据 =====================================
+// ================================== 展示类数据 ===================================
 
 const task = ref<ReminderTask>(props)
 
 const completed = computed(() => Boolean(task.value.completeTime))
 
-// ===================================== 交互事件 =====================================
+// =================================== 元素状态 ===================================
+
+const isActived = computed(() => props.id === Number.parseInt(rawTaskId.value))
+
+// =================================== 交互事件 ===================================
 
 /** 点击[项目名称]标签 */
 function onProjectClick(projectId: number) {

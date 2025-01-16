@@ -61,7 +61,7 @@ const emptyImage = Empty.PRESENTED_IMAGE_SIMPLE
 // ===================================== 事件监听 =====================================
 
 reminderEventBus.on((event) => {
-  if (event.refreshProjectList) {
+  if (event.refreshAll || event.refreshProjectList) {
     refresh()
   }
 })

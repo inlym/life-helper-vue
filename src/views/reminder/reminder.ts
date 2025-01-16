@@ -24,7 +24,7 @@ export const useReminderStore = defineStore(
     const route = useRoute()
     const router = useRouter()
 
-    // ================================ 原始路由参数 ================================
+    // ================================ 路由参数处理 ================================
 
     const rawProjectId = computed(() => route.params.projectId as string)
     const rawTaskId = computed(() => route.params.taskId as string)
@@ -38,7 +38,11 @@ export const useReminderStore = defineStore(
     }
 
     function goToTask(taskId: number) {
-      router.push({name: 'reminder', params: {projectId: rawProjectId.value, taskId: `${taskId}`}})
+      if (taskId > 0) {
+        router.push({name: 'reminder', params: {projectId: rawProjectId.value, taskId: `${taskId}`}})
+      } else {
+        router.push({name: 'reminder', params: {projectId: rawProjectId.value}})
+      }
     }
 
     // ============================= 对话框组件状态及数据传递 =============================

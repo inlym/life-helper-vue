@@ -98,7 +98,7 @@ watch(
 )
 
 reminderEventBus.on((event) => {
-  if (event.refreshTaskList) {
+  if (event.refreshAll || event.refreshTaskList) {
     refreshData()
   }
 })
