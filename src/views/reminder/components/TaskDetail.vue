@@ -32,9 +32,18 @@
       <!-- 第四行，操作区 -->
       <div class="flex h-12 items-center justify-between border-t px-4">
         <MoveTask :task-id="currentTask.id" :projectId="currentTask.projectId" />
-        <div class="flex size-10 cursor-pointer items-center justify-center rounded-md hover:bg-gray-100" @click="onDeleteTaskClick">
-          <MaterialSymbolsLightDeleteOutlineRounded class="size-6 text-red-500" />
-        </div>
+        <a-popconfirm
+          title="确定删除该任务吗？删除后将不可恢复"
+          ok-text="删除"
+          cancel-text="取消"
+          :okButtonProps="{danger: true}"
+          placement="topRight"
+          @confirm="onDeleteButtonClick"
+        >
+          <div class="flex size-10 cursor-pointer items-center justify-center rounded-md hover:bg-gray-100">
+            <MaterialSymbolsLightDeleteOutlineRounded class="size-6 text-red-500" />
+          </div>
+        </a-popconfirm>
       </div>
     </template>
   </div>
@@ -43,7 +52,6 @@
 <script lang="ts" setup>
 import {deleteTask, getTaskDetail, type ReminderTask} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
-import {Modal} from 'ant-design-vue'
 import {storeToRefs} from 'pinia'
 import {useTemplateRef, watch} from 'vue'
 import MaterialSymbolsLightDeleteOutlineRounded from '~icons/material-symbols-light/delete-outline-rounded'
@@ -65,7 +73,7 @@ const {rawTaskId, currentTask} = storeToRefs(reminderStore)
 const {run: run1} = useHttp(getTaskDetail, {onSuccess: onSuccess1})
 
 // 请求[2]: 删除任务
-const {run: run2, loading: loading2} = useHttp(deleteTask, {onSuccess: onSuccess2})
+const {runAsync: runAsync2} = useHttp(deleteTask, {onSuccess: onSuccess2})
 
 // =================================== 交互事件 ===================================
 
@@ -77,20 +85,10 @@ function onContentBlockClick() {
 }
 
 // 点击删除任务按钮
-function onDeleteTaskClick() {
-  Modal.confirm({
-    title: '提示',
-    content: '确定删除该任务吗？删除后将不可恢复',
-    okText: '删除',
-    cancelText: '取消',
-    maskClosable: true,
-    okButtonProps: {loading: loading2.value},
-    onOk: () => {
-      if (currentTask.value) {
-        run2(currentTask.value.id)
-      }
-    },
-  })
+function onDeleteButtonClick() {
+  if (currentTask.value) {
+    return runAsync2(currentTask.value.id)
+  }
 }
 
 // =================================== 请求回调 ===================================
