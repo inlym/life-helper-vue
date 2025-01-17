@@ -37,11 +37,11 @@ import {computed} from 'vue'
 import {reminderEventBus, useReminderStore} from '../reminder'
 import ProjectListItem from './ProjectListItem.vue'
 
-// ===================================== 跨组件数据 =====================================
+// ================================== 跨组件数据 ===================================
 
 const {dialog1, projectList} = storeToRefs(useReminderStore())
 
-// ===================================== 注册HTTP请求 =====================================
+// ================================= 注册HTTP请求 =================================
 
 // 获取待办项目列表
 const {refresh, data, loading} = useHttp(getProjectList, {
@@ -51,14 +51,14 @@ const {refresh, data, loading} = useHttp(getProjectList, {
   },
 })
 
-// ===================================== 展示类数据 =====================================
+// ================================== 展示类数据 ===================================
 
 /** 项目列表 */
 const projects = computed(() => (data.value ? data.value.list : []))
 
 const emptyImage = Empty.PRESENTED_IMAGE_SIMPLE
 
-// ===================================== 事件监听 =====================================
+// =================================== 事件监听 ===================================
 
 reminderEventBus.on((event) => {
   if (event.refreshAll || event.refreshProjectList) {

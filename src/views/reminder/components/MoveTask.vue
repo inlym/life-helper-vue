@@ -60,15 +60,15 @@ interface MoveTaskProps {
 
 const props = defineProps<MoveTaskProps>()
 
-// ================================= 注册HTTP请求 =================================
-
-// 移动任务
-const {run} = useHttp(moveTask, {onSuccess})
-
 // ================================== 跨组件数据 ===================================
 
 const reminderStore = useReminderStore()
 const {projectList} = storeToRefs(reminderStore)
+
+// ================================= 注册HTTP请求 =================================
+
+// 移动任务
+const {run} = useHttp(moveTask, {onSuccess})
 
 // ================================== 展示类数据 ===================================
 
@@ -111,8 +111,6 @@ function onSuccess(res: ReminderTask) {
   reminderEventBus.emit({refreshProjectList: true, refreshTaskList: true})
   reminderStore.syncTask(res)
 }
-
-// =================================== 事件监听 ===================================
 </script>
 
 <style scoped lang="scss"></style>

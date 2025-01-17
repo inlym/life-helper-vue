@@ -21,11 +21,11 @@ import {getFilterName} from '../services/filter'
 import LineMdMenuUnfoldRight from '~icons/line-md/menu-unfold-right'
 import LineMdMenuUnfoldLeft from '~icons/line-md/menu-unfold-left'
 
-// ===================================== 全局状态管理 =====================================
+// ================================== 跨组件数据 ===================================
 
 const {rawProjectId, projectList, leftColumnShow} = storeToRefs(useReminderStore())
 
-// ===================================== 页面展示数据 =====================================
+// ================================== 展示类数据 ===================================
 
 const title = computed(() => {
   if (rawProjectId.value.startsWith('filter-')) {

@@ -80,6 +80,8 @@ import dayjs, {Dayjs} from 'dayjs'
 import {reminderEventBus, useReminderStore} from '../reminder'
 import {storeToRefs} from 'pinia'
 
+// =================================== 组件入参 ===================================
+
 interface TaskDueDateProps {
   /** 展示类型：按钮或文字 */
   type: 'button' | 'text'
@@ -93,11 +95,11 @@ interface TaskDueDateProps {
 
 const props = defineProps<TaskDueDateProps>()
 
-// ===================================== 跨组件数据 =====================================
+// ================================== 跨组件数据 ===================================
 
 const {rawTaskId, currentTask} = storeToRefs(useReminderStore())
 
-// ===================================== 注册HTTP请求 =====================================
+// ================================= 注册HTTP请求 =================================
 
 // 设置截止期限
 const {data: data1, run: run1} = useHttp(setDueDate, {onSuccess})
@@ -105,19 +107,20 @@ const {data: data1, run: run1} = useHttp(setDueDate, {onSuccess})
 // 清空截止期限
 const {data: data2, run: run2} = useHttp(clearDueDate, {onSuccess})
 
-// ===================================== 表单类数据 =====================================
+// ================================== 表单类数据 ===================================
 
 const dueDate = ref<Dayjs>()
 const dueTime = ref<Dayjs>()
 
-// ===================================== 展示类数据 =====================================
+// ================================== 展示类数据 ===================================
+// ================================== 展示类数据 ===================================
 
 const textColor = computed(() => (props.dueDate ? getDateColor(props.dueDate) : ''))
 const dateText1 = computed(() => (props.dueDate ? formatDate2(props.dueDate) : ''))
 const dateText2 = computed(() => (props.dueDate ? formatDate(props.dueDate) : ''))
 const timeText = computed(() => (props.dueTime ? formatTime(props.dueTime) : ''))
 
-// ===================================== 状态类数据 =====================================
+// =================================== 元素状态 ===================================
 
 // [确定]按钮是否禁用
 const btn1Disabled = computed(() => !dueDate.value)
@@ -125,7 +128,7 @@ const btn1Disabled = computed(() => !dueDate.value)
 // 整个浮层是否打开
 const open = ref(false)
 
-// ===================================== 交互事件 =====================================
+// =================================== 交互事件 ===================================
 
 function clear() {
   const taskId = props.taskId
@@ -145,7 +148,7 @@ function submit() {
   }
 }
 
-// ===================================== 请求回调 =====================================
+// =================================== 请求回调 ===================================
 
 function onSuccess(res: ReminderTask) {
   if (props.taskId === res.id) {
@@ -155,7 +158,7 @@ function onSuccess(res: ReminderTask) {
   open.value = false
 }
 
-// ===================================== 其他 =====================================
+// =================================== 事件监听 ===================================
 
 watch(
   () => [props.dueDate, props.dueTime],

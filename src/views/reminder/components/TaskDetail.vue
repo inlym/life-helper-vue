@@ -7,7 +7,7 @@
       <div class="flex h-14 items-center border-b">
         <!-- 是否完成勾选框 -->
         <div class="flex h-full w-14 items-center justify-center border-r">
-          <CompletedBox :task-id="currentTask.id" v-model:complete-time="currentTask.completeTime" />
+          <CompletedBox :task-id="currentTask.id" :complete-time="currentTask.completeTime" />
         </div>
         <!-- 截止时间操作按钮 -->
         <TaskDueDate type="button" :taskId="currentTask.id" :dueDate="currentTask.dueDate" :dueTime="currentTask.dueTime" />
@@ -43,14 +43,14 @@
 <script lang="ts" setup>
 import {deleteTask, getTaskDetail, type ReminderTask} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
+import {Modal} from 'ant-design-vue'
 import {storeToRefs} from 'pinia'
 import {useTemplateRef, watch} from 'vue'
+import MaterialSymbolsLightDeleteOutlineRounded from '~icons/material-symbols-light/delete-outline-rounded'
 import {reminderEventBus, useReminderStore} from '../reminder'
 import CompletedBox from './CompletedBox.vue'
-import TaskDueDate from './TaskDueDate.vue'
 import MoveTask from './MoveTask.vue'
-import MaterialSymbolsLightDeleteOutlineRounded from '~icons/material-symbols-light/delete-outline-rounded'
-import {Modal} from 'ant-design-vue'
+import TaskDueDate from './TaskDueDate.vue'
 
 const contentInput = useTemplateRef<HTMLInputElement>('content-input')
 

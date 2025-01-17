@@ -47,12 +47,14 @@ function onOk() {
 
 // =================================== 请求回调 ===================================
 
+/** 处理请求成功情况 */
 function onSuccess(res: ReminderProject) {
   message.success(`名称修改成功`)
   dialog2.value.open = false
   reminderEventBus.emit({refreshProjectList: true})
 }
 
+/** 处理请求发生异常情况 */
 function onError(error: Error) {
   if (error instanceof BusinessError) {
     // 已经用了弹窗，因此错误提示改为使用全局提示的方式

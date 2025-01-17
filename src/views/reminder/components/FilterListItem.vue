@@ -27,6 +27,8 @@ import {reminderEventBus, useReminderStore} from '../reminder'
 import {getFilterName} from '../services/filter'
 import FilterIcon from './FilterIcon.vue'
 
+// =================================== 组件入参 ===================================
+
 interface FilterListItemProps {
   filter: ReminderFilterType
 }

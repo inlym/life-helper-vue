@@ -105,23 +105,21 @@ reminderEventBus.on((event) => {
 </script>
 
 <style lang="scss" scoped>
-.list-body::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  /**/
+::-webkit-scrollbar {
+  width: 4px;
 }
 
-.list-body::-webkit-scrollbar-track {
-  background: rgb(239, 239, 239);
+::-webkit-scrollbar-track {
+  background: #f9fafb;
   border-radius: 2px;
 }
 
-.list-body::-webkit-scrollbar-thumb {
-  background: #bfbfbf;
-  border-radius: 6px;
+::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 2px;
 }
 
-.list-body::-webkit-scrollbar-thumb:hover {
-  background: #b2b2b2;
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
 }
 </style>
