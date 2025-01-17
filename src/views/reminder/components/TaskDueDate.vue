@@ -56,7 +56,7 @@
         <div class="mx-2 flex items-center justify-between rounded-md px-2 py-1 hover:bg-gray-100" v-if="props.type === 'button'">
           <MdiCalendarMonthOutline />
           <div class="ml-2 flex items-center justify-between text-sm">
-            <div v-if="dueDate">{{ dateText1 + (timeText ? `, ${timeText}` : '') }}</div>
+            <div v-if="props.dueDate">{{ dateText1 + (timeText ? `, ${timeText}` : '') }}</div>
             <div v-else class="ml-2 text-gray-400">设置截止时间</div>
           </div>
         </div>
@@ -97,7 +97,7 @@ const props = defineProps<TaskDueDateProps>()
 
 // ================================== 跨组件数据 ===================================
 
-const {rawTaskId, currentTask} = storeToRefs(useReminderStore())
+const {currentTask} = storeToRefs(useReminderStore())
 
 // ================================= 注册HTTP请求 =================================
 
@@ -112,7 +112,6 @@ const {data: data2, run: run2} = useHttp(clearDueDate, {onSuccess})
 const dueDate = ref<Dayjs>()
 const dueTime = ref<Dayjs>()
 
-// ================================== 展示类数据 ===================================
 // ================================== 展示类数据 ===================================
 
 const textColor = computed(() => (props.dueDate ? getDateColor(props.dueDate) : ''))
@@ -163,7 +162,7 @@ function onSuccess(res: ReminderTask) {
 watch(
   () => [props.dueDate, props.dueTime],
   ([dueDateNew, dueTimeNew]) => {
-    dueDate.value = dueDateNew ? dayjs(dueDateNew) : undefined
+    dueDate.value = dueDateNew ? dayjs(dueDateNew) : dayjs()
     dueTime.value = dueTimeNew ? dayjs(dueTimeNew, 'HH:mm:ss') : undefined
   },
   {immediate: true},

@@ -122,4 +122,13 @@ reminderEventBus.on((event) => {
 ::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
+
+.list-body :deep(.ant-collapse-header) {
+  padding: 8px 8px 0;
+}
+
+.list-body :deep(.ant-collapse-content-box) {
+  padding: 2px 4px;
+  padding-block: 2px 4px;
+}
 </style>
