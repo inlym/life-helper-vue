@@ -15,7 +15,15 @@
       <!-- 第二行，任务标题 -->
       <div class="h-14 px-4 pb-2 pt-4">
         <!-- 任务名称输入框 -->
-        <a-input v-model:value="currentTask.name" :bordered="false" :maxlength="50" class="text-xl font-bold" placeholder="准备做什么？" size="large" />
+        <a-input
+          v-model:value="currentTask.name"
+          :bordered="false"
+          :maxlength="50"
+          class="text-xl font-bold"
+          placeholder="准备做什么？"
+          size="large"
+          @change="onTaskNameChange"
+        />
       </div>
       <!-- 第三行，任务描述 -->
       <div class="flex-1 px-4" @click="onContentBlockClick">
@@ -27,6 +35,7 @@
           autoSize
           class="h-96 text-base"
           placeholder="输入任务描述"
+          @change="onTaskContentChange"
         />
       </div>
       <!-- 第四行，操作区 -->
@@ -50,7 +59,7 @@
 </template>
 
 <script lang="ts" setup>
-import {deleteTask, getTaskDetail, type ReminderTask} from '@/api/reminder'
+import {deleteTask, getTaskDetail, updateTaskContent, updateTaskName, type ReminderTask} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
 import {useTemplateRef, watch} from 'vue'
@@ -59,6 +68,7 @@ import {reminderEventBus, useReminderStore} from '../reminder'
 import CompletedBox from './CompletedBox.vue'
 import MoveTask from './MoveTask.vue'
 import TaskDueDate from './TaskDueDate.vue'
+import {useDebounceFn} from '@vueuse/core'
 
 const contentInput = useTemplateRef<HTMLInputElement>('content-input')
 
@@ -74,6 +84,12 @@ const {run: run1} = useHttp(getTaskDetail, {onSuccess: onSuccess1})
 
 // 请求[2]: 删除任务
 const {runAsync: runAsync2} = useHttp(deleteTask, {onSuccess: onSuccess2})
+
+// 请求[3]: 修改任务名称
+const {run: run3} = useHttp(updateTaskName, {onSuccess: onSuccess3})
+
+// 请求[4]: 修改任务描述内容
+const {run: run4} = useHttp(updateTaskContent, {onSuccess: onSuccess3})
 
 // =================================== 交互事件 ===================================
 
@@ -91,11 +107,26 @@ function onDeleteButtonClick() {
   }
 }
 
+// 处理[任务名称]输入框内容变化
+const onTaskNameChange = useDebounceFn(() => {
+  if (currentTask.value) {
+    run3(currentTask.value.id, currentTask.value.name)
+  }
+}, 1000)
+
+// 处理[任务描述]输入框内容变化
+const onTaskContentChange = useDebounceFn(() => {
+  if (currentTask.value) {
+    run4(currentTask.value.id, currentTask.value.content)
+  }
+}, 1000)
+
 // =================================== 请求回调 ===================================
 
 /** 处理[获取任务详情]请求成功情况 */
 function onSuccess1(res: ReminderTask) {
   currentTask.value = res
+  reminderStore.syncTask(res)
 }
 
 /** 处理[删除任务]请求成功情况 */
@@ -103,6 +134,11 @@ function onSuccess2() {
   reminderEventBus.emit({refreshAll: true})
   currentTask.value = undefined
   reminderStore.goToTask(0)
+}
+
+/** 处理[修改任务名称和描述内容]请求成功情况 */
+function onSuccess3(res: ReminderTask) {
+  reminderStore.syncTask(res)
 }
 
 // =================================== 事件监听 ===================================

@@ -339,3 +339,29 @@ export function uncompleteTask(taskId: number) {
 export function moveTask(taskId: number, projectId: number) {
   return updateTask(taskId, {projectId})
 }
+
+/**
+ * 修改任务名称
+ *
+ * @param taskId 待办任务 ID
+ * @param name 新的任务名称
+ *
+ * @date 2025/01/18
+ * @since 3.0.0
+ */
+export function updateTaskName(taskId: number, name: string) {
+  return updateTask(taskId, {name})
+}
+
+/**
+ * 修改任务描述内容
+ *
+ * @param taskId 待办任务 ID
+ * @param content 新的任务描述内容
+ *
+ * @date 2025/01/18
+ * @since 3.0.0
+ */
+export function updateTaskContent(taskId: number, content: string) {
+  return updateTask(taskId, {content})
+}

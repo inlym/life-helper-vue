@@ -1,7 +1,7 @@
 <template>
   <!-- 任务的截止期限 -->
   <div class="flex items-center justify-between" @click.stop="">
-    <a-popover trigger="click" :open>
+    <a-popover trigger="click" v-model:open="open">
       <template #content>
         <!-- 弹出框中的内容 -->
         <div class="flex w-64 flex-col p-1">
@@ -12,25 +12,25 @@
             <div class="mt-4 flex items-center justify-between">
               <a-tooltip>
                 <template #title>今天</template>
-                <div class="flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200">
+                <div class="flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200" @click="quickSet(1)">
                   <QuillSun class="size-7 text-gray-600" />
                 </div>
               </a-tooltip>
               <a-tooltip>
                 <template #title>明天</template>
-                <div class="flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200">
+                <div class="flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200" @click="quickSet(2)">
                   <QuillSnoozeTomorrow class="size-7 text-gray-600" />
                 </div>
               </a-tooltip>
               <a-tooltip>
                 <template #title>下周</template>
-                <div class="flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200">
+                <div class="flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200" @click="quickSet(3)">
                   <QuillCalendarAdd class="size-7 text-gray-600" />
                 </div>
               </a-tooltip>
               <a-tooltip>
                 <template #title>下月</template>
-                <div class="flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200">
+                <div class="flex size-8 cursor-pointer items-center justify-center rounded-md hover:bg-gray-200" @click="quickSet(4)">
                   <QuillMoon class="size-7 text-gray-600" />
                 </div>
               </a-tooltip>
@@ -129,11 +129,13 @@ const open = ref(false)
 
 // =================================== 交互事件 ===================================
 
+/** 点击[清除]按钮 */
 function clear() {
   const taskId = props.taskId
   run2(taskId)
 }
 
+/** 点击[确定]按钮 */
 function submit() {
   const taskId = props.taskId
   if (dueDate.value) {
@@ -145,6 +147,25 @@ function submit() {
       run1(taskId, dueDateStr)
     }
   }
+}
+
+/** 点击[快捷设置]区域按钮 */
+function quickSet(type: number) {
+  if (type === 1) {
+    // 今天
+    dueDate.value = dayjs()
+  } else if (type === 2) {
+    // 明天
+    dueDate.value = dayjs().add(1, 'day')
+  } else if (type === 3) {
+    // 下周
+    dueDate.value = dayjs().add(1, 'week')
+  } else if (type === 4) {
+    // 下月
+    dueDate.value = dayjs().add(1, 'month')
+  }
+
+  submit()
 }
 
 // =================================== 请求回调 ===================================

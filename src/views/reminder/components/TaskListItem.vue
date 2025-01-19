@@ -10,7 +10,11 @@
       <!-- 任务名称 -->
       <a-typography-text class="flex-1" :class="{'text-gray-400': completed}" v-model:content="task.name" ellipsis />
       <!-- 所属项目名称 -->
-      <a-tag v-if="task.projectName" class="flex max-w-28 cursor-pointer items-center py-0.5" @click.stop="onProjectClick(task.projectId)">
+      <a-tag
+        v-if="task.projectName && activeCategory !== 'project'"
+        class="flex max-w-28 cursor-pointer items-center py-0.5"
+        @click.stop="onProjectClick(task.projectId)"
+      >
         <a-typography-text class="text-xs" :class="{'text-gray-400': completed}" v-model:content="task.projectName" ellipsis />
       </a-tag>
       <!-- 截止期限 -->
@@ -34,7 +38,7 @@ const props = defineProps<ReminderTask>()
 // ================================== 跨组件数据 ===================================
 
 const reminderStore = useReminderStore()
-const {rawTaskId} = storeToRefs(reminderStore)
+const {rawTaskId, activeCategory} = storeToRefs(reminderStore)
 
 // ================================== 展示类数据 ===================================
 

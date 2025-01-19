@@ -29,6 +29,8 @@ export const useReminderStore = defineStore(
     const rawProjectId = computed(() => route.params.projectId as string)
     const rawTaskId = computed(() => route.params.taskId as string)
 
+    const activeCategory = computed(() => (rawProjectId.value.startsWith('filter-') ? 'filter' : 'project'))
+
     function goToProject(projectId: number) {
       router.push({name: 'reminder', params: {projectId: `${projectId}`}})
     }
@@ -102,6 +104,7 @@ export const useReminderStore = defineStore(
     return {
       rawProjectId,
       rawTaskId,
+      activeCategory,
       goToProject,
       goToFilter,
       goToTask,
