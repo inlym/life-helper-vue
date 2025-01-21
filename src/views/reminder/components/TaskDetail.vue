@@ -7,10 +7,12 @@
       <div class="flex h-14 items-center border-b">
         <!-- 是否完成勾选框 -->
         <div class="flex h-full w-14 items-center justify-center border-r">
-          <CompletedBox :task-id="currentTask.id" :complete-time="currentTask.completeTime" />
+          <CompletedBox :task-id="currentTask.id" :complete-time="currentTask.completeTime" :priority="currentTask.priority" />
         </div>
         <!-- 截止时间操作按钮 -->
         <TaskDueDate type="button" :taskId="currentTask.id" :dueDate="currentTask.dueDate" :dueTime="currentTask.dueTime" />
+        <div class="flex-1"></div>
+        <TaskPriority class="mr-4" :task-id="currentTask.id" :priority="currentTask.priority" />
       </div>
       <!-- 第二行，任务标题 -->
       <div class="h-14 px-4 pb-2 pt-4">
@@ -61,6 +63,7 @@
 <script lang="ts" setup>
 import {deleteTask, getTaskDetail, updateTaskContent, updateTaskName, type ReminderTask} from '@/api/reminder'
 import {useHttp} from '@/hooks/useHttp'
+import {useDebounceFn} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
 import {useTemplateRef, watch} from 'vue'
 import MaterialSymbolsLightDeleteOutlineRounded from '~icons/material-symbols-light/delete-outline-rounded'
@@ -68,7 +71,7 @@ import {reminderEventBus, useReminderStore} from '../reminder'
 import CompletedBox from './CompletedBox.vue'
 import MoveTask from './MoveTask.vue'
 import TaskDueDate from './TaskDueDate.vue'
-import {useDebounceFn} from '@vueuse/core'
+import TaskPriority from './TaskPriority.vue'
 
 const contentInput = useTemplateRef<HTMLInputElement>('content-input')
 

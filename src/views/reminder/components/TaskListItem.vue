@@ -5,7 +5,7 @@
     class="task-list-item flex h-10 items-center justify-between gap-1 rounded-md px-2 hover:bg-gray-100"
     @click="onItemClick"
   >
-    <CompletedBox :task-id="task.id" v-model:complete-time="task.completeTime" />
+    <CompletedBox :task-id="task.id" v-model:complete-time="task.completeTime" :priority="task.priority" />
     <div class="ml-1 flex h-full flex-1 items-center border-b border-gray-100">
       <!-- 任务名称 -->
       <a-typography-text class="flex-1" :class="{'text-gray-400': completed}" v-model:content="task.name" ellipsis />

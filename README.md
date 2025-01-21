@@ -1,10 +1,11 @@
 <div align="center">
 <a href="https://weutil.com/"> <img width="200" src="./DevOps/docs/images/logo-1.svg"> </a>
 
-[![license](https://img.shields.io/github/license/inlym/life-helper-vue.svg)](LICENSE)
+![GitHub License](https://img.shields.io/github/license/inlym/life-helper-vue)
 [![repo-size](https://img.shields.io/github/repo-size/inlym/life-helper-vue.svg)](repo-size)
 [![last-commit](https://img.shields.io/github/last-commit/inlym/life-helper-vue.svg)](last-commit)
 [![stars](https://img.shields.io/github/stars/inlym/life-helper-vue.svg)](stars)
+<img src="https://img.shields.io/badge/-Tailwind%20CSS-06B6D4?logo=Tailwind%20CSS&logoColor=white" alt="Tailwind">
 
 <h1>life-helper-vue</h1>
 
@@ -45,7 +46,7 @@
 | ---- | ------------------------------------------------------------- |
 | 1    | [如何启动项目？](https://github.com/inlym/life-helper-server) |
 
-## 浏览器支持
+## ⚙️ 浏览器支持
 
 推荐使用最新版的 Chrome 浏览器进行开发，以获得更好的体验。
 

@@ -2,13 +2,6 @@ import {requestForData} from '@/core/http'
 import type {CommonListResponse, SingleNumberResponse} from '@/core/model'
 
 /** 待办项目操作 */
-export enum ReminderProjectOperation {
-  Add = 'add_project',
-  Delete = 'delete_project',
-  Rename = 'rename_project',
-}
-
-/** 待办项目操作 */
 export enum ReminderTaskOperation {
   // 把待办任务标记为“已完成”
   COMPLETE = 'COMPLETE',
@@ -20,6 +13,18 @@ export enum ReminderTaskOperation {
   PIN = 'PIN',
   // 取消置顶
   UNPIN = 'UNPIN',
+}
+
+/** 任务优先级 */
+export enum Priority {
+  /** 无优先级 */
+  NONE = 0,
+  /** 低优先级 */
+  LOW = 1,
+  /** 中优先级 */
+  MEDIUM = 2,
+  /** 高优先级 */
+  HIGH = 3,
 }
 
 /** 待办项目 */
@@ -50,6 +55,8 @@ export interface ReminderTask {
   dueTime?: string
   /** 所属的项目名称 */
   projectName?: string
+  /** 优先级 */
+  priority: Priority
 }
 
 export enum ReminderFilterType {
@@ -85,6 +92,8 @@ export interface UpdateReminderTaskDTO {
   dueDate: string
   /** 截止时间 */
   dueTime: string
+  /** 优先级 */
+  priority: Priority
   /** 特定操作 */
   operation: ReminderTaskOperation
 }
@@ -364,4 +373,17 @@ export function updateTaskName(taskId: number, name: string) {
  */
 export function updateTaskContent(taskId: number, content: string) {
   return updateTask(taskId, {content})
+}
+
+/**
+ * 设置任务优先级
+ *
+ * @param taskId 待办任务 ID
+ * @param priority 任务优先级
+ *
+ * @date 2025/01/21
+ * @since 3.0.0
+ */
+export function setPriority(taskId: number, priority: Priority) {
+  return updateTask(taskId, {priority})
 }
