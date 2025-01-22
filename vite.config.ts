@@ -50,4 +50,31 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(pkg.version),
     __LAST_BUILD_TIME__: JSON.stringify(new Date().toLocaleString()),
   },
+
+  // 构建配置
+  // https://cn.vite.dev/config/build-options.html
+  build: {
+    // 自定义底层的 Rollup 打包配置
+    // https://cn.vite.dev/config/build-options.html#build-rollupoptions
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vue: ['vue', 'vue-router', 'pinia'],
+          antd: ['ant-design-vue', '@ant-design/icons-vue'],
+        },
+      },
+    },
+    // 启用/禁用 gzip 压缩大小报告
+    // https://cn.vite.dev/config/build-options.html#build-reportcompressedsize
+    reportCompressedSize: true,
+    // 规定触发警告的 chunk 大小
+    // https://cn.vite.dev/config/build-options.html#build-chunksizewarninglimit
+    chunkSizeWarningLimit: 1000,
+  },
+
+  // https://cn.vite.dev/config/shared-options.html#esbuild
+  esbuild: {
+    // https://esbuild.github.io/api/#legal-comments
+    legalComments: 'none',
+  },
 })
