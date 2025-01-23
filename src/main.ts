@@ -16,6 +16,9 @@ import '@icon-park/vue-next/styles/index.css'
 import 'ant-design-vue/dist/reset.css'
 import 'tailwindcss/tailwind.css'
 
+// https://animate.style/#usage
+import 'animate.css'
+
 const app = createApp(App)
 
 // 注册 Pinia

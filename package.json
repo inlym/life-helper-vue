@@ -22,6 +22,7 @@
     "@ant-design/icons-vue": "^7.0.1",
     "@icon-park/vue-next": "^1.4.2",
     "@vueuse/core": "^12.3.0",
+    "animate.css": "^4.1.1",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.7.9",
     "crypto-js": "^4.2.0",
