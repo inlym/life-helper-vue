@@ -1,13 +1,13 @@
 <template>
   <!-- 与屏幕等宽高的容器 -->
-  <div class="bg flex h-screen items-center justify-center bg-gray-100">
+  <div class="bg flex h-screen items-center justify-center">
     <!-- 居中的容器 -->
-    <div class="flex w-[400px] flex-col rounded-lg bg-white p-10 shadow-md">
+    <div class="flex w-[400px] flex-col gap-4 rounded-lg bg-white p-10 shadow-md">
       <!-- 标题 -->
-      <LogoWithName class="mb-20 self-center" />
+      <LogoWithName class="mb-16 self-center" />
       <!-- 手机号输入框 -->
       <a-input v-model:value="phone" :maxlength="11" addon-before="+86" placeholder="请输入手机号" size="large" />
-      <div class="mt-4 flex justify-between">
+      <div class="flex justify-between">
         <!-- 验证码输入框 -->
         <a-input v-model:value="code" :maxlength="6" class="w-auto" placeholder="6位短信验证码" size="large" />
         <div class="ml-4 w-[130px]">
@@ -15,10 +15,12 @@
           <a-button id="captcha-button" :disabled="btn1Disabled" :loading="btn1Loading" block size="large">{{ btn1Text }}</a-button>
         </div>
       </div>
+      <!-- 撑住高度的空容器 -->
+      <div class="h-16"></div>
       <!-- [登录/注册]按钮 - btn2 -->
-      <a-button :disabled="btn2Disabled" :loading="btn2.loading" block class="mt-20" size="large" type="primary" @click="onBtn2Click">登录 / 注册</a-button>
+      <a-button :disabled="btn2Disabled" :loading="btn2.loading" block size="large" type="primary" @click="onBtn2Click">登录 / 注册</a-button>
       <!-- 隐私协议政策 -->
-      <PolicyLine class="mt-4" v-model:checked="policyChecked" />
+      <PolicyLine v-model:checked="policyChecked" />
     </div>
   </div>
 
@@ -30,24 +32,22 @@
 
 <script setup lang="ts">
 import {loginBySmsCode, sendSms, type IdentityCertificate, type SmsRateLimitExceededResponse} from '@/api/login'
+import LogoWithName from '@/components/logo/LogoWithName.vue'
 import {StorageKey} from '@/core/constant'
 import {BusinessError, EMPTY_FUNCTION} from '@/core/model'
 import {useCaptcha} from '@/hooks/useCaptcha'
 import {useHttp} from '@/hooks/useHttp'
 import {useAuthStore} from '@/stores/auth'
-import {useUserStore} from '@/stores/user'
 import {useIntervalFn} from '@vueuse/core'
 import {message, Modal} from 'ant-design-vue'
 import {computed, onUnmounted, reactive, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import PolicyLine from './components/PolicyLine.vue'
-import LogoWithName from '@/components/logo/LogoWithName.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
-const userStore = useUserStore()
 
-// ===================================== 注册页面请求 =====================================
+// ================================= 注册HTTP请求 =================================
 
 // 发送短信验证码
 const {loading: loading1, runAsync: runAsync1} = useHttp(sendSms, {onError: EMPTY_FUNCTION})
@@ -55,7 +55,7 @@ const {loading: loading1, runAsync: runAsync1} = useHttp(sendSms, {onError: EMPT
 // 使用短信验证码登录
 const {loading: loading2, run: run2} = useHttp(loginBySmsCode, {onSuccess: onHttp2Success})
 
-// ===================================== 表单绑定数据 =====================================
+// ================================== 表单类数据 ===================================
 
 /** 手机号 */
 const phone = ref('')
@@ -66,7 +66,7 @@ const code = ref('')
 /** 协议勾选 */
 const policyChecked = ref(false)
 
-// ===================================== 页面元素状态 =====================================
+// =================================== 元素状态 ===================================
 
 /** [获取验证码]按钮 - 是否正在倒计时 */
 const clocking = ref(false)
