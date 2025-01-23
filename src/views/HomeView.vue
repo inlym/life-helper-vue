@@ -4,8 +4,8 @@
   <FixedHeader />
 
   <!-- 横幅区域 -->
-  <div class="bg-sky-50">
-    <div class="mx-auto flex h-[600px] w-[1200px] justify-between">
+  <div class="flex items-center justify-center bg-sky-50">
+    <div class="flex h-[600px] w-[1200px] justify-between">
       <!-- 左侧区域 -->
       <div class="flex flex-col justify-center">
         <a-typography-title :level="2">个人日程管理</a-typography-title>
@@ -18,16 +18,16 @@
   </div>
 
   <!-- 模块 xxx -->
-  <div class="bg-white pb-14">
+  <div class="flex items-center justify-center bg-white pb-14">
     <div class="mx-auto w-[1200px]">
-      <div class="mx-auto flex flex-col items-center justify-between pb-8 pt-16">
+      <div class="mx-auto flex flex-col items-center justify-between pt-16 pb-8">
         <a-typography-title :level="2">强大功能，无惧任何挑战</a-typography-title>
         <a-typography-text>真心为用户创造价值</a-typography-text>
       </div>
 
       <div class="flex flex-wrap justify-between">
         <div class="my-4 flex w-[380px] flex-col items-center justify-between rounded-2xl bg-gray-100 p-5" v-for="item in features">
-          <div class="h-25 mb-4 flex flex-col items-center">
+          <div class="mb-4 flex h-25 flex-col items-center">
             <a-typography-title :level="4">{{ item.title }}</a-typography-title>
             <a-typography-text>{{ item.desc }}</a-typography-text>
           </div>
@@ -41,7 +41,7 @@
   </div>
 
   <!-- 我们的用户模块 -->
-  <div class="bg-teal-50 pb-14">
+  <div class="flex items-center justify-center bg-teal-50 pb-14">
     <div class="mx-auto w-[1200px]">
       <div class="mx-auto flex flex-col items-center justify-between p-16">
         <a-typography-title :level="2">我们的用户</a-typography-title>
@@ -64,8 +64,8 @@
   </div>
 
   <!-- 合作企业 -->
-  <div class="bg-red-50 pb-14">
-    <div class="mx-auto w-[1200px]">
+  <div class="flex items-center justify-center bg-red-50 pb-14">
+    <div class="w-[1200px]">
       <div class="mx-auto flex flex-col items-center justify-between p-16">
         <a-typography-title :level="2">合作企业</a-typography-title>
       </div>
@@ -79,8 +79,8 @@
   </div>
 
   <!-- 底栏 -->
-  <div class="bg-gray-50">
-    <div class="mx-auto flex w-[1200px] justify-between p-14">
+  <div class="flex items-center justify-center bg-gray-50">
+    <div class="flex w-[1200px] justify-between p-14">
       <!-- 左边 -->
       <div class="flex w-[300px] flex-col">
         <LogoWithName />

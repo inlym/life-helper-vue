@@ -10,7 +10,7 @@
       <TaskListArea />
     </div>
     <!-- 右栏 -->
-    <div class="max-w-[800px] flex-1 border-l">
+    <div class="max-w-[800px] flex-1 border-l border-gray-300">
       <TaskDetail />
     </div>
   </div>

@@ -4,9 +4,9 @@
     <!-- 有内容情况 -->
     <template v-if="rawTaskId && currentTask">
       <!-- 第一行 -->
-      <div class="flex h-14 items-center border-b">
+      <div class="flex h-14 items-center border-b border-gray-300">
         <!-- 是否完成勾选框 -->
-        <div class="flex h-full w-14 items-center justify-center border-r">
+        <div class="flex h-full w-14 items-center justify-center border-r border-gray-300">
           <CompletedBox :task-id="currentTask.id" :complete-time="currentTask.completeTime" :priority="currentTask.priority" />
         </div>
         <!-- 截止时间操作按钮 -->
@@ -15,7 +15,7 @@
         <TaskPriority class="mr-4" :task-id="currentTask.id" :priority="currentTask.priority" />
       </div>
       <!-- 第二行，任务标题 -->
-      <div class="h-14 px-4 pb-2 pt-4">
+      <div class="h-14 px-4 pt-4 pb-2">
         <!-- 任务名称输入框 -->
         <a-input
           v-model:value="currentTask.name"
@@ -41,7 +41,7 @@
         />
       </div>
       <!-- 第四行，操作区 -->
-      <div class="flex h-12 items-center justify-between border-t px-4">
+      <div class="flex h-12 items-center justify-between border-t border-gray-300 px-4">
         <MoveTask :task-id="currentTask.id" :projectId="currentTask.projectId" />
         <a-popconfirm
           title="确定删除该任务吗？删除后将不可恢复"

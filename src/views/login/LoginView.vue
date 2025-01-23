@@ -197,9 +197,6 @@ async function onHttp2Success(data: IdentityCertificate) {
   authStore.login(data)
   message.success('登录成功！正在为你跳转页面 ...')
 
-  // 再更新下个人资料
-  await userStore.update()
-
   // 都完成了再跳转
   router.replace(getRedirectUrl())
 }

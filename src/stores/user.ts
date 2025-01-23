@@ -3,6 +3,7 @@ import {StaticResource} from '@/core/constant'
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
 
+/** 用户信息存储库 */
 export const useUserStore = defineStore(
   'user',
 
@@ -19,20 +20,13 @@ export const useUserStore = defineStore(
     /** 是否已获取 */
     const isAcquired = ref(false)
 
-    /** 保存 */
+    /** 保存资料 */
     function save(info: BaseUserInfo) {
       nickName.value = info.nickName
       avatarUrl.value = info.avatarUrl
       accountId.value = info.accountId
 
       isAcquired.value = true
-    }
-
-    /** 更新资料 */
-    async function update() {
-      const result = await getUserInfo()
-
-      save(result)
     }
 
     function clear() {
@@ -42,6 +36,6 @@ export const useUserStore = defineStore(
       isAcquired.value = false
     }
 
-    return {nickName, avatarUrl, accountId, isAcquired, save, update, clear}
+    return {nickName, avatarUrl, accountId, isAcquired, save, clear}
   },
 )

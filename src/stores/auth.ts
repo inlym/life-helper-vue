@@ -1,14 +1,16 @@
 import type {IdentityCertificate} from '@/api/login'
 import {clearIdentityCertificate, isLogined, saveIdentityCertificate} from '@/core/auth'
-import {router} from '@/router'
 import {message, Modal} from 'ant-design-vue'
 import {defineStore} from 'pinia'
 import {ref} from 'vue'
+import {useRouter} from 'vue-router'
 
 export const useAuthStore = defineStore(
   'auth',
 
   () => {
+    const router = useRouter()
+
     /** 是否已登录(该值仅用于页面状态展示，不用于逻辑判断) */
     const logined = ref(isLogined())
 

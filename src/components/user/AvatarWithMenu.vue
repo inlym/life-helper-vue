@@ -1,5 +1,6 @@
 <template>
   <a-popover v-model:open="pop1Open" trigger="click" placement="bottomRight" :getPopupContainer="getPopoverContainer">
+    <!-- 弹出区域 -->
     <template #content>
       <div class="w-[180px]">
         <!-- 头像、昵称区域 -->
@@ -24,6 +25,8 @@
         </div>
       </div>
     </template>
+
+    <!-- 头像 -->
     <a-avatar class="cursor-pointer" :src="avatarUrl" :size="46" shape="square" />
   </a-popover>
 </template>
@@ -36,21 +39,39 @@ import {storeToRefs} from 'pinia'
 import {onMounted, ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {People, Power} from '@icon-park/vue-next'
+import {useHttp} from '@/hooks/useHttp'
+import {getUserInfo} from '@/api/user'
 
 const router = useRouter()
 const route = useRoute()
+
+// ================================== 跨组件数据 ===================================
+
 const authStore = useAuthStore()
 const userStore = useUserStore()
 
 const {nickName, avatarUrl, accountId, isAcquired} = storeToRefs(userStore)
 
-/** 点击头像后的浮层是否展示 */
+// ================================= 注册HTTP请求 =================================
+
+// 请求[1]: 获取用户资料
+const {run: run1} = useHttp(getUserInfo, {
+  onSuccess(data) {
+    userStore.save(data)
+  },
+})
+
+// =================================== 元素状态 ===================================
+
+/** 浮层是否展示 */
 const pop1Open = ref(false)
 
 // 避免弹出组件跟随屏幕滚动
 function getPopoverContainer() {
   return document.querySelector('.right-area')
 }
+
+// =================================== 交互事件 ===================================
 
 function goToUserHome() {
   pop1Open.value = false
@@ -66,13 +87,15 @@ function onLogoutBtnClick() {
   authStore.logout()
 }
 
+// ==================================== 其他 ====================================
+
 onMounted(() => {
   if (!isLogined()) {
     throw new Error('在未登录的情况挂在了 <AvatarWithMenu> 组件')
   }
 
   if (!isAcquired.value) {
-    userStore.update()
+    run1()
   }
 })
 </script>
