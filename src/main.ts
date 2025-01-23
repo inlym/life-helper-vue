@@ -12,9 +12,10 @@ import {router} from './router'
 dayjs.locale('zh-cn')
 dayjs.extend(customParseFormat)
 
+import './assets/main.scss'
+
 import '@icon-park/vue-next/styles/index.css'
 import 'ant-design-vue/dist/reset.css'
-import 'tailwindcss/tailwind.css'
 
 // https://animate.style/#usage
 import 'animate.css'
