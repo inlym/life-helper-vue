@@ -44,6 +44,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheHeader: typeof import('./src/components/header/TheHeader.vue')['default']
-    UploadImage: typeof import('./src/components/UploadImage.vue')['default']
+    UploadImage: typeof import('./src/components/upload/UploadImage.vue')['default']
   }
 }

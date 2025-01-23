@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
 import {updateAvatar, type BaseUserInfo} from '@/api/user'
+import UploadImage from '@/components/upload/UploadImage.vue'
 import {useHttp} from '@/hooks/useHttp'
 import {useUserStore} from '@/stores/user'
 
