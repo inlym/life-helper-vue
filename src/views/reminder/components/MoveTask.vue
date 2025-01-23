@@ -17,12 +17,7 @@
               <HeroiconsInbox v-if="item.id === 0" class="size-5" />
               <PhListLight v-else class="size-5" />
             </div>
-            <a-typography-text
-              :class="{'cursor-not-allowed text-blue-500': item.id === props.projectId}"
-              class="flex-1 text-sm"
-              :content="item.name"
-              ellipsis
-            />
+            <div class="flex-1 truncate text-sm">{{ item.name }}</div>
             <MaterialSymbolsLightCheckRounded v-if="item.id === props.projectId" class="size-5" />
           </div>
         </div>
@@ -30,9 +25,7 @@
 
       <div class="flex cursor-pointer items-center gap-1 rounded-md px-2 py-1 hover:bg-gray-100">
         <MaterialSymbolsLightDriveFileMoveOutline class="size-6" />
-        <div class="w-max-60">
-          <a-typography-text class="text-sm" :content="name" ellipsis />
-        </div>
+        <div class="max-w-40 truncate text-sm">{{ name }}</div>
       </div>
     </a-popover>
   </div>
