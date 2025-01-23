@@ -5,6 +5,7 @@ import LoginView from '@/views/login/LoginView.vue'
 import PrivacyView from '@/views/policy/PrivacyView.vue'
 import TermsView from '@/views/policy/TermsView.vue'
 import ReminderView from '@/views/reminder/ReminderView.vue'
+import DevelopingView from '@/views/standalone/developing/DevelopingView.vue'
 import UserCenter from '@/views/user/UserCenter.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
@@ -70,6 +71,16 @@ export const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
+    },
+
+    {
+      path: '/developing',
+      name: 'developing',
+      component: DevelopingView,
+      meta: {
+        title: '网站维护中',
+        requireAuth: true,
+      },
     },
 
     {
