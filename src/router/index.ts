@@ -11,6 +11,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import {loginGuard} from './guards/loginGuard'
 import {titleGuard} from './guards/titleGuard'
+import HomePage from '@/views/home/HomePage.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,15 @@ export const router = createRouter({
       path: '/',
       name: 'Root',
       component: HomeView,
+      meta: {
+        requireAuth: false,
+      },
+    },
+
+    {
+      path: '/home',
+      name: 'Home',
+      component: HomePage,
       meta: {
         requireAuth: false,
       },
