@@ -2,7 +2,7 @@
   <!-- 合作企业模块 -->
   <div class="flex w-full items-center justify-center py-20">
     <div class="flex w-300 flex-col items-center">
-      <div class="text-3xl font-bold">百万团队正在与小鸣助手同行</div>
+      <div class="text-3xl font-bold">百万团队正在使用小鸣助手</div>
       <Vue3Marquee class="mt-8">
         <div v-for="item in companies" class="flex h-24 w-46 items-center justify-center rounded-md">
           <img :src="item" />

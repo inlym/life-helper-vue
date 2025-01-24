@@ -1,6 +1,6 @@
 <template>
   <!-- 导航条定高不定宽，宽度和边框样式由外层容器设定 -->
-  <div class="flex h-15 w-auto items-center justify-between px-4">
+  <div class="app-header flex h-15 w-auto items-center justify-between px-4">
     <!-- 左侧区域 -->
     <div class="flex items-center">
       <LogoWithName />
@@ -10,7 +10,7 @@
         <!-- 菜单1 - 首页 -->
         <a-button type="text" size="large" @click="goTo('/')">首页</a-button>
         <!-- 菜单2 - 产品 -->
-        <a-popover>
+        <a-popover placement="bottom" :getPopupContainer>
           <template #content>
             <!-- 列表外层容器 -->
             <div class="flex w-64 flex-col gap-2">
@@ -85,6 +85,12 @@ const productList = ref([
 /** 链接跳转 */
 function goTo(path: string) {
   router.push(path)
+}
+
+// ==================================== 其他 ====================================
+
+function getPopupContainer() {
+  return document.querySelector('.app-header')
 }
 </script>
 
