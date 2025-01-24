@@ -13,4 +13,9 @@ export enum StorageKey {
 export enum StaticResource {
   /** 默认头像（空头像） */
   DEFAULT_AVATAR = 'https://static.weutil.com/images/default.jpg',
+
+  PRODUCT_AI = 'https://static.weutil.com/web/product_ai.svg',
+  PRODUCT_REMINDER = 'https://static.weutil.com/web/product_reminder.svg',
+  PRODUCT_NOTE = 'https://static.weutil.com/web/product_note.svg',
+  PRODUCT_ALBUM = 'https://static.weutil.com/web/product_album.svg',
 }

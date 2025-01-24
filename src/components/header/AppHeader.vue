@@ -35,13 +35,13 @@
         </a-popover>
 
         <!-- 菜单3 - xxxx -->
-        <a-button type="text" size="large">菜单3</a-button>
+        <a-button type="text" size="large">会员</a-button>
 
         <!-- 菜单4 - xxxx -->
-        <a-button type="text" size="large">菜单4</a-button>
+        <a-button type="text" size="large">帮助</a-button>
 
         <!-- 菜单5 - xxxx -->
-        <a-button type="text" size="large">菜单5</a-button>
+        <a-button type="text" size="large">关于</a-button>
       </div>
     </div>
 

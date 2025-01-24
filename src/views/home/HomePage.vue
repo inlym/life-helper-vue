@@ -10,11 +10,16 @@
 
   <!-- AI 介绍部分 -->
   <HomeAiPart />
+  <HomeOrganizationPart />
+
+  <AppFooter />
 </template>
 
 <script setup lang="ts">
+import AppFooter from '@/components/footer/AppFooter.vue'
 import AppHeader from '@/components/header/AppHeader.vue'
 import HomeAiPart from './components/HomeAiPart.vue'
+import HomeOrganizationPart from './components/HomeOrganizationPart.vue'
 
 // =================================== 组件入参 ===================================
 
