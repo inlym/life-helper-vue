@@ -12,6 +12,7 @@
 
   <HomeAiPart />
   <HomeFeaturePart />
+  <HomeDownloadPart />
   <HomeOrganizationPart />
 
   <AppFooter />
@@ -23,6 +24,7 @@ import AppHeader from '@/components/header/AppHeader.vue'
 import AnnouncementBar from './components/AnnouncementBar.vue'
 import HomeAiPart from './components/HomeAiPart.vue'
 import HomeFeaturePart from './components/HomeFeaturePart.vue'
+import HomeDownloadPart from './components/HomeDownloadPart.vue'
 import HomeOrganizationPart from './components/HomeOrganizationPart.vue'
 </script>
 
