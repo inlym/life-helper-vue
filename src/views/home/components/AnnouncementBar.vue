@@ -16,7 +16,7 @@ import {ref} from 'vue'
 const visible = ref(true)
 
 /** 公告文本 */
-const text = ref('🎉 网站正在 ICP 备案中，暂时停止开放，预计将于3月1日重新上线！')
+const text = ref('🎉 网站正在 ICP 审核中，暂时停止开放，预计将于3月1日重新上线！')
 
 function close() {
   visible.value = false
