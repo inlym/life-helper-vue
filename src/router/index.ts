@@ -17,18 +17,10 @@ export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
 
   routes: [
+    // 首页
     {
       path: '/',
       name: 'Root',
-      component: HomeView,
-      meta: {
-        requireAuth: false,
-      },
-    },
-
-    {
-      path: '/home',
-      name: 'Home',
       component: HomePage,
       meta: {
         requireAuth: false,
