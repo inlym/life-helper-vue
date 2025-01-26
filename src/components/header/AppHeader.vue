@@ -1,6 +1,6 @@
 <template>
   <!-- 导航条定高不定宽，宽度和边框样式由外层容器设定 -->
-  <div class="app-header flex h-15 w-auto items-center justify-between px-4">
+  <div class="app-header flex h-15 w-auto items-center px-4">
     <!-- 左侧区域 -->
     <div class="flex items-center">
       <LogoWithName />
@@ -44,6 +44,9 @@
         <a-button type="text" size="large">关于</a-button>
       </div>
     </div>
+
+    <!-- 自适应宽度填充区域 -->
+    <div class="flex-1"></div>
 
     <!-- 右侧区域 -->
     <div class="flex items-center">
