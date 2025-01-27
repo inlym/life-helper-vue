@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import {addTask, type ReminderTask} from '@/api/todolist'
+import {addTask, type Task} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {PlusOutlined} from '@ant-design/icons-vue'
 import {message} from 'ant-design-vue'
@@ -58,7 +58,7 @@ function onPressEnter() {
 // =================================== 请求回调 ===================================
 
 /** 处理请求成功情况 */
-function onSuccess(res: ReminderTask) {
+function onSuccess(res: Task) {
   inputTaskName.value = ''
   message.success('任务添加成功')
   reminderEventBus.emit({refreshAll: true})

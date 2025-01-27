@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import {type ReminderTask} from '@/api/todolist'
+import {type Task} from '@/api/todolist'
 import {computed, ref, watch} from 'vue'
 import {useReminderStore} from '../reminder'
 import CompletedBox from './CompletedBox.vue'
@@ -33,7 +33,7 @@ import {storeToRefs} from 'pinia'
 
 // =================================== 组件入参 ===================================
 
-const props = defineProps<ReminderTask>()
+const props = defineProps<Task>()
 
 // ================================== 跨组件数据 ===================================
 
@@ -42,7 +42,7 @@ const {rawTaskId, activeCategory} = storeToRefs(reminderStore)
 
 // ================================== 展示类数据 ===================================
 
-const task = ref<ReminderTask>(props)
+const task = ref<Task>(props)
 
 const completed = computed(() => Boolean(task.value.completeTime))
 

@@ -2,7 +2,7 @@ import {requestForData} from '@/core/http'
 import type {CommonListResponse, SingleNumberResponse} from '@/core/model'
 
 /** 待办项目操作 */
-export enum ReminderTaskOperation {
+export enum TaskOperation {
   // 把待办任务标记为“已完成”
   COMPLETE = 'COMPLETE',
   // 把待办任务标记为“未完成”
@@ -28,7 +28,7 @@ export enum Priority {
 }
 
 /** 待办项目 */
-export interface ReminderProject {
+export interface Project {
   /** 项目 ID */
   id: number
   /** 项目名称 */
@@ -38,7 +38,7 @@ export interface ReminderProject {
 }
 
 /** 待办任务 */
-export interface ReminderTask {
+export interface Task {
   /** 待办任务 ID */
   id: number
   /** 所属项目 ID */
@@ -59,7 +59,7 @@ export interface ReminderTask {
   priority: Priority
 }
 
-export enum ReminderFilterType {
+export enum FilterType {
   // 所有
   ALL = 'all',
   // 收集箱（即未设置项目的）
@@ -76,7 +76,7 @@ export enum ReminderFilterType {
   COMPLETED = 'completed',
 }
 
-export interface UpdateReminderTaskDTO {
+export interface UpdateTaskDTO {
   /** 任务名称 */
   name: string
   /**
@@ -95,18 +95,18 @@ export interface UpdateReminderTaskDTO {
   /** 优先级 */
   priority: Priority
   /** 特定操作 */
-  operation: ReminderTaskOperation
+  operation: TaskOperation
 }
 
 /**
  * 查看指定过滤器的未完成任务数
  *
- * @param {ReminderFilterType} filter 过滤器类型
+ * @param {FilterType} filter 过滤器类型
  *
  * @date 2024/12/27
  * @since 3.0.0
  */
-export function countUncompletedTasks(filter: ReminderFilterType) {
+export function countUncompletedTasks(filter: FilterType) {
   return requestForData<SingleNumberResponse>({
     method: 'get',
     url: `/todolist/filters/${filter}/count-uncompleted`,
@@ -123,7 +123,7 @@ export function countUncompletedTasks(filter: ReminderFilterType) {
  * @since 3.0.0
  */
 export function addProject(name: string) {
-  return requestForData<ReminderProject>({
+  return requestForData<Project>({
     method: 'post',
     url: '/todolist/projects',
     data: {name},
@@ -140,7 +140,7 @@ export function addProject(name: string) {
  * @since 3.0.0
  */
 export function deleteProject(projectId: number) {
-  return requestForData<ReminderProject>({
+  return requestForData<Project>({
     method: 'delete',
     url: `/todolist/projects/${projectId}`,
     requireAuth: true,
@@ -157,7 +157,7 @@ export function deleteProject(projectId: number) {
  * @since 3.0.0
  */
 export function renameProject(projectId: number, newName: string) {
-  return requestForData<ReminderProject>({
+  return requestForData<Project>({
     method: 'put',
     url: `/todolist/projects/${projectId}`,
     requireAuth: true,
@@ -172,9 +172,23 @@ export function renameProject(projectId: number, newName: string) {
  * @since 3.0.0
  */
 export function getProjectList() {
-  return requestForData<CommonListResponse<ReminderProject>>({
+  return requestForData<CommonListResponse<Project>>({
     method: 'get',
     url: '/todolist/projects',
+    requireAuth: true,
+  })
+}
+
+/**
+ * 获取待办项目
+ *
+ * @date 2024/12/13
+ * @since 3.0.0
+ */
+export function getProject(projectId: number) {
+  return requestForData<Project>({
+    method: 'get',
+    url: `/todolist/projects/${projectId}`,
     requireAuth: true,
   })
 }
@@ -189,7 +203,7 @@ export function getProjectList() {
  * @since 3.0.0
  */
 export function addTask(name: string, projectId: number) {
-  return requestForData<ReminderTask>({
+  return requestForData<Task>({
     method: 'post',
     url: '/todolist/tasks',
     data: {name, projectId},
@@ -206,7 +220,7 @@ export function addTask(name: string, projectId: number) {
  * @since 3.0.0
  */
 export function deleteTask(taskId: number) {
-  return requestForData<ReminderTask>({
+  return requestForData<Task>({
     method: 'delete',
     url: `/todolist/tasks/${taskId}`,
     requireAuth: true,
@@ -222,8 +236,8 @@ export function deleteTask(taskId: number) {
  * @date 2024/12/26
  * @since 3.0.0
  */
-export function updateTask(taskId: number, dto: Partial<UpdateReminderTaskDTO>) {
-  return requestForData<ReminderTask>({
+export function updateTask(taskId: number, dto: Partial<UpdateTaskDTO>) {
+  return requestForData<Task>({
     method: 'put',
     url: `/todolist/tasks/${taskId}`,
     requireAuth: true,
@@ -240,7 +254,7 @@ export function updateTask(taskId: number, dto: Partial<UpdateReminderTaskDTO>) 
  * @since 3.0.0
  */
 export function getTaskDetail(taskId: number) {
-  return requestForData<ReminderTask>({
+  return requestForData<Task>({
     method: 'get',
     url: `/todolist/tasks/${taskId}`,
     requireAuth: true,
@@ -255,8 +269,8 @@ export function getTaskDetail(taskId: number) {
  * @date 2024/12/26
  * @since 3.0.0
  */
-export function getTasksByFilter(filter: ReminderFilterType) {
-  return requestForData<CommonListResponse<ReminderTask>>({
+export function getTasksByFilter(filter: FilterType) {
+  return requestForData<CommonListResponse<Task>>({
     method: 'get',
     url: `/todolist/tasks`,
     params: {filter},
@@ -273,7 +287,7 @@ export function getTasksByFilter(filter: ReminderFilterType) {
  * @since 3.0.0
  */
 export function getTasksByProjectId(projectId: number) {
-  return requestForData<CommonListResponse<ReminderTask>>({
+  return requestForData<CommonListResponse<Task>>({
     method: 'get',
     url: `/todolist/tasks`,
     params: {project_id: projectId},
@@ -292,7 +306,7 @@ export function getTasksByProjectId(projectId: number) {
  * @since 3.0.0
  */
 export function setDueDate(taskId: number, dueDate: string, dueTime?: string) {
-  const dto: Partial<UpdateReminderTaskDTO> = {dueDate}
+  const dto: Partial<UpdateTaskDTO> = {dueDate}
   if (dueTime) {
     dto.dueTime = dueTime
   }
@@ -309,7 +323,7 @@ export function setDueDate(taskId: number, dueDate: string, dueTime?: string) {
  * @since 3.0.0
  */
 export function clearDueDate(taskId: number) {
-  return updateTask(taskId, {operation: ReminderTaskOperation.CLEAR_DUE_DATETIME})
+  return updateTask(taskId, {operation: TaskOperation.CLEAR_DUE_DATETIME})
 }
 
 /**
@@ -321,7 +335,7 @@ export function clearDueDate(taskId: number) {
  * @since 3.0.0
  */
 export function completeTask(taskId: number) {
-  return updateTask(taskId, {operation: ReminderTaskOperation.COMPLETE})
+  return updateTask(taskId, {operation: TaskOperation.COMPLETE})
 }
 
 /**
@@ -333,7 +347,7 @@ export function completeTask(taskId: number) {
  * @since 3.0.0
  */
 export function uncompleteTask(taskId: number) {
-  return updateTask(taskId, {operation: ReminderTaskOperation.UNCOMPLETE})
+  return updateTask(taskId, {operation: TaskOperation.UNCOMPLETE})
 }
 
 /**

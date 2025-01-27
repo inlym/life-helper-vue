@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import {moveTask, type ReminderTask} from '@/api/todolist'
+import {moveTask, type Task} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
 import {computed, ref} from 'vue'
@@ -99,7 +99,7 @@ function onItemClick(projectId: number) {
 // =================================== 请求回调 ===================================
 
 /** 处理请求成功情况 */
-function onSuccess(res: ReminderTask) {
+function onSuccess(res: Task) {
   popoverOpen.value = false
   reminderEventBus.emit({refreshProjectList: true, refreshTaskList: true})
   reminderStore.syncTask(res)

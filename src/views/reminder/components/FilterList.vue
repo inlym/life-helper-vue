@@ -6,20 +6,20 @@
 </template>
 
 <script lang="ts" setup>
-import {ReminderFilterType} from '@/api/todolist'
+import {FilterType} from '@/api/todolist'
 import {reactive} from 'vue'
 import FilterListItem from './FilterListItem.vue'
 
 interface Filter {
-  type: ReminderFilterType
+  type: FilterType
 }
 
 const filterList = reactive<Filter[]>([
-  {type: ReminderFilterType.ALL},
-  {type: ReminderFilterType.TODAY},
-  {type: ReminderFilterType.NEXT_SEVEN_DAYS},
-  {type: ReminderFilterType.NO_DATE},
-  {type: ReminderFilterType.INBOX},
+  {type: FilterType.ALL},
+  {type: FilterType.TODAY},
+  {type: FilterType.NEXT_SEVEN_DAYS},
+  {type: FilterType.NO_DATE},
+  {type: FilterType.INBOX},
 ])
 </script>
 

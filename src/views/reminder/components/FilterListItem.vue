@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {countUncompletedTasks, ReminderFilterType} from '@/api/todolist'
+import {countUncompletedTasks, FilterType} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
 import {computed} from 'vue'
@@ -30,7 +30,7 @@ import FilterIcon from './FilterIcon.vue'
 // =================================== 组件入参 ===================================
 
 interface FilterListItemProps {
-  filter: ReminderFilterType
+  filter: FilterType
 }
 
 const props = defineProps<FilterListItemProps>()
@@ -62,7 +62,7 @@ const isActived = computed(() => `filter-${props.filter}` === rawProjectId.value
 // =================================== 交互事件 ===================================
 
 /** 点击列表项 */
-function onItemClick(filter: ReminderFilterType) {
+function onItemClick(filter: FilterType) {
   reminderStore.goToFilter(filter)
 }
 

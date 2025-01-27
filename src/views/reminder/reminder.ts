@@ -1,4 +1,4 @@
-import {ReminderFilterType, type ReminderProject, type ReminderTask} from '@/api/todolist'
+import {FilterType, type Project, type Task} from '@/api/todolist'
 import {useEventBus} from '@vueuse/core'
 import {defineStore} from 'pinia'
 import {computed, ref} from 'vue'
@@ -35,7 +35,7 @@ export const useReminderStore = defineStore(
       router.push({name: 'reminder', params: {projectId: `${projectId}`}})
     }
 
-    function goToFilter(filter: ReminderFilterType) {
+    function goToFilter(filter: FilterType) {
       router.push({name: 'reminder', params: {projectId: `filter-${filter}`}})
     }
 
@@ -75,16 +75,16 @@ export const useReminderStore = defineStore(
     // =============================== 跨组件共享数据 ================================
 
     /** 项目列表 */
-    const projectList = ref<ReminderProject[]>([])
+    const projectList = ref<Project[]>([])
 
     /** 当前活跃的任务列表 */
-    const taskList = ref<ReminderTask[]>([])
+    const taskList = ref<Task[]>([])
 
     /** 当前活跃的任务（右侧任务详情部分） */
-    const currentTask = ref<ReminderTask>()
+    const currentTask = ref<Task>()
 
     /** 同步任务数据 */
-    function syncTask(task: ReminderTask) {
+    function syncTask(task: Task) {
       if (currentTask.value && currentTask.value.id === task.id) {
         currentTask.value = task
       }

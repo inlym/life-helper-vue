@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import {renameProject, type ReminderProject} from '@/api/todolist'
+import {renameProject, type Project} from '@/api/todolist'
 import {BusinessError} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {message} from 'ant-design-vue'
@@ -48,7 +48,7 @@ function onOk() {
 // =================================== 请求回调 ===================================
 
 /** 处理请求成功情况 */
-function onSuccess(res: ReminderProject) {
+function onSuccess(res: Project) {
   message.success(`名称修改成功`)
   dialog2.value.open = false
   reminderEventBus.emit({refreshProjectList: true})

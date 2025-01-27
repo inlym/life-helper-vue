@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import {completeTask, Priority, uncompleteTask, type ReminderTask} from '@/api/todolist'
+import {completeTask, Priority, uncompleteTask, type Task} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {computed} from 'vue'
 import MaterialSymbolsCheckBoxOutlineBlank from '~icons/material-symbols/check-box-outline-blank'
@@ -66,7 +66,7 @@ function onClick() {
 // =================================== 请求回调 ===================================
 
 /** 处理请求成功情况 */
-function onSuccess(res: ReminderTask) {
+function onSuccess(res: Task) {
   reminderStore.syncTask(res)
   reminderEventBus.emit({refreshAll: true})
 }

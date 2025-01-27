@@ -1,11 +1,14 @@
 <template>
-  <div class="flex items-center justify-between"></div>
+  <div></div>
 </template>
 
 <script setup lang="ts">
 // =================================== 组件入参 ===================================
 
-// ================================== 跨组件数据 ===================================
+const props = defineProps({
+  /** 项目 ID */
+  projectId: {type: Number, required: false},
+})
 
 // ================================= 注册HTTP请求 =================================
 

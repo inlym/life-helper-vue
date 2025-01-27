@@ -16,7 +16,7 @@
 import {storeToRefs} from 'pinia'
 import {useReminderStore} from '../reminder'
 import {computed} from 'vue'
-import type {ReminderFilterType} from '@/api/todolist'
+import type {FilterType} from '@/api/todolist'
 import {getFilterName} from '../services/filter'
 import LineMdMenuUnfoldRight from '~icons/line-md/menu-unfold-right'
 import LineMdMenuUnfoldLeft from '~icons/line-md/menu-unfold-left'
@@ -29,7 +29,7 @@ const {rawProjectId, projectList, leftColumnShow} = storeToRefs(useReminderStore
 
 const title = computed(() => {
   if (rawProjectId.value.startsWith('filter-')) {
-    const filter = rawProjectId.value.replace('filter-', '') as ReminderFilterType
+    const filter = rawProjectId.value.replace('filter-', '') as FilterType
     return getFilterName(filter)
   }
 

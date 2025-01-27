@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getTasksByFilter, getTasksByProjectId, ReminderFilterType, type ReminderTask} from '@/api/todolist'
+import {getTasksByFilter, getTasksByProjectId, FilterType, type Task} from '@/api/todolist'
 import type {CommonListResponse} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
@@ -63,7 +63,7 @@ const collapseActiveKey = ref<string[]>([])
 
 function refreshData() {
   if (rawProjectId.value.startsWith('filter-')) {
-    const type = rawProjectId.value.substring(7).toUpperCase() as ReminderFilterType
+    const type = rawProjectId.value.substring(7).toUpperCase() as FilterType
     run1(type)
   } else {
     run2(Number.parseInt(rawProjectId.value))
@@ -72,7 +72,7 @@ function refreshData() {
 
 // ===================================== 请求回调 =====================================
 
-function onSuccess(res: CommonListResponse<ReminderTask>) {
+function onSuccess(res: CommonListResponse<Task>) {
   taskList.value = res.list
   taskGroupList.value = getTaskGroupListByDate(res.list)
   collapseActiveKey.value = taskGroupList.value.map((item, index) => index.toString())

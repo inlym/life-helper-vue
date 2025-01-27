@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import {Priority, setPriority, type ReminderTask} from '@/api/todolist'
+import {Priority, setPriority, type Task} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {ref} from 'vue'
 import {useReminderStore} from '../reminder'
@@ -72,7 +72,7 @@ function onItemClick(type: Priority) {
 
 // =================================== 请求回调 ===================================
 
-function onSuccess1(res: ReminderTask) {
+function onSuccess1(res: Task) {
   reminderStore.syncTask(res)
 }
 

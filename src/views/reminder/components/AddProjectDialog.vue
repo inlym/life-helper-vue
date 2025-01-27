@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {addProject, type ReminderProject} from '@/api/todolist'
+import {addProject, type Project} from '@/api/todolist'
 import {BusinessError} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {message} from 'ant-design-vue'
@@ -62,7 +62,7 @@ function afterClose() {
 // =================================== 请求回调 ===================================
 
 /** 处理请求成功情况 */
-function onSuccess(res: ReminderProject) {
+function onSuccess(res: Project) {
   dialog1.value.open = false
   message.success(`待办项目 ${res.name} 创建成功`)
   reminderEventBus.emit({refreshProjectList: true})

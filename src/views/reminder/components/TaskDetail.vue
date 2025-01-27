@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-import {deleteTask, getTaskDetail, updateTaskContent, updateTaskName, type ReminderTask} from '@/api/todolist'
+import {deleteTask, getTaskDetail, updateTaskContent, updateTaskName, type Task} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {useDebounceFn} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
@@ -127,7 +127,7 @@ const onTaskContentChange = useDebounceFn(() => {
 // =================================== 请求回调 ===================================
 
 /** 处理[获取任务详情]请求成功情况 */
-function onSuccess1(res: ReminderTask) {
+function onSuccess1(res: Task) {
   currentTask.value = res
   reminderStore.syncTask(res)
 }
@@ -140,7 +140,7 @@ function onSuccess2() {
 }
 
 /** 处理[修改任务名称和描述内容]请求成功情况 */
-function onSuccess3(res: ReminderTask) {
+function onSuccess3(res: Task) {
   reminderStore.syncTask(res)
 }
 

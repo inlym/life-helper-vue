@@ -75,7 +75,7 @@ import QuillSnoozeTomorrow from '~icons/quill/snooze-tomorrow'
 import QuillCalendarAdd from '~icons/quill/calendar-add'
 import QuillMoon from '~icons/quill/moon'
 import {useHttp} from '@/hooks/useHttp'
-import {clearDueDate, setDueDate, type ReminderTask} from '@/api/todolist'
+import {clearDueDate, setDueDate, type Task} from '@/api/todolist'
 import dayjs, {Dayjs} from 'dayjs'
 import {reminderEventBus, useReminderStore} from '../reminder'
 import {storeToRefs} from 'pinia'
@@ -170,7 +170,7 @@ function quickSet(type: number) {
 
 // =================================== 请求回调 ===================================
 
-function onSuccess(res: ReminderTask) {
+function onSuccess(res: Task) {
   if (props.taskId === res.id) {
     currentTask.value = res
   }

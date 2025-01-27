@@ -1,8 +1,8 @@
-import {ReminderFilterType, type ReminderTask} from '@/api/todolist'
+import {FilterType, type Task} from '@/api/todolist'
 import dayjs from 'dayjs'
 
 /** 过滤器函数 */
-export type FilterFn = (task: ReminderTask) => boolean
+export type FilterFn = (task: Task) => boolean
 
 export interface FilterWrapper {
   title: string
@@ -17,21 +17,21 @@ export interface FilterWrapper {
  * @date 2025/01/09
  * @since 3.0.0
  */
-export function getFilterName(filter: ReminderFilterType) {
+export function getFilterName(filter: FilterType) {
   switch (filter) {
-    case ReminderFilterType.ALL:
+    case FilterType.ALL:
       return '所有'
-    case ReminderFilterType.INBOX:
+    case FilterType.INBOX:
       return '收集箱'
-    case ReminderFilterType.TODAY:
+    case FilterType.TODAY:
       return '今天'
-    case ReminderFilterType.NEXT_SEVEN_DAYS:
+    case FilterType.NEXT_SEVEN_DAYS:
       return '最近7天'
-    case ReminderFilterType.OVERDUE:
+    case FilterType.OVERDUE:
       return '已过期'
-    case ReminderFilterType.NO_DATE:
+    case FilterType.NO_DATE:
       return '无期限'
-    case ReminderFilterType.COMPLETED:
+    case FilterType.COMPLETED:
       return '已完成'
     default:
       return ''
@@ -79,7 +79,7 @@ const dateFilterWrapperList: FilterWrapper[] = [
 /** 任务组 */
 export interface TaskGroup {
   title: string
-  list: ReminderTask[]
+  list: Task[]
 }
 
 /**
@@ -90,7 +90,7 @@ export interface TaskGroup {
  * @since 3.0.0
  * @date 2025/01/14
  */
-export function getTaskGroupListByDate(taskList: ReminderTask[]): TaskGroup[] {
+export function getTaskGroupListByDate(taskList: Task[]): TaskGroup[] {
   return dateFilterWrapperList
     .map((wrapper) => {
       const list = taskList.filter(wrapper.fn)
