@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import {moveTask, type ReminderTask} from '@/api/reminder'
+import {moveTask, type ReminderTask} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
 import {computed, ref} from 'vue'

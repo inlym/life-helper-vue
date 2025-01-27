@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import {ReminderFilterType} from '@/api/reminder'
+import {ReminderFilterType} from '@/api/todolist'
 import HeroiconsInbox from '~icons/heroicons/inbox'
 import HugeiconsAppleReminder from '~icons/hugeicons/apple-reminder'
 import PajamasCalendarOverdue from '~icons/pajamas/calendar-overdue'

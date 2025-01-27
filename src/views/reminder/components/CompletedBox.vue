@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import {completeTask, Priority, uncompleteTask, type ReminderTask} from '@/api/reminder'
+import {completeTask, Priority, uncompleteTask, type ReminderTask} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {computed} from 'vue'
 import MaterialSymbolsCheckBoxOutlineBlank from '~icons/material-symbols/check-box-outline-blank'

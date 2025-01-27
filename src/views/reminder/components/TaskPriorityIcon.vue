@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import {Priority} from '@/api/reminder'
+import {Priority} from '@/api/todolist'
 import IconamoonFlagFill from '~icons/iconamoon/flag-fill'
 import IconamoonFlagLight from '~icons/iconamoon/flag-light'
 

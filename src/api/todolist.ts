@@ -109,7 +109,7 @@ export interface UpdateReminderTaskDTO {
 export function countUncompletedTasks(filter: ReminderFilterType) {
   return requestForData<SingleNumberResponse>({
     method: 'get',
-    url: `/reminder/filters/${filter}/count-uncompleted`,
+    url: `/todolist/filters/${filter}/count-uncompleted`,
     requireAuth: true,
   })
 }
@@ -125,7 +125,7 @@ export function countUncompletedTasks(filter: ReminderFilterType) {
 export function addProject(name: string) {
   return requestForData<ReminderProject>({
     method: 'post',
-    url: '/reminder/projects',
+    url: '/todolist/projects',
     data: {name},
     requireAuth: true,
   })
@@ -142,7 +142,7 @@ export function addProject(name: string) {
 export function deleteProject(projectId: number) {
   return requestForData<ReminderProject>({
     method: 'delete',
-    url: `/reminder/projects/${projectId}`,
+    url: `/todolist/projects/${projectId}`,
     requireAuth: true,
   })
 }
@@ -159,7 +159,7 @@ export function deleteProject(projectId: number) {
 export function renameProject(projectId: number, newName: string) {
   return requestForData<ReminderProject>({
     method: 'put',
-    url: `/reminder/projects/${projectId}`,
+    url: `/todolist/projects/${projectId}`,
     requireAuth: true,
     data: {name: newName},
   })
@@ -174,7 +174,7 @@ export function renameProject(projectId: number, newName: string) {
 export function getProjectList() {
   return requestForData<CommonListResponse<ReminderProject>>({
     method: 'get',
-    url: '/reminder/projects',
+    url: '/todolist/projects',
     requireAuth: true,
   })
 }
@@ -191,7 +191,7 @@ export function getProjectList() {
 export function addTask(name: string, projectId: number) {
   return requestForData<ReminderTask>({
     method: 'post',
-    url: '/reminder/tasks',
+    url: '/todolist/tasks',
     data: {name, projectId},
     requireAuth: true,
   })
@@ -208,7 +208,7 @@ export function addTask(name: string, projectId: number) {
 export function deleteTask(taskId: number) {
   return requestForData<ReminderTask>({
     method: 'delete',
-    url: `/reminder/tasks/${taskId}`,
+    url: `/todolist/tasks/${taskId}`,
     requireAuth: true,
   })
 }
@@ -225,7 +225,7 @@ export function deleteTask(taskId: number) {
 export function updateTask(taskId: number, dto: Partial<UpdateReminderTaskDTO>) {
   return requestForData<ReminderTask>({
     method: 'put',
-    url: `/reminder/tasks/${taskId}`,
+    url: `/todolist/tasks/${taskId}`,
     requireAuth: true,
     data: dto,
   })
@@ -242,7 +242,7 @@ export function updateTask(taskId: number, dto: Partial<UpdateReminderTaskDTO>) 
 export function getTaskDetail(taskId: number) {
   return requestForData<ReminderTask>({
     method: 'get',
-    url: `/reminder/tasks/${taskId}`,
+    url: `/todolist/tasks/${taskId}`,
     requireAuth: true,
   })
 }
@@ -258,7 +258,7 @@ export function getTaskDetail(taskId: number) {
 export function getTasksByFilter(filter: ReminderFilterType) {
   return requestForData<CommonListResponse<ReminderTask>>({
     method: 'get',
-    url: `/reminder/tasks`,
+    url: `/todolist/tasks`,
     params: {filter},
     requireAuth: true,
   })
@@ -275,7 +275,7 @@ export function getTasksByFilter(filter: ReminderFilterType) {
 export function getTasksByProjectId(projectId: number) {
   return requestForData<CommonListResponse<ReminderTask>>({
     method: 'get',
-    url: `/reminder/tasks`,
+    url: `/todolist/tasks`,
     params: {project_id: projectId},
     requireAuth: true,
   })

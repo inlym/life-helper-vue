@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import {Priority, setPriority, type ReminderTask} from '@/api/reminder'
+import {Priority, setPriority, type ReminderTask} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {ref} from 'vue'
 import {useReminderStore} from '../reminder'

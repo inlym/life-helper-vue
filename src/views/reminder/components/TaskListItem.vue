@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import {type ReminderTask} from '@/api/reminder'
+import {type ReminderTask} from '@/api/todolist'
 import {computed, ref, watch} from 'vue'
 import {useReminderStore} from '../reminder'
 import CompletedBox from './CompletedBox.vue'

@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getTasksByFilter, getTasksByProjectId, ReminderFilterType, type ReminderTask} from '@/api/reminder'
+import {getTasksByFilter, getTasksByProjectId, ReminderFilterType, type ReminderTask} from '@/api/todolist'
 import type {CommonListResponse} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'

@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {countUncompletedTasks, ReminderFilterType} from '@/api/reminder'
+import {countUncompletedTasks, ReminderFilterType} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {storeToRefs} from 'pinia'
 import {computed} from 'vue'

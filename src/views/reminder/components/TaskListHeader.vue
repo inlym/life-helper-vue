@@ -16,7 +16,7 @@
 import {storeToRefs} from 'pinia'
 import {useReminderStore} from '../reminder'
 import {computed} from 'vue'
-import type {ReminderFilterType} from '@/api/reminder'
+import type {ReminderFilterType} from '@/api/todolist'
 import {getFilterName} from '../services/filter'
 import LineMdMenuUnfoldRight from '~icons/line-md/menu-unfold-right'
 import LineMdMenuUnfoldLeft from '~icons/line-md/menu-unfold-left'

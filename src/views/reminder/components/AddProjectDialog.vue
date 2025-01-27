@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {addProject, type ReminderProject} from '@/api/reminder'
+import {addProject, type ReminderProject} from '@/api/todolist'
 import {BusinessError} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {message} from 'ant-design-vue'

@@ -4,7 +4,7 @@
     <div class="project-list-item" @click="onItemClick(props.id)" ref="project-list-item">
       <div :class="{'bg-gray-200': isActived}" class="flex h-10 cursor-pointer items-center justify-between rounded-md px-4 hover:bg-gray-200">
         <PhListLight class="size-5" />
-        <div class="ml-2 mr-4 flex-1 truncate text-sm">{{ props.name }}</div>
+        <div class="mr-4 ml-2 flex-1 truncate text-sm">{{ props.name }}</div>
         <div class="flex items-center justify-between">
           <div>{{ numStr }}</div>
         </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import {deleteProject} from '@/api/reminder'
+import {deleteProject} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {useElementHover} from '@vueuse/core'
 import {storeToRefs} from 'pinia'

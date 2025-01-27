@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import {getProjectList} from '@/api/reminder'
+import {getProjectList} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {PlusOutlined} from '@ant-design/icons-vue'
 import {Empty} from 'ant-design-vue'

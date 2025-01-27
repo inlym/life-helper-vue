@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ReminderFilterType} from '@/api/reminder'
+import {ReminderFilterType} from '@/api/todolist'
 import {reactive} from 'vue'
 import FilterListItem from './FilterListItem.vue'
 

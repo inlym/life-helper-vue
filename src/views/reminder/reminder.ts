@@ -1,4 +1,4 @@
-import {ReminderFilterType, type ReminderProject, type ReminderTask} from '@/api/reminder'
+import {ReminderFilterType, type ReminderProject, type ReminderTask} from '@/api/todolist'
 import {useEventBus} from '@vueuse/core'
 import {defineStore} from 'pinia'
 import {computed, ref} from 'vue'

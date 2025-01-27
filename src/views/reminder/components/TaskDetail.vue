@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts" setup>
-import {deleteTask, getTaskDetail, updateTaskContent, updateTaskName, type ReminderTask} from '@/api/reminder'
+import {deleteTask, getTaskDetail, updateTaskContent, updateTaskName, type ReminderTask} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {useDebounceFn} from '@vueuse/core'
 import {storeToRefs} from 'pinia'
