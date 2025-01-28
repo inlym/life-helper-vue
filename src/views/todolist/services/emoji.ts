@@ -1,4 +1,10 @@
-/** 可选的 emoji 列表 */
+/**
+ * 可选的 emoji 列表
+ *
+ * ### 维护说明
+ * 1. 从网站 [GetEmoji ](https://getemoji.com/) 直接复制。
+ * 2. 列表内容可自由更改，无逻辑影响。
+ */
 export const emojiList = [
   '😀',
   '😁',
