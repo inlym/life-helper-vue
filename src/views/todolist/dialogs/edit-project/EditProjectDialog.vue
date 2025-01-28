@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import {addProject, getProject, updateProject, type Project} from '@/api/todolist'
+import {addProject, getProject, updateProject, type Project, type ProjectDTO} from '@/api/todolist'
 import {useHttp} from '@/hooks/useHttp'
 import {computed, onMounted, reactive, ref, toRaw} from 'vue'
 import {colorList} from '../../services/color'
@@ -80,21 +80,10 @@ const {data: data3, run: run3} = useHttp(updateProject)
 
 // ================================== 表单类数据 ===================================
 
-interface FormState {
-  /** 项目名称 */
-  name: string
-  /** emoji 图标 */
-  emoji: string
-  /** 颜色名称 */
-  color: string
-  /** 是否收藏 */
-  favorite: boolean
-}
-
-const formState = reactive<FormState>({
-  name: '',
-  emoji: '',
-  color: '',
+const formState = reactive<Partial<ProjectDTO>>({
+  name: undefined,
+  emoji: undefined,
+  color: undefined,
   favorite: false,
 })
 
