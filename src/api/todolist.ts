@@ -29,12 +29,28 @@ export enum Priority {
 
 /** 待办项目 */
 export interface Project {
-  /** 项目 ID */
+  /** 主键 ID */
   id: number
   /** 项目名称 */
   name: string
-  /** 未完成的任务数 */
-  uncompletedTaskCount: number
+  /** emoji 图标 */
+  emoji: string
+  /** 颜色名称 */
+  color: string
+  /** 是否收藏 */
+  favorite: boolean
+}
+
+/** 待办项目[新增/更新]操作请求数据 */
+export interface ProjectDTO {
+  /** 项目名称 */
+  name: string
+  /** emoji 图标 */
+  emoji: string
+  /** 颜色名称 */
+  color: string
+  /** 是否收藏 */
+  favorite: boolean
 }
 
 /** 待办任务 */
@@ -122,11 +138,28 @@ export function countUncompletedTasks(filter: FilterType) {
  * @date 2024/12/13
  * @since 3.0.0
  */
-export function addProject(name: string) {
+export function addProject2(name: string) {
   return requestForData<Project>({
     method: 'post',
     url: '/todolist/projects',
     data: {name},
+    requireAuth: true,
+  })
+}
+
+/**
+ * 新增一个待办项目
+ *
+ * @param dto 项目信息
+ *
+ * @date 2025/01/27
+ * @since 3.0.0
+ */
+export function addProject(dto: Partial<ProjectDTO>) {
+  return requestForData<Project>({
+    method: 'post',
+    url: '/todolist/projects',
+    data: dto,
     requireAuth: true,
   })
 }
@@ -143,6 +176,23 @@ export function deleteProject(projectId: number) {
   return requestForData<Project>({
     method: 'delete',
     url: `/todolist/projects/${projectId}`,
+    requireAuth: true,
+  })
+}
+
+/**
+ * 更新一个待办项目
+ *
+ * @param dto 项目信息
+ *
+ * @date 2025/01/27
+ * @since 3.0.0
+ */
+export function updateProject(projectId: number, dto: Partial<ProjectDTO>) {
+  return requestForData<Project>({
+    method: 'put',
+    url: `/todolist/projects/${projectId}`,
+    data: dto,
     requireAuth: true,
   })
 }

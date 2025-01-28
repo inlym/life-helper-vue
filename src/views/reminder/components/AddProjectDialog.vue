@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import {addProject, type Project} from '@/api/todolist'
+import {addProject2, type Project} from '@/api/todolist'
 import {BusinessError} from '@/core/model'
 import {useHttp} from '@/hooks/useHttp'
 import {message} from 'ant-design-vue'
@@ -35,7 +35,7 @@ const {dialog1} = storeToRefs(reminderStore)
 // ================================= 注册HTTP请求 =================================
 
 // 新增待办项目
-const {run, loading} = useHttp(addProject, {onSuccess, onError})
+const {run, loading} = useHttp(addProject2, {onSuccess, onError})
 
 // ================================== 表单类数据 ===================================
 
