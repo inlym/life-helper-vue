@@ -19,27 +19,27 @@
         <div class="w-[160px]">
           <div class="text-base text-slate-600">产品</div>
           <div class="mt-4 flex flex-col justify-between">
-            <div class="text-base">小鸣清单</div>
-            <div class="mt-4 text-base">小鸣 AI</div>
-            <div class="mt-4 text-base">小鸣保险箱</div>
+            <div class="cursor-pointer text-base">小鸣清单</div>
+            <div class="mt-4 cursor-pointer text-base">小鸣 AI</div>
+            <div class="mt-4 cursor-pointer text-base">小鸣保险箱</div>
           </div>
         </div>
 
         <div class="w-[160px]">
           <div class="text-base text-slate-600">服务支持</div>
           <div class="mt-4 flex flex-col justify-between">
-            <div class="text-base">帮助中心</div>
-            <div class="mt-4 text-base">数据安全</div>
-            <div class="mt-4 text-base">服务协议</div>
+            <div class="cursor-pointer text-base">帮助中心</div>
+            <div class="mt-4 cursor-pointer text-base">数据安全</div>
+            <div class="mt-4 cursor-pointer text-base">服务协议</div>
           </div>
         </div>
 
         <div class="w-[160px]">
           <div class="text-base text-slate-600">关于</div>
           <div class="mt-4 flex flex-col justify-between">
-            <div class="text-base">关于 WeUtil</div>
-            <div class="mt-4 text-base">联系我们</div>
-            <div class="mt-4 text-base">了解更多</div>
+            <div class="cursor-pointer text-base">关于 WeUtil</div>
+            <div class="mt-4 cursor-pointer text-base">联系我们</div>
+            <div class="mt-4 cursor-pointer text-base">了解更多</div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
   <!-- 导航条定高不定宽，宽度和边框样式由外层容器设定 -->
-  <div class="app-header flex h-15 w-auto items-center px-4">
+  <div class="app-header h-15 flex w-auto items-center px-4">
     <!-- 左侧区域 -->
     <div class="flex items-center">
       <LogoWithName />
@@ -31,7 +31,7 @@
               </div>
             </div>
           </template>
-          <a-button type="text" size="large">产品</a-button>
+          <a-button class="product-btn" type="text" size="large">产品</a-button>
         </a-popover>
 
         <!-- 菜单3 - xxxx -->
@@ -78,7 +78,7 @@ const {logined} = storeToRefs(useAuthStore())
 /** 产品列表 */
 const productList = ref([
   {name: '小鸣 AI', desc: '探索智能生活的最优解', imgUrl: StaticResource.PRODUCT_AI, tag: false, link: '/developing'},
-  {name: '小鸣清单', desc: '将生活打理地井井有条', imgUrl: StaticResource.PRODUCT_REMINDER, tag: true, link: '/reminder'},
+  {name: '小鸣清单', desc: '将生活打理地井井有条', imgUrl: StaticResource.PRODUCT_REMINDER, tag: true, link: '/developing'},
   {name: '小鸣笔记', desc: '好记性不如烂笔头', imgUrl: StaticResource.PRODUCT_NOTE, tag: false, link: '/developing'},
   {name: '小鸣相册', desc: '定格这一刻的美好', imgUrl: StaticResource.PRODUCT_ALBUM, tag: false, link: '/developing'},
 ])
@@ -93,7 +93,7 @@ function goTo(path: string) {
 // ==================================== 其他 ====================================
 
 function getPopupContainer() {
-  return document.querySelector('.app-header')
+  return document.querySelector('.product-btn')
 }
 </script>
 
